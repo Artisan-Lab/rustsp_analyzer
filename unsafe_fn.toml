@@ -216,58 +216,76 @@ start.ConstBound = ["`start` - `count` may overflow the range of values supporte
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html#method.take"]
 row = 25
-DualOwner = [""]
+retval.DualOwner = [
+    "This function semantically moves out the contained value without preventing further usage, leaving the state of this container unchanged. It is your responsibility to ensure that this `ManuallyDrop` is not used again."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html#method.drop"]
 row = 26
-Freed = [""]
+slot.Freed = [
+    "This function runs the destructor of the contained value. The zombie value should not be exposed to safe code after been dropped, and this function should not be called more than once."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init"]
 row = 27
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_read"]
 row = 28
-Initialized = [""]
-DualOwner = [""]
+self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
+retval.DualOwner = ["This function creates a bitwise copy of the contents, regardless whether the contained type implements the `Copy` trait or not. When using multiple copies of the data (by calling `assume_init_read` multiple times, or first calling `assume_init_read` and then `assume_init`), it is your responsibility to ensure that data may indeed be duplicated."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_drop"]
 row = 29
-Initialized = [""]
-ConsistantLayout = [""]
-Freed = [""]
+self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
+self.ConsistantLayout = ["All additional invariants of the type `T` must be satisfied, as the `Drop` implementation of `T` (or its members) may rely on this."]
+self.Freed = ["Drops the contained value in place."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_ref"]
 row = 30
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_mut"]
 row = 31
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.array_assume_init"]
 row = 32
-Initialized = [""]
+array.Initialized = ["It is up to the caller to guarantee that all elements of the array are in an initialized state."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.slice_assume_init_ref"]
 row = 33
-Initialized = [""]
+slice.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` elements really are in an initialized state."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.slice_assume_init_mut"]
 row = 34
-Initialized = [""]
+slice.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` elements really are in an initialized state."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.size_of_val_raw.html"]
 row = 35
-EST = [""]
+val.ConstBound = [
+    "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
+    "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
+]
+val.EST = [
+    "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
+    "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.align_of_val_raw.html"]
 row = 36
-EST = [""]
+val.ConstBound = [
+    "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
+    "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
+]
+val.EST = [
+    "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
+    "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.zeroed.html"]
 row = 37
-Untyped = [""]
+retval.Untyped = ["The padding byte is not necessarily zeroed. There is no guarantee that an all-zero byte-pattern represents a valid value of some type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute.html"]
 row = 38
@@ -290,371 +308,379 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f32.html#method.to_int_unchecked"]
 row = 40
-ConstBound = [""]
+self.ConstBound = [
+    "The value must not be `NaN`.",
+    "The value must not be infinite.",
+    "The value must be representable in the return type `Int`, after truncating off its fractional part."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f64.html#method.to_int_unchecked"]
 row = 41
-ConstBound = [""]
+self.ConstBound = [
+    "The value must not be `NaN`.",
+    "The value must not be infinite.",
+    "The value must be representable in the return type `Int`, after truncating off its fractional part."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > i8::MAX` or `self + rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > i16::MAX` or `self + rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > i32::MAX` or `self + rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > i64::MAX` or `self + rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > i128::MAX` or `self + rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > u8::MAX` or `self + rhs < u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > u16::MAX` or `self + rhs < u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > u32::MAX` or `self + rhs < u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > u64::MAX` or `self + rhs < u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > u128::MAX` or `self + rhs < u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > isize::MAX` or `self + rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_add"]
 row = 42
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self + rhs > usize::MAX` or `self + rhs < usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > i8::MAX` or `self - rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > i16::MAX` or `self - rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > i32::MAX` or `self - rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > i64::MAX` or `self - rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > i128::MAX` or `self - rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > u8::MAX` or `self - rhs < u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > u16::MAX` or `self - rhs < u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > u32::MAX` or `self - rhs < u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > u64::MAX` or `self - rhs < u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > u128::MAX` or `self - rhs < u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > isize::MAX` or `self - rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_sub"]
 row = 43
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self - rhs > usize::MAX` or `self - rhs < usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > i8::MAX` or `self * rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > i16::MAX` or `self * rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > i32::MAX` or `self * rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > i64::MAX` or `self * rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > i128::MAX` or `self * rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > u8::MAX` or `self * rhs < u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > u16::MAX` or `self * rhs < u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > u32::MAX` or `self * rhs < u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > u64::MAX` or `self * rhs < u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > u128::MAX` or `self * rhs < u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > isize::MAX` or `self * rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_mul"]
 row = 44
-ConstBound = [""]
+self.ConstBound = ["This results in undefined behavior when `self * rhs > usize::MAX` or `self * rhs < usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_shl"]
 row = 45
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_shr"]
 row = 46
-RelativeBound = [""]
+self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI8.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI16.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI32.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI64.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI128.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroIsize.html#method.new_unchecked"]
 row = 47
-ConstBound = [""]
+n.ConstBound = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.unchecked_add"]
 row = 48
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.unchecked_add"]
 row = 48
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.unchecked_add"]
 row = 48
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.unchecked_add"]
 row = 48
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.unchecked_add"]
 row = 48
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.unchecked_add"]
 row = 48
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI8.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i8::MAX`, or `self * rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI16.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i16::MAX`, or `self * rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI32.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i32::MAX`, or `self * rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI64.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i64::MAX`, or `self * rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI128.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i128::MAX`, or `self * rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroIsize.html#method.unchecked_mul"]
 row = 49
-ConstBound = [""]
+self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > isize::MAX`, or `self * rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_ref"]
 row = 50
