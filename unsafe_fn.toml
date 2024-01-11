@@ -108,138 +108,111 @@ bytes.Encoding = ["The provided slice must be nul-terminated and not contain any
 
 [unsafe_fn."https://doc.rust-lang.org/core/iter/trait.Step.html#method.forward_unchecked"]
 row = 21
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `Self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/iter/trait.Step.html#method.backward_unchecked"]
 row = 22
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `Self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `char::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `isize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.forward_unchecked"]
 row = 23
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `char::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.backward_unchecked"]
 row = 24
-ConstBound = [""]
-RelativeBound = [""]
+start.ConstBound = ["`start` - `count` may overflow the range of values supported by `usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html#method.take"]
 row = 25
