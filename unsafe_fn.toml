@@ -95,15 +95,16 @@ ConstBound = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_ptr"]
 row = 17
-ConstBound = [""]
-Encoding = [""]
-Allocated = [""]
-Dereferencable = [""]
-AliasingMutating = [""]
+ptr.Encoding = ["The memory pointed to by `ptr` must contain a valid nul terminator at the end of the string."]
+ptr.ConstBound = ["The nul terminator must be within `isize::MAX` from `ptr`."]
+ptr.Allocated = ["`ptr` must be non-null even for a zero-length cstr."]
+ptr.Dereferencable = ["The entire memory range of this `CStr` must be contained within a single allocated object!"]
+retval.AliasingMutating = ["The memory referenced by the returned `CStr` must not be mutated for the duration of lifetime `'a`."]
+retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked"]
 row = 18
-Encoding = [""]
+bytes.Encoding = ["The provided slice must be nul-terminated and not contain any interior nul bytes."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/iter/trait.Step.html#method.forward_unchecked"]
 row = 21
@@ -302,6 +303,7 @@ Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute_copy.html"]
 row = 39
@@ -311,6 +313,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 DualOwner = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f32.html#method.to_int_unchecked"]
 row = 40
@@ -688,6 +691,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref"]
 row = 51
@@ -696,6 +700,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset"]
 row = 52
@@ -828,6 +833,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_ref-1"]
 row = 68
@@ -837,6 +843,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref-1"]
 row = 69
@@ -845,6 +852,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset-1"]
 row = 70
@@ -868,6 +876,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_mut"]
 row = 73
@@ -876,6 +885,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from-1"]
 row = 74
@@ -1083,6 +1093,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_slice_mut"]
 row = 99
@@ -1093,6 +1104,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.Alignment.html#method.new_unchecked"]
 row = 100
@@ -1197,6 +1209,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_mut"]
 row = 115
@@ -1204,6 +1217,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.new_unchecked"]
 row = 116
@@ -1216,6 +1230,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_mut"]
 row = 118
@@ -1224,6 +1239,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset"]
 row = 119
@@ -1302,6 +1318,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice_mut"]
 row = 143
@@ -1311,6 +1328,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.get_unchecked_mut"]
 row = 144
@@ -1326,6 +1344,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_raw_parts_mut.html#"]
 row = 146
@@ -1336,6 +1355,7 @@ Dereferencable = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_ptr_range.html#"]
 row = 147
@@ -1348,6 +1368,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 EST = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_mut_ptr_range.html#"]
 row = 148
@@ -1360,6 +1381,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 EST = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked"]
 row = 149
@@ -1489,6 +1511,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 EST = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to_mut"]
 row = 175
@@ -1498,6 +1521,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 EST = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked.html"]
 row = 176
@@ -1665,6 +1689,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU8.html#method.from_ptr"]
 row = 210
@@ -1675,6 +1700,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU16.html#method.from_ptr"]
 row = 210
@@ -1685,6 +1711,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU32.html#method.from_ptr"]
 row = 210
@@ -1695,6 +1722,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU64.html#method.from_ptr"]
 row = 210
@@ -1705,6 +1733,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicUsize.html#method.from_ptr"]
 row = 210
@@ -1715,6 +1744,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI8.html#method.from_ptr"]
 row = 210
@@ -1725,6 +1755,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI16.html#method.from_ptr"]
 row = 210
@@ -1735,6 +1766,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI32.html#method.from_ptr"]
 row = 210
@@ -1745,6 +1777,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI64.html#method.from_ptr"]
 row = 210
@@ -1755,6 +1788,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicIsize.html#method.from_ptr"]
 row = 210
@@ -1765,6 +1799,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicPtr.html#method.from_ptr"]
 row = 211
@@ -1775,6 +1810,7 @@ Aligned = [""]
 ConsistantLayout = [""]
 Thread = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_unchecked"]
 row = 212
@@ -2146,6 +2182,7 @@ Freed = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn_unchecked"]
 row = 288
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.assume.html"]
 row = 289
@@ -2331,6 +2368,7 @@ Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
 AliasingMutating = [""]
+Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.write_bytes.html"]
 row = 332
