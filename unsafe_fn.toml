@@ -25,6 +25,7 @@ new_size.ConstBound = [
     "`new_size` must be greater than zero",
     "`new_size`, when rounded up to the nearest multiple of layout.align(), must not overflow `isize::MAX`."
 ]
+retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/struct.Layout.html#method.for_value_raw"]
@@ -46,7 +47,6 @@ align.ConstBound = [
 ]
 size.ConstBound = ["`size`, when rounded up to the nearest multiple of `align`, must not overflow `isize::MAX`."]
 
-
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#tymethod.deallocate"]
 row = 9
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
@@ -56,40 +56,38 @@ layout.ConsistantLayout = ["`layout` must fit that block of memory."]
 row = 10
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
-Aligned = [""]
 old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
-RelativeBound = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
-
+new_layout.RelativeBound = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
+retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.grow_zeroed"]
 row = 11
-RelativeBound = [""]
-Allocated = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Freed = [""]
+ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
+ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
+old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
+new_layout.RelativeBound = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
+retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.shrink"]
 row = 12
-RelativeBound = [""]
-Allocated = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Freed = [""]
+ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
+ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
+old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
+new_layout.RelativeBound = ["`new_layout.size()` must be smaller than or equal to `old_layout.size()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/array/struct.IntoIter.html#method.new_unchecked"]
 row = 13
-ConstBound = [""]
-RelativeBound = [""]
-Initialized = [""]
+buffer.Initialized = ["The `buffer[initialized]` elements must all be initialized."]
+initialized.ConstBound = ["The range must be in-bounds for the buffer, with `initialized.end <= N`."]
+initialized.RelativeBound = ["The range must be canonical, with `initialized.start` <= `initialized.end`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/char/fn.from_u32_unchecked.html"]
 row = 14
-ConstBound = [""]
+i.Encoding = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.from_u32_unchecked"]
 row = 15
-ConstBound = [""]
+i.Encoding = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/convert/trait.FloatToInt.html"]
 row = 16
