@@ -91,7 +91,11 @@ i.Encoding = ["Not all valid `u32`s are valid `char`s, it may construct invalid 
 
 [unsafe_fn."https://doc.rust-lang.org/core/convert/trait.FloatToInt.html"]
 row = 16
-ConstBound = [""]
+self.ConstBound = [
+    "The value must not be `NaN`.",
+    "The value must not be infinite.",
+    "The value must be representable in the return type `Int`, after truncating off its fractional part."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_ptr"]
 row = 17
@@ -727,7 +731,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
@@ -742,7 +746,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
@@ -760,7 +764,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
@@ -948,7 +952,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
@@ -963,7 +967,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
@@ -981,7 +985,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
@@ -1275,7 +1279,10 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.Alignment.html#method.new_unchecked"]
 row = 100
-ConstBound = [""]
+ConstBound = [
+    "`align` must be a power of two.",
+    "Equivalently, it must be `1 << exp` for some exp in `0..usize::BITS`. It must not be zero."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.drop_in_place.html"]
 row = 101
@@ -1554,7 +1561,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
 
@@ -1567,7 +1574,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
 
@@ -1583,7 +1590,7 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
 
@@ -1758,171 +1765,204 @@ index.ConstBound = ["Calling this method with an out-of-bounds index is undefine
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_raw_parts.html#"]
 row = 145
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+data.Allocated = ["`data` must be non-null even for zero-length slices."]
+data.Initialized = ["`data` must point to `len` consecutive properly initialized values of type `T`."]
+data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
+data.Aligned = ["`data` must be aligned even for zero-length slices."]
+data.ConsistantLayout = [""]
+len.ConstBound = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
+retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_raw_parts_mut.html#"]
 row = 146
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+data.Allocated = ["`data` must be non-null even for zero-length slices."]
+data.Initialized = ["`data` must point to `len` consecutive properly initialized values of type `T`."]
+data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
+data.Aligned = ["`data` must be aligned even for zero-length slices."]
+data.ConsistantLayout = [""]
+len.ConstBound = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
+retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_ptr_range.html#"]
 row = 147
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-EST = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.ConstBound = ["The total length of the `range` must be no larger than `isize::MAX`."]
+self.Allocated = [
+    "The `start` pointer of the range must be non-null even for zero-length slices.",
+    "The `end` pointer of the range must be non-null even for zero-length slices."
+]
+self.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
+self.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
+self.Aligned = [
+    "The `start` pointer of the range must be properly aligned to the first element of a slice.",
+    "The `end` pointer of the range must be to one past the last element."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
+retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_mut_ptr_range.html#"]
 row = 148
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-EST = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.ConstBound = ["The total length of the `range` must be no larger than `isize::MAX`."]
+self.Allocated = [
+    "The `start` pointer of the range must be non-null even for zero-length slices.",
+    "The `end` pointer of the range must be non-null even for zero-length slices."
+]
+self.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
+self.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
+self.Aligned = [
+    "The `start` pointer of the range must be properly aligned to the first element of a slice.",
+    "The `end` pointer of the range must be to one past the last element."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
+retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked"]
 row = 149
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked_mut"]
 row = 150
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.get_unchecked"]
 row = 151
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.get_unchecked_mut"]
 row = 152
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked-1"]
 row = 153
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked_mut-1"]
 row = 154
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked"]
 row = 155
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked_mut"]
 row = 156
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked"]
 row = 157
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked_mut"]
 row = 158
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked-1"]
 row = 159
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked_mut-1"]
 row = 160
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked-1"]
 row = 161
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked_mut-1"]
 row = 162
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked-1"]
 row = 163
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked_mut-1"]
 row = 164
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.tuple.html#method.get_unchecked"]
 row = 165
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.tuple.html#method.get_unchecked_mut"]
 row = 166
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.get_unchecked"]
 row = 167
-RelativeBound = [""]
+index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.get_many_unchecked_mut"]
 row = 168
-RelativeBound = [""]
+index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.swap_unchecked"]
 row = 169
-RelativeBound = [""]
+a.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that `a < self.len()`."]
+b.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that `b < self.len()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.as_chunks_unchecked"]
 row = 170
-ConstBound = [""]
+self.ConstBound = [
+    "The slice splits exactly into `N`-element chunks (aka `self.len() % N == 0`).",
+    "`N != 0`."
+]
 
-[unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.array_chunks_mut"]
+[unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.as_chunks_unchecked_mut"]
 row = 171
-ConstBound = [""]
+self.ConstBound = [
+    "The slice splits exactly into `N`-element chunks (aka `self.len() % N == 0`).",
+    "`N != 0`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.split_at_unchecked"]
 row = 172
-ConstBound = [""]
-RelativeBound = [""]
+mid.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that `0 <= mid <= self.len()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.split_at_mut_unchecked"]
 row = 173
-ConstBound = [""]
-RelativeBound = [""]
+mid.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that `0 <= mid <= self.len()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to"]
 row = 174
@@ -1930,7 +1970,7 @@ RelativeBound = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
-EST = [""]
+self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
 AliasingMutating = [""]
 Outliving = [""]
 
@@ -1940,101 +1980,128 @@ RelativeBound = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
-EST = [""]
+self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
 AliasingMutating = [""]
 Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked.html"]
 row = 176
-Encoding = [""]
+v.Encoding = ["The bytes passed in must be valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked_mut.html"]
 row = 177
-Encoding = [""]
+v.Encoding = ["The bytes passed in must be valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.as_bytes_mut"]
 row = 178
-Encoding = [""]
+self.Encoding = ["The caller must ensure that the content of the slice is valid UTF-8 before the borrow ends and the underlying `str` is used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.get_unchecked"]
 row = 179
-RelativeBound = [""]
-Encoding = [""]
+i.ConstBound = [
+    "The starting index must not exceed the ending index.",
+    "Indexes must be within bounds of the original slice."
+]
+i.Encoding = ["Indexes must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.get_unchecked_mut"]
 row = 180
-RelativeBound = [""]
-Encoding = [""]
+i.ConstBound = [
+    "The starting index must not exceed the ending index.",
+    "Indexes must be within bounds of the original slice."
+]
+i.Encoding = ["Indexes must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.slice_unchecked"]
 row = 181
-RelativeBound = [""]
-Encoding = [""]
+begin.ConstBound = [
+    "`begin` must not exceed `end`.",
+    "`begin` must be byte positions within the string slice."
+]
+begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
+end.ConstBound = ["`end` must be byte positions within the string slice."]
+end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.slice_mut_unchecked"]
 row = 182
-RelativeBound = [""]
-Encoding = [""]
-
+begin.ConstBound = [
+    "`begin` must not exceed `end`.",
+    "`begin` must be byte positions within the string slice."
+]
+begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
+end.ConstBound = ["`end` must be byte positions within the string slice."]
+end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked"]
 row = 183
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked_mut"]
 row = 184
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked"]
 row = 185
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked_mut"]
 row = 186
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked-1"]
 row = 187
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked_mut-1"]
 row = 188
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked-1"]
 row = 189
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked_mut-1"]
 row = 190
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked"]
 row = 191
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked_mut"]
 row = 192
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked"]
 row = 193
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked_mut"]
 row = 194
-RelativeBound = [""]
-Allocated = [""]
+self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/task/struct.Waker.html#method.from_raw"]
 row = 195
@@ -2668,19 +2735,28 @@ self.Dereferencable = [
     "Both pointers must be derived from a pointer to the same object."
 ]
 self.ConsistantLayout = [""]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`base` must be either in bounds or one byte past the end of the same allocated object."]
 origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from_unsigned.html"]
 row = 312
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-EST = [""]
+ptr.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+ptr.RelativeBound = [
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`.",
+    "The distance between the pointers must be non-negative (`ptr` >= `base`)."
+]
+ptr.Allocated = [""]
+ptr.Dereferencable = [
+    "`ptr` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+ptr.ConsistantLayout = [""]
+ptr.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+base.Allocated = [""]
+base.Dereferencable = ["`base` must be either in bounds or one byte past the end of the same allocated object."]
+base.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.raw_eq.html"]
 row = 313
@@ -2696,18 +2772,27 @@ Unreachable = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unaligned_volatile_load.html"]
 row = 318
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+src.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
+src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+src.ConsistantLayout = [""]
+retval.DualOwner = [
+    "If `T` is not `Copy`, using both the returned value and the value at `src` can violate memory safety. Note that assigning to `src` counts as a use because it will attempt to drop the value at `src`.",
+    "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unaligned_volatile_store.html"]
 row = 319
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-Leaked = [""]
+dst.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+dst.ConsistantLayout = [""]
+dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_add.html"]
 row = 320
@@ -2769,11 +2854,15 @@ dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.volatile_set_memory.html"]
 row = 325
-RelativeBound = [""]
-Allocated = [""]
-ConsistantLayout = [""]
-Untyped = [""]
-Leaked = [""]
+dst.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
+dst.Aligned = ["`dst` must be properly aligned ('min_align_of::<T>()')."]
+dst.ConsistantLayout = [""]
+dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
+dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.vtable_align.html"]
 row = 326
