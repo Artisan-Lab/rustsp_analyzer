@@ -146,6 +146,10 @@ start.ConstBound = ["`start` + `count` may overflow the range of values supporte
 row = 23
 start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
 
+[unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.forward_unchecked"]
+row = 23
+start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
+
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.forward_unchecked"]
 row = 23
 start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u64::MAX`."]
@@ -684,54 +688,64 @@ self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > isize::M
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_ref"]
 row = 50
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.Allocated = ["Either the pointer is null or all of the following is true."]
+self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+self.Aligned = ["The pointer must be properly aligned."]
+self.ConsistantLayout = [""]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated"]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref"]
 row = 51
-Allocated = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.Allocated = ["Either the pointer is null or all of the following is true."]
+self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+self.Aligned = ["The pointer must be properly aligned."]
+self.ConsistantLayout = [""]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated"]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset"]
 row = 52
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
+self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Allocated = [""]
+self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset"]
 row = 53
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
+self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Allocated = [""]
+self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from"]
 row = 54
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-EST = [""]
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Allocated = [""]
+self.Dereferencable = [
+    "`self` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Allocated = [""]
+origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset_from"]
 row = 55
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-EST = [""]
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Allocated = [""]
+self.Dereferencable = [
+    "`self` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Allocated = [""]
+origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub_ptr"]
 row = 56
@@ -836,36 +850,34 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_ref-1"]
 row = 68
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.Allocated = ["Either the pointer is null or all of the following is true."]
+self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+self.Aligned = ["The pointer must be properly aligned."]
+self.ConsistantLayout = [""]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated"]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref-1"]
 row = 69
-Allocated = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.Allocated = ["Either the pointer is null or all of the following is true."]
+self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+self.Aligned = ["The pointer must be properly aligned."]
+self.ConsistantLayout = [""]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated"]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset-1"]
 row = 70
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
+self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Allocated = [""]
+self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset-1"]
 row = 71
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
+self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Allocated = [""]
+self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_mut"]
 row = 72
@@ -888,21 +900,33 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from-1"]
 row = 74
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-EST = [""]
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Allocated = [""]
+self.Dereferencable = [
+    "`self` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Allocated = [""]
+origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset_from-1"]
 row = 75
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-EST = [""]
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Allocated = [""]
+self.Dereferencable = [
+    "`self` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Allocated = [""]
+origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub_ptr-1"]
 row = 76
@@ -1204,11 +1228,11 @@ Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_ref"]
 row = 114
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+self.Aligned = ["The pointer must be properly aligned."]
+self.ConsistantLayout = [""]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated"]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_mut"]
 row = 115
@@ -1224,12 +1248,12 @@ Allocated = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_ref"]
 row = 117
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+self.Aligned = ["The pointer must be properly aligned."]
+self.ConsistantLayout = [""]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated"]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_mut"]
 row = 118
@@ -1242,9 +1266,13 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset"]
 row = 119
+self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset"]
 row = 120
+self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.add"]
 row = 121
@@ -1260,9 +1288,29 @@ row = 124
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from"]
 row = 125
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Dereferencable = [
+    "`self` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset_from"]
 row = 126
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Dereferencable = [
+    "`self` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.sub_ptr"]
 row = 127
@@ -2238,12 +2286,18 @@ ConstBound = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from.html"]
 row = 311
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-EST = [""]
+self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
+self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Allocated = [""]
+self.Dereferencable = [
+    "`ptr` must be either in bounds or one byte past the end of the same allocated object.",
+    "Both pointers must be derived from a pointer to the same object."
+]
+self.ConsistantLayout = [""]
+self.EST = ["This function panics if `T` is a Zero-Sized Type (“ZST”)."]
+origin.Allocated = [""]
+origin.Dereferencable = ["`base` must be either in bounds or one byte past the end of the same allocated object."]
+origin.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from_unsigned.html"]
 row = 312
