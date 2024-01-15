@@ -21,7 +21,7 @@ ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
 ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
 layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 layout.EST = ["`layout` has non-zero size."]
-new_size.ConstBound = [
+new_size.Bounded = [
     "`new_size` must be greater than zero",
     "`new_size`, when rounded up to the nearest multiple of layout.align(), must not overflow `isize::MAX`."
 ]
@@ -30,7 +30,7 @@ retval.Freed = ["Returning a null pointer indicates that either memory is exhaus
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/struct.Layout.html#method.for_value_raw"]
 row = 7
-t.ConstBound = [
+t.Bounded = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
@@ -41,11 +41,11 @@ t.EST = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/struct.Layout.html#method.from_size_align_unchecked"]
 row = 8
-align.ConstBound = [
+align.Bounded = [
     "`align` must not be zero.",
     "`align` must be a power of two."
 ]
-size.ConstBound = ["`size`, when rounded up to the nearest multiple of `align`, must not overflow `isize::MAX`."]
+size.Bounded = ["`size`, when rounded up to the nearest multiple of `align`, must not overflow `isize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#tymethod.deallocate"]
 row = 9
@@ -57,7 +57,7 @@ row = 10
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
 old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
-new_layout.RelativeBound = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
+new_layout.Bounded = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.grow_zeroed"]
@@ -65,7 +65,7 @@ row = 11
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
 old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
-new_layout.RelativeBound = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
+new_layout.Bounded = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.shrink"]
@@ -73,13 +73,15 @@ row = 12
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
 old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
-new_layout.RelativeBound = ["`new_layout.size()` must be smaller than or equal to `old_layout.size()`."]
+new_layout.Bounded = ["`new_layout.size()` must be smaller than or equal to `old_layout.size()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/array/struct.IntoIter.html#method.new_unchecked"]
 row = 13
 buffer.Initialized = ["The `buffer[initialized]` elements must all be initialized."]
-initialized.ConstBound = ["The range must be in-bounds for the buffer, with `initialized.end <= N`."]
-initialized.RelativeBound = ["The range must be canonical, with `initialized.start` <= `initialized.end`."]
+initialized.Bounded = [
+    "The range must be in-bounds for the buffer, with `initialized.end <= N`.",
+    "The range must be canonical, with `initialized.start` <= `initialized.end`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/char/fn.from_u32_unchecked.html"]
 row = 14
@@ -91,7 +93,7 @@ i.Encoding = ["Not all valid `u32`s are valid `char`s, it may construct invalid 
 
 [unsafe_fn."https://doc.rust-lang.org/core/convert/trait.FloatToInt.html"]
 row = 16
-self.ConstBound = [
+self.Bounded = [
     "The value must not be `NaN`.",
     "The value must not be infinite.",
     "The value must be representable in the return type `Int`, after truncating off its fractional part."
@@ -100,7 +102,7 @@ self.ConstBound = [
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_ptr"]
 row = 17
 ptr.Encoding = ["The memory pointed to by `ptr` must contain a valid nul terminator at the end of the string."]
-ptr.ConstBound = ["The nul terminator must be within `isize::MAX` from `ptr`."]
+ptr.Bounded = ["The nul terminator must be within `isize::MAX` from `ptr`."]
 ptr.Allocated = ["`ptr` must be non-null even for a zero-length cstr."]
 ptr.Dereferencable = ["The entire memory range of this `CStr` must be contained within a single allocated object!"]
 retval.AliasingMutating = ["The memory referenced by the returned `CStr` must not be mutated for the duration of lifetime `'a`."]
@@ -112,115 +114,115 @@ bytes.Encoding = ["The provided slice must be nul-terminated and not contain any
 
 [unsafe_fn."https://doc.rust-lang.org/core/iter/trait.Step.html#method.forward_unchecked"]
 row = 21
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `Self`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `Self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/iter/trait.Step.html#method.backward_unchecked"]
 row = 22
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `Self`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `Self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `char::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `char::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i8::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `i8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i16::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `i16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i32::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `i32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i64::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `i64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `i128::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `i128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u8::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u64::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `u128::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `isize::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `isize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.forward_unchecked"]
 row = 23
-start.ConstBound = ["`start` + `count` may overflow the range of values supported by `usize::MAX`."]
+start.Bounded = ["`start` + `count` may overflow the range of values supported by `usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `char::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `char::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i8::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i16::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i32::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i64::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `i128::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u8::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u16::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u32::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u64::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `u128::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `isize::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.backward_unchecked"]
 row = 24
-start.ConstBound = ["`start` - `count` may overflow the range of values supported by `usize::MIN`."]
+start.Bounded = ["`start` - `count` may overflow the range of values supported by `usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html#method.take"]
 row = 25
@@ -271,7 +273,7 @@ slice.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.size_of_val_raw.html"]
 row = 35
-val.ConstBound = [
+val.Bounded = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
@@ -282,7 +284,7 @@ val.EST = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.align_of_val_raw.html"]
 row = 36
-val.ConstBound = [
+val.Bounded = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
@@ -316,7 +318,7 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f32.html#method.to_int_unchecked"]
 row = 40
-self.ConstBound = [
+self.Bounded = [
     "The value must not be `NaN`.",
     "The value must not be infinite.",
     "The value must be representable in the return type `Int`, after truncating off its fractional part."
@@ -324,7 +326,7 @@ self.ConstBound = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f64.html#method.to_int_unchecked"]
 row = 41
-self.ConstBound = [
+self.Bounded = [
     "The value must not be `NaN`.",
     "The value must not be infinite.",
     "The value must be representable in the return type `Int`, after truncating off its fractional part."
@@ -332,363 +334,363 @@ self.ConstBound = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > i8::MAX` or `self + rhs < i8::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > i8::MAX` or `self + rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > i16::MAX` or `self + rhs < i16::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > i16::MAX` or `self + rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > i32::MAX` or `self + rhs < i32::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > i32::MAX` or `self + rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > i64::MAX` or `self + rhs < i64::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > i64::MAX` or `self + rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > i128::MAX` or `self + rhs < i128::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > i128::MAX` or `self + rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > u8::MAX` or `self + rhs < u8::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > u8::MAX` or `self + rhs < u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > u16::MAX` or `self + rhs < u16::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > u16::MAX` or `self + rhs < u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > u32::MAX` or `self + rhs < u32::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > u32::MAX` or `self + rhs < u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > u64::MAX` or `self + rhs < u64::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > u64::MAX` or `self + rhs < u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > u128::MAX` or `self + rhs < u128::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > u128::MAX` or `self + rhs < u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > isize::MAX` or `self + rhs < isize::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > isize::MAX` or `self + rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_add"]
 row = 42
-self.ConstBound = ["This results in undefined behavior when `self + rhs > usize::MAX` or `self + rhs < usize::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self + rhs > usize::MAX` or `self + rhs < usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > i8::MAX` or `self - rhs < i8::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > i8::MAX` or `self - rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > i16::MAX` or `self - rhs < i16::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > i16::MAX` or `self - rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > i32::MAX` or `self - rhs < i32::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > i32::MAX` or `self - rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > i64::MAX` or `self - rhs < i64::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > i64::MAX` or `self - rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > i128::MAX` or `self - rhs < i128::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > i128::MAX` or `self - rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > u8::MAX` or `self - rhs < u8::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > u8::MAX` or `self - rhs < u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > u16::MAX` or `self - rhs < u16::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > u16::MAX` or `self - rhs < u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > u32::MAX` or `self - rhs < u32::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > u32::MAX` or `self - rhs < u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > u64::MAX` or `self - rhs < u64::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > u64::MAX` or `self - rhs < u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > u128::MAX` or `self - rhs < u128::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > u128::MAX` or `self - rhs < u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > isize::MAX` or `self - rhs < isize::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > isize::MAX` or `self - rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_sub"]
 row = 43
-self.ConstBound = ["This results in undefined behavior when `self - rhs > usize::MAX` or `self - rhs < usize::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self - rhs > usize::MAX` or `self - rhs < usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > i8::MAX` or `self * rhs < i8::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > i8::MAX` or `self * rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > i16::MAX` or `self * rhs < i16::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > i16::MAX` or `self * rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > i32::MAX` or `self * rhs < i32::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > i32::MAX` or `self * rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > i64::MAX` or `self * rhs < i64::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > i64::MAX` or `self * rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > i128::MAX` or `self * rhs < i128::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > i128::MAX` or `self * rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > u8::MAX` or `self * rhs < u8::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > u8::MAX` or `self * rhs < u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > u16::MAX` or `self * rhs < u16::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > u16::MAX` or `self * rhs < u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > u32::MAX` or `self * rhs < u32::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > u32::MAX` or `self * rhs < u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > u64::MAX` or `self * rhs < u64::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > u64::MAX` or `self * rhs < u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > u128::MAX` or `self * rhs < u128::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > u128::MAX` or `self * rhs < u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > isize::MAX` or `self * rhs < isize::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > isize::MAX` or `self * rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_mul"]
 row = 44
-self.ConstBound = ["This results in undefined behavior when `self * rhs > usize::MAX` or `self * rhs < usize::MIN`."]
+self.Bounded = ["This results in undefined behavior when `self * rhs > usize::MAX` or `self * rhs < usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_shl"]
 row = 45
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.unchecked_shr"]
 row = 46
-self.RelativeBound = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
+self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI8.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI16.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI32.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI64.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI128.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroIsize.html#method.new_unchecked"]
 row = 47
-n.ConstBound = ["The value must not be zero."]
+n.Bounded = ["The value must not be zero."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.unchecked_add"]
 row = 48
-self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u8::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.unchecked_add"]
 row = 48
-self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u16::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.unchecked_add"]
 row = 48
-self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u32::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.unchecked_add"]
 row = 48
-self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u64::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.unchecked_add"]
 row = 48
-self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > u128::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.unchecked_add"]
 row = 48
-self.ConstBound = ["The behaviour is undefined as soon as `self + rhs > usize::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self + rhs > usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u8::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u16::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u32::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u64::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > u128::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > usize::MAX`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI8.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i8::MAX`, or `self * rhs < i8::MIN`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i8::MAX`, or `self * rhs < i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI16.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i16::MAX`, or `self * rhs < i16::MIN`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i16::MAX`, or `self * rhs < i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI32.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i32::MAX`, or `self * rhs < i32::MIN`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i32::MAX`, or `self * rhs < i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI64.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i64::MAX`, or `self * rhs < i64::MIN`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i64::MAX`, or `self * rhs < i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI128.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > i128::MAX`, or `self * rhs < i128::MIN`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i128::MAX`, or `self * rhs < i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroIsize.html#method.unchecked_mul"]
 row = 49
-self.ConstBound = ["The behaviour is undefined as soon as `self * rhs > isize::MAX`, or `self * rhs < isize::MIN`."]
+self.Bounded = ["The behaviour is undefined as soon as `self * rhs > isize::MAX`, or `self * rhs < isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_ref"]
 row = 50
@@ -709,20 +711,22 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset"]
 row = 52
-self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset"]
 row = 53
-self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from"]
 row = 54
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Allocated = [""]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
@@ -734,8 +738,10 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset_from"]
 row = 55
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Allocated = [""]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
@@ -747,8 +753,8 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub_ptr"]
 row = 56
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = [
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`.",
     "The distance between the pointers must be non-negative (`self` >= `origin`)."
 ]
@@ -763,25 +769,25 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.add"]
 row = 57
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_add"]
 row = 58
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub"]
 row = 59
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_sub"]
 row = 60
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -865,11 +871,11 @@ dest.Leaked = [""]
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.get_unchecked"]
 row = 66
 self.Dereferencable = ["When `self` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
-index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
+index.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_slice"]
 row = 67
-self.ConstBound = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
@@ -895,13 +901,13 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset-1"]
 row = 70
-self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset-1"]
 row = 71
-self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -924,8 +930,10 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from-1"]
 row = 74
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Allocated = [""]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
@@ -937,8 +945,10 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset_from-1"]
 row = 75
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Allocated = [""]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
@@ -950,8 +960,8 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub_ptr-1"]
 row = 76
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = [
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`.",
     "The distance between the pointers must be non-negative (`self` >= `origin`)."
 ]
@@ -966,25 +976,25 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.add-1"]
 row = 77
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_add-1"]
 row = 78
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub-1"]
 row = 79
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_sub-1"]
 row = 80
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -1193,7 +1203,7 @@ with.Untyped = ["The operation is untyped in the sense that data may be uninitia
 row = 95
 self.Allocated = [""]
 self.Dereferencable = ["`self` must be dereferenceable and span a single allocation that is at least `mid * size_of::<T>()` bytes long."]
-mid.ConstBound = [
+mid.Bounded = [
     "Panics if `mid` > `len`.",
     "`mid` must be in-bounds of the underlying allocated object."
 ]
@@ -1202,7 +1212,7 @@ mid.ConstBound = [
 row = 96
 self.Allocated = [""]
 self.Dereferencable = ["`self` must be dereferenceable and span a single allocation that is at least `mid * size_of::<T>()` bytes long."]
-mid.ConstBound = [
+mid.Bounded = [
     "Panics if `mid` > `len`.",
     "`mid` must be in-bounds of the underlying allocated object."
 ]
@@ -1210,11 +1220,11 @@ mid.ConstBound = [
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.get_unchecked_mut"]
 row = 97
 self.Dereferencable = ["When `self` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
-index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
+index.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_slice-1"]
 row = 98
-self.ConstBound = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
@@ -1223,7 +1233,7 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_slice_mut"]
 row = 99
-self.ConstBound = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
@@ -1232,7 +1242,7 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.Alignment.html#method.new_unchecked"]
 row = 100
-ConstBound = [
+align.Bounded = [
     "`align` must be a power of two.",
     "Equivalently, it must be `1 << exp` for some exp in `0..usize::BITS`. It must not be zero."
 ]
@@ -1456,38 +1466,40 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset"]
 row = 119
-self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset"]
 row = 120
-self.ConstBound = ["The computed offset, in bytes, cannot overflow an `isize`."]
+self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.add"]
 row = 121
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_add"]
 row = 122
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.sub"]
 row = 123
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_sub"]
 row = 124
-self.ConstBound = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from"]
 row = 125
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
@@ -1497,8 +1509,10 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset_from"]
 row = 126
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
@@ -1508,8 +1522,8 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.sub_ptr"]
 row = 127
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = [
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`.",
     "The distance between the pointers must be non-negative (`self` >= `origin`)."
 ]
@@ -1647,7 +1661,7 @@ with.Untyped = ["The operation is untyped in the sense that data may be uninitia
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice"]
 row = 142
-self.ConstBound = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
@@ -1656,7 +1670,7 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice_mut"]
 row = 143
-self.ConstBound = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
@@ -1666,7 +1680,7 @@ retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does n
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.get_unchecked_mut"]
 row = 144
 self.Dereferencable = ["When `self` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
-index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
+index.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_raw_parts.html#"]
 row = 145
@@ -1674,7 +1688,7 @@ data.Allocated = ["`data` must be non-null even for zero-length slices."]
 data.Initialized = ["`data` must point to `len` consecutive properly initialized values of type `T`."]
 data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 data.Aligned = ["`data` must be aligned even for zero-length slices."]
-len.ConstBound = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+len.Bounded = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
 retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
@@ -1684,13 +1698,13 @@ data.Allocated = ["`data` must be non-null even for zero-length slices."]
 data.Initialized = ["`data` must point to `len` consecutive properly initialized values of type `T`."]
 data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 data.Aligned = ["`data` must be aligned even for zero-length slices."]
-len.ConstBound = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+len.Bounded = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
 retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_ptr_range.html#"]
 row = 147
-self.ConstBound = ["The total length of the `range` must be no larger than `isize::MAX`."]
+self.Bounded = ["The total length of the `range` must be no larger than `isize::MAX`."]
 self.Allocated = [
     "The `start` pointer of the range must be non-null even for zero-length slices.",
     "The `end` pointer of the range must be non-null even for zero-length slices."
@@ -1707,7 +1721,7 @@ retval.Outliving = ["The lifetime for the returned slice is inferred from its us
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_mut_ptr_range.html#"]
 row = 148
-self.ConstBound = ["The total length of the `range` must be no larger than `isize::MAX`."]
+self.Bounded = ["The total length of the `range` must be no larger than `isize::MAX`."]
 self.Allocated = [
     "The `start` pointer of the range must be non-null even for zero-length slices.",
     "The `end` pointer of the range must be non-null even for zero-length slices."
@@ -1724,146 +1738,146 @@ retval.Outliving = ["The lifetime for the returned slice is inferred from its us
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked"]
 row = 149
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked_mut"]
 row = 150
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.get_unchecked"]
 row = 151
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.get_unchecked_mut"]
 row = 152
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked-1"]
 row = 153
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked_mut-1"]
 row = 154
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked"]
 row = 155
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked_mut"]
 row = 156
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked"]
 row = 157
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked_mut"]
 row = 158
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked-1"]
 row = 159
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked_mut-1"]
 row = 160
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked-1"]
 row = 161
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked_mut-1"]
 row = 162
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked-1"]
 row = 163
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked_mut-1"]
 row = 164
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.tuple.html#method.get_unchecked"]
 row = 165
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.tuple.html#method.get_unchecked_mut"]
 row = 166
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.get_unchecked"]
 row = 167
-index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+index.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.get_many_unchecked_mut"]
 row = 168
-index.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+index.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.swap_unchecked"]
 row = 169
-a.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that `a < self.len()`."]
-b.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that `b < self.len()`."]
+a.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that `a < self.len()`."]
+b.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that `b < self.len()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.as_chunks_unchecked"]
 row = 170
-self.ConstBound = [
+self.Bounded = [
     "The slice splits exactly into `N`-element chunks (aka `self.len() % N == 0`).",
     "`N != 0`."
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.as_chunks_unchecked_mut"]
 row = 171
-self.ConstBound = [
+self.Bounded = [
     "The slice splits exactly into `N`-element chunks (aka `self.len() % N == 0`).",
     "`N != 0`."
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.split_at_unchecked"]
 row = 172
-mid.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that `0 <= mid <= self.len()`."]
+mid.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that `0 <= mid <= self.len()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.split_at_mut_unchecked"]
 row = 173
-mid.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that `0 <= mid <= self.len()`."]
+mid.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that `0 <= mid <= self.len()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to"]
 row = 174
@@ -1899,7 +1913,7 @@ self.Encoding = ["The caller must ensure that the content of the slice is valid 
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.get_unchecked"]
 row = 179
-i.ConstBound = [
+i.Bounded = [
     "The starting index must not exceed the ending index.",
     "Indexes must be within bounds of the original slice."
 ]
@@ -1907,7 +1921,7 @@ i.Encoding = ["Indexes must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.get_unchecked_mut"]
 row = 180
-i.ConstBound = [
+i.Bounded = [
     "The starting index must not exceed the ending index.",
     "Indexes must be within bounds of the original slice."
 ]
@@ -1915,93 +1929,93 @@ i.Encoding = ["Indexes must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.slice_unchecked"]
 row = 181
-begin.ConstBound = [
+begin.Bounded = [
     "`begin` must not exceed `end`.",
     "`begin` must be byte positions within the string slice."
 ]
 begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
-end.ConstBound = ["`end` must be byte positions within the string slice."]
+end.Bounded = ["`end` must be byte positions within the string slice."]
 end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.slice_mut_unchecked"]
 row = 182
-begin.ConstBound = [
+begin.Bounded = [
     "`begin` must not exceed `end`.",
     "`begin` must be byte positions within the string slice."
 ]
 begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
-end.ConstBound = ["`end` must be byte positions within the string slice."]
+end.Bounded = ["`end` must be byte positions within the string slice."]
 end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked"]
 row = 183
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked_mut"]
 row = 184
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked"]
 row = 185
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked_mut"]
 row = 186
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked-1"]
 row = 187
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked_mut-1"]
 row = 188
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked-1"]
 row = 189
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked_mut-1"]
 row = 190
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked"]
 row = 191
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked_mut"]
 row = 192
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked"]
 row = 193
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked_mut"]
 row = 194
-self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
@@ -2256,33 +2270,33 @@ v.Encoding = ["The given `Vec` must have one nul byte as its last element. This 
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.from_raw_parts"]
 row = 221
-ptr.ConstBound = ["The allocated size in bytes must be no larger than `isize::MAX`."]
+ptr.Bounded = ["The allocated size in bytes must be no larger than `isize::MAX`."]
 ptr.Allocated = ["`ptr` must have been allocated using the global allocator, such as via the `alloc::alloc` function."]
 ptr.Initialized = ["The first `length` values must be properly initialized values of type `T`."]
 ptr.Aligned = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
-capacity.ConstBound = [
+capacity.Bounded = [
     "The size of `T` times the `capacity` (ie. the allocated size in bytes) needs to be the same size as the pointer was allocated with.",
-    "`capacity` needs to be the capacity that the pointer was allocated with."
+    "`capacity` needs to be the capacity that the pointer was allocated with.",
+    "`length` needs to be less than or equal to `capacity`."
 ]
-capacity.RelativeBound = ["`length` needs to be less than or equal to `capacity`."]
 retval.DualOwner = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.from_raw_parts_in"]
 row = 222
-ptr.ConstBound = ["The allocated size in bytes must be no larger than `isize::MAX`."]
+ptr.Bounded = ["The allocated size in bytes must be no larger than `isize::MAX`."]
 ptr.Allocated = ["`ptr` must be currently allocated via the given allocator `alloc`."]
 ptr.Initialized = ["The first `length` values must be properly initialized values of type `T`."]
 ptr.Aligned = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
-capacity.ConstBound = [
+capacity.Bounded = [
     "The size of `T` times the `capacity` (ie. the allocated size in bytes) needs to be the same size as the pointer was allocated with.",
-    "`capacity` needs to be the capacity that the pointer was allocated with."
+    "`capacity` needs to be the capacity that the pointer was allocated with.",
+    "`length` needs to be less than or equal to `capacity`."
 ]
-capacity.RelativeBound = ["`length` needs to be less than or equal to `capacity`."]
 retval.DualOwner = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.set_len"]
 row = 223
-new_len.RelativeBound = ["`new_len` must be less than or equal to `capacity()`."]
+new_len.Bounded = ["`new_len` must be less than or equal to `capacity()`."]
 self.Initialized = ["The elements at `old_len..new_len` must be initialized."]
 self.Leaked = ["There maybe a memory leak since the inner vectors were not freed prior to the `set_len` call."]
 
@@ -2366,26 +2380,26 @@ retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.increment_strong_count"]
 row = 235
-ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Bounded = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.increment_strong_count_in"]
 row = 236
-ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Bounded = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.decrement_strong_count"]
 row = 237
-ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Bounded = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
 ptr.Freed = ["This method can be used to release the final `Rc` and backing storage, but should not be called after the final `Rc` has been released."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.decrement_strong_count_in"]
 row = 238
-ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Bounded = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
 ptr.Freed = ["This method can be used to release the final `Rc` and backing storage, but should not be called after the final `Rc` has been released."]
@@ -2420,8 +2434,8 @@ buf.Encoding = ["The first length bytes at `buf` need to be valid UTF-8."]
 buf.Allocated = ["The memory at `buf` needs to have been previously allocated by the same allocator the standard library uses."]
 buf.Initialized = ["The first length bytes at `buf` need to be valid UTF-8."]
 buf.Aligned = ["The memory at buf is required alignment of exactly 1."]
-length.RelativeBound = ["`length` needs to be less than or equal to `capacity`."]
-capacity.ConstBound = ["`capacity` needs to be the correct value."]
+length.Bounded = ["`length` needs to be less than or equal to `capacity`."]
+capacity.Bounded = ["`capacity` needs to be the correct value."]
 retval.DualOwner = ["The ownership of `buf` is effectively transferred to the `String` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.from_utf8_unchecked"]
@@ -2466,26 +2480,26 @@ retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.increment_strong_count"]
 row = 251
-ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Bounded = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.increment_strong_count_in"]
 row = 252
-ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Bounded = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.decrement_strong_count"]
 row = 253
-ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Bounded = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
 ptr.Freed = ["This method can be used to release the final `Arc` and backing storage, but should not be called after the final `Arc` has been released."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.decrement_strong_count_in"]
 row = 254
-ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Bounded = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
 ptr.Freed = ["This method can be used to release the final `Arc` and backing storage, but should not be called after the final `Arc` has been released."]
@@ -2532,7 +2546,7 @@ fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particul
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/struct.BorrowedFd.html#method.borrow_raw"]
 row = 262
-fd.ConstBound = ["The resource pointed to by `fd` must not have the value `-1`."]
+fd.Bounded = ["The resource pointed to by `fd` must not have the value `-1`."]
 fd.SystemIO = ["The resource pointed to by `fd` must remain open for the duration of the returned `BorrowedFd`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/struct.OwnedFd.html#method.from_raw_fd"]
@@ -2638,7 +2652,7 @@ sock.SystemIO = [
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.BorrowedSocket.html#method.borrow_raw"]
 row = 281
-socket.ConstBound = ["The resource pointed to by raw must not have the value `INVALID_SOCKET`."]
+socket.Bounded = ["The resource pointed to by raw must not have the value `INVALID_SOCKET`."]
 socket.SystemIO = ["The resource pointed to by `raw` must remain open for the duration of the returned `BorrowedSocket`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.OwnedSocket.html#method.from_raw_socket"]
@@ -2678,7 +2692,7 @@ ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
 ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
 layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 layout.EST = ["`layout` has non-zero size."]
-new_size.ConstBound = [
+new_size.Bounded = [
     "`new_size` must be greater than zero",
     "`new_size`, when rounded up to the nearest multiple of layout.align(), must not overflow `isize::MAX`."
 ]
@@ -2696,11 +2710,11 @@ Unreachable = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_allocate.html"]
 row = 291
-align.ConstBound = ["`align` argument must be a power of two."]
+align.Bounded = ["`align` argument must be a power of two."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_deallocate.html"]
 row = 292
-align.ConstBound = ["`align` argument must be a power of two."]
+align.Bounded = ["`align` argument must be a power of two."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_eval_select.html"]
 row = 293
@@ -2708,44 +2722,46 @@ Unreachable = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ctlz_nonzero.html"]
 row = 294
-x.ConstBound = ["Like `ctlz`, but extra-unsafe as it returns `undef` when given an `x` with value `0`."]
+x.Bounded = ["Like `ctlz`, but extra-unsafe as it returns `undef` when given an `x` with value `0`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.cttz_nonzero.html"]
 row = 295
-x.ConstBound = ["Like `cttz`, but extra-unsafe as it returns `undef` when given an `x` with value `0`."]
+x.Bounded = ["Like `cttz`, but extra-unsafe as it returns `undef` when given an `x` with value `0`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.exact_div.html"]
 row = 296
-x.ConstBound = [
+x.Bounded = [
     "Resulting in undefined behavior where `x % y != 0`.",
     "Resulting in undefined behavior where `x == T::MIN && y == -1`."
 ]
-y.ConstBound = ["Resulting in undefined behavior where `y == 0`."]
+y.Bounded = ["Resulting in undefined behavior where `y == 0`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fadd_fast.html"]
 row = 297
-x.ConstBound = ["Float addition that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
+x.Bounded = ["Float addition that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fdiv_fast.html"]
 row = 298
-x.ConstBound = ["Float division that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float division that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fmul_fast.html"]
 row = 299
-x.ConstBound = ["Float multiplication that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float multiplication that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.frem_fast.html"]
 row = 300
-x.ConstBound = ["Float remainder that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float remainder that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fsub_fast.html"]
 row = 301
-x.ConstBound = ["Float subtraction that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float subtraction that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from.html"]
 row = 311
-self.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-self.RelativeBound = ["The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."]
+self.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
+    "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
+]
 self.Allocated = [""]
 self.Dereferencable = [
     "`ptr` must be either in bounds or one byte past the end of the same allocated object.",
@@ -2757,8 +2773,8 @@ origin.Dereferencable = ["`base` must be either in bounds or one byte past the e
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from_unsigned.html"]
 row = 312
-ptr.ConstBound = ["The distance between the pointers, in bytes, cannot overflow an `isize`."]
-ptr.RelativeBound = [
+ptr.Bounded = [
+    "The distance between the pointers, in bytes, cannot overflow an `isize`.",
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`.",
     "The distance between the pointers must be non-negative (`ptr` >= `base`)."
 ]
@@ -2807,15 +2823,15 @@ dst.Leaked = ["This is safe, but it could leak allocations or resources, so care
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_add.html"]
 row = 320
-x.ConstBound = ["Returns the result of an unchecked addition, resulting in undefined behavior when `x + y > T::MAX` or `x + y < T::MIN`."]
+x.Bounded = ["Returns the result of an unchecked addition, resulting in undefined behavior when `x + y > T::MAX` or `x + y < T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_mul.html"]
 row = 321
-x.ConstBound = ["Returns the result of an unchecked multiplication, resulting in undefined behavior when `x * y > T::MAX` or `x * y < T::MIN`."]
+x.Bounded = ["Returns the result of an unchecked multiplication, resulting in undefined behavior when `x * y > T::MAX` or `x * y < T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_sub.html"]
 row = 322
-x.ConstBound = ["Returns the result of an unchecked subtraction, resulting in undefined behavior when `x - y > T::MAX` or `x - y < T::MIN`."]
+x.Bounded = ["Returns the result of an unchecked subtraction, resulting in undefined behavior when `x - y > T::MAX` or `x - y < T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.volatile_copy_memory.html"]
 row = 323
