@@ -2031,6 +2031,7 @@ begin.ConstBound = [
 begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
 end.ConstBound = ["`end` must be byte positions within the string slice."]
 end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
+
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked"]
 row = 183
 self.ConstBound = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
@@ -2114,59 +2115,66 @@ Thread = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/hint/fn.unreachable_unchecked.html"]
 row = 196
-Unreachable = [""]
+NULL.Unreachable = [
+    "Reaching this function is Undefined Behavior.",
+    "It will safely panic in case it is actually reached at runtime."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_ref_unchecked"]
 row = 197
-ConsistantLayout = [""]
+self.ConsistantLayout = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_mut_unchecked"]
 row = 198
-ConsistantLayout = [""]
+self.ConsistantLayout = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_ref_unchecked-1"]
 row = 199
-ConsistantLayout = [""]
+self.ConsistantLayout = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_mut_unchecked-1"]
 row = 200
-ConsistantLayout = [""]
+self.ConsistantLayout = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_ref_unchecked-2"]
 row = 201
-ConsistantLayout = [""]
+self.ConsistantLayout = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_mut_unchecked-2"]
 row = 202
-ConsistantLayout = [""]
+self.ConsistantLayout = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/cell/struct.RefCell.html#method.try_borrow_unguarded"]
 row = 203
-AliasingMutating = [""]
+retval.AliasingMutating = ["Mutably borrowing the `RefCell` while the reference returned by this method is alive is undefined behaviour."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/option/enum.Option.html#method.unwrap_unchecked"]
 row = 204
-Unreachable = [""]
+self.Unreachable = ["Calling this method on `None` is undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/pin/struct.Pin.html#method.new_unchecked"]
 row = 205
-Pinned = [""]
+retval.Pinned = [
+    "If the constructed `Pin<P>` does not guarantee that the data `P` points to is pinned, that is a violation of the API contract and may lead to undefined behavior in later (safe) operations.",
+    "`P::Deref` and `P::DerefMut` implementations must not move out of their self arguments: `Pin::as_mut` and `Pin::as_ref` will call `DerefMut::deref_mut` and `Deref::deref` on the pinned pointer and expect these methods to uphold the pinning invariants.",
+    "The reference `P` dereferences to will not be moved out of again; in particular, it must not be possible to obtain a `&mut P::Target` and then move out of that reference."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/pin/struct.Pin.html#method.into_inner_unchecked"]
 row = 206
-Pinned = [""]
+retval.Pinned = ["You will continue to treat the pointer `P` as pinned after you call this function, so that the invariants on the Pin type can be upheld. If the code using the resulting `P` does not continue to maintain the pinning invariants that is a violation of the API contract and may lead to undefined behavior in later (safe) operations."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/pin/struct.Pin.html#method.map_unchecked"]
 row = 207
-Pinned = [""]
+retval.Pinned = ["The data you return will not move so long as the argument value does not move (for example, because it is one of the fields of that value), and also that you do not move out of the argument you receive to the interior function."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/pin/struct.Pin.html#method.get_unchecked_mut"]
 row = 208
-Pinned = [""]
+retval.Pinned = ["You will never move the data out of the mutable reference you receive when you call this function, so that the invariants on the `Pin` type can be upheld."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/pin/struct.Pin.html#method.map_unchecked_mut"]
 row = 209
-Pinned = [""]
+retval.Pinned = ["The data you return will not move so long as the argument value does not move (for example, because it is one of the fields of that value), and also that you do not move out of the argument you receive to the interior function."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicBool.html#method.from_ptr"]
 row = 210
@@ -2302,241 +2310,330 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_unchecked"]
 row = 212
-Unreachable = [""]
+self.Unreachable = ["Calling this method on an `Err` is undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_err_unchecked"]
 row = 213
-Unreachable = [""]
+self.Unreachable = ["Calling this method on an `Ok` is undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/io/struct.BorrowedCursor.html#method.as_mut"]
 row = 214
-Initialized = [""]
+self.Initialized = ["The caller must not uninitialize any bytes in the initialized portion of the cursor."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/io/struct.BorrowedCursor.html#method.advance"]
 row = 215
-Initialized = [""]
+self.Initialized = ["The caller must ensure that the first `n` bytes of the cursor have been properly initialised."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/io/struct.BorrowedCursor.html#method.set_init"]
 row = 216
-Initialized = [""]
+self.Initialized = ["The caller must ensure that the first `n` bytes of the buffer have already been initialized."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/io/struct.BorrowedBuf.html#method.set_init"]
 row = 217
-Initialized = [""]
+self.Initialized = ["The caller must ensure that the first `n` unfilled bytes of the buffer have already been initialized."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_vec_unchecked"]
 row = 218
-Encoding = [""]
+v.Encoding = ["This method is equivalent to `CString::new` except that no runtime assertion is made that `v` contains no 0 bytes, and it requires an actual byte vector, not anything that can be converted to one with `Into`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_raw"]
 row = 219
-RelativeBound = [""]
-Encoding = [""]
-Allocated = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+ptr.Encoding = ["Owned, C-compatible, nul-terminated string with no nul bytes in the middle."]
+ptr.Allocated = [
+    "The raw pointer must point to a block of memory allocated by the global allocator.",
+    "Other usage (trying to take ownership of a string that was allocated by foreign code) is likely to lead to undefined behavior or allocator corruption."
+]
+ptr.Initialized = [
+    "This should only ever be called with a pointer that was earlier obtained by calling `CString::into_raw`.",
+    "The recomputed length must match the original length from the `CString::into_raw` call. This means the `CString::into_raw/from_raw` methods should not be used when passing the string to C functions that can modify the string's length."
+]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["Retakes ownership of a `CString` that was transferred to C via `CString::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_vec_with_nul_unchecked"]
 row = 220
-Encoding = [""]
+v.Encoding = ["The given `Vec` must have one nul byte as its last element. This means it cannot be empty nor have any other nul byte anywhere else."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.from_raw_parts"]
 row = 221
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+ptr.ConstBound = ["The allocated size in bytes must be no larger than `isize::MAX`."]
+ptr.Allocated = ["`ptr` must have been allocated using the global allocator, such as via the `alloc::alloc` function."]
+ptr.Initialized = ["The first `length` values must be properly initialized values of type `T`."]
+ptr.Aligned = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
+ptr.ConsistantLayout = [""]
+capacity.ConstBound = [
+    "The size of `T` times the `capacity` (ie. the allocated size in bytes) needs to be the same size as the pointer was allocated with.",
+    "`capacity` needs to be the capacity that the pointer was allocated with."
+]
+capacity.RelativeBound = ["`length` needs to be less than or equal to `capacity`."]
+retval.DualOwner = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.from_raw_parts_in"]
 row = 222
-ConstBound = [""]
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+ptr.ConstBound = ["The allocated size in bytes must be no larger than `isize::MAX`."]
+ptr.Allocated = ["`ptr` must be currently allocated via the given allocator `alloc`."]
+ptr.Initialized = ["The first `length` values must be properly initialized values of type `T`."]
+ptr.Aligned = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
+ptr.ConsistantLayout = [""]
+capacity.ConstBound = [
+    "The size of `T` times the `capacity` (ie. the allocated size in bytes) needs to be the same size as the pointer was allocated with.",
+    "`capacity` needs to be the capacity that the pointer was allocated with."
+]
+capacity.RelativeBound = ["`length` needs to be less than or equal to `capacity`."]
+retval.DualOwner = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.set_len"]
 row = 223
-RelativeBound = [""]
-Initialized = [""]
-Leaked = [""]
+new_len.RelativeBound = ["`new_len` must be less than or equal to `capacity()`."]
+self.Initialized = ["The elements at `old_len..new_len` must be initialized."]
+self.Leaked = ["There maybe a memory leak since the inner vectors were not freed prior to the `set_len` call."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.assume_init"]
 row = 224
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the value really is in an initialized state. Calling this when the content is not yet fully initialized causes immediate undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.assume_init-1"]
 row = 225
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the value really is in an initialized state. Calling this when the content is not yet fully initialized causes immediate undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.from_raw"]
 row = 226
-Allocated = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+self.Allocated = [
+    "For non-zero-sized values, a `Box` will use the Global allocator for its allocation.",
+    "For zero-sized values, the `Box` pointer still has to be valid for reads and writes (always be non-null pointers)."
+]
+self.Initialized = [
+    "Recreate a `Box` which was previously converted to a raw pointer using `Box::into_raw`.",
+    "It is valid to convert both ways between a `Box` and a raw pointer allocated with the Global allocator, given that the `Layout` used with the allocator is correct for the type."
+]
+self.Aligned = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
+self.ConsistantLayout = [""]
+retval.DualOwner = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.from_raw_in"]
 row = 227
-Allocated = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+self.Allocated = [
+    "For non-zero-sized values, a `Box` will use the in the given allocator for its allocation.",
+    "For zero-sized values, the `Box` pointer still has to be valid for reads and writes (always be non-null pointers)."
+]
+self.Initialized = [
+    "Recreate a `Box` which was previously converted to a raw pointer using `Box::into_raw_with_allocator.",
+    "It is valid to convert both ways between a `Box` and a raw pointer allocated with the given allocator, given that the `Layout` used with the allocator is correct for the type."
+]
+self.Aligned = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
+self.ConsistantLayout = [""]
+retval.DualOwner = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.downcast_unchecked"]
 row = 228
-ConsistantLayout = [""]
+self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.downcast_unchecked-1"]
 row = 229
-ConsistantLayout = [""]
+self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.downcast_unchecked-2"]
 row = 230
-ConsistantLayout = [""]
+self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.assume_init"]
 row = 231
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the inner value really is in an initialized state. Calling this when the content is not yet fully initialized causes immediate undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.assume_init-1"]
 row = 232
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the inner value really is in an initialized state. Calling this when the content is not yet fully initialized causes immediate undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.from_raw"]
 row = 233
-Allocated = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+ptr.Allocated = ["The raw pointer must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = [
+    "The raw pointer must have been previously returned by a call to `Rc<U>::into_raw`.",
+    "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
+]
+ptr.Aligned = [
+    "`Rc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
+]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.from_raw_in"]
 row = 234
+ptr.Allocated = ["The raw pointer must point to a block of memory allocated by `alloc` in the provided allocator."]
+ptr.Initialized = [
+    "The raw pointer must have been previously returned by a call to `Rc<U>::into_raw`.",
+    "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
+]
+ptr.Aligned = [
+    "`Rc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
+]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.increment_strong_count"]
 row = 235
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-ConsistantLayout = [""]
+ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
+ptr.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.increment_strong_count_in"]
 row = 236
+ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
+ptr.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.decrement_strong_count"]
 row = 237
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-ConsistantLayout = [""]
-Freed = [""]
+ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
+ptr.ConsistantLayout = [""]
+ptr.Freed = ["This method can be used to release the final `Rc` and backing storage, but should not be called after the final `Rc` has been released."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.decrement_strong_count_in"]
 row = 238
+ptr.ConstBound = ["The associated `Rc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Rc::into_raw`."]
+ptr.ConsistantLayout = [""]
+ptr.Freed = ["This method can be used to release the final `Rc` and backing storage, but should not be called after the final `Rc` has been released."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.get_mut_unchecked"]
 row = 239
-ConsistantLayout = [""]
-AliasingMutating = [""]
+retval.AliasingMutating = ["If any other `Rc` or `Weak` pointers to the same allocation exist, then they must not be dereferenced or have active borrows for the duration of the returned borrow, and their inner type must be exactly the same as the inner type of this `Rc` (including lifetimes)."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.downcast_unchecked"]
 row = 240
-ConsistantLayout = [""]
+self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Weak.html#method.from_raw"]
 row = 241
-Allocated = [""]
-ConsistantLayout = [""]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Weak.html#method.from_raw_in"]
 row = 242
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by `alloc` in the provided allocator."]
+ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/str/fn.from_boxed_utf8_unchecked.html"]
 row = 243
-Encoding = [""]
+v.Encoding = ["Converts a boxed slice of bytes to a boxed string slice without checking that the string contains valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.from_raw_parts"]
 row = 244
-RelativeBound = [""]
-Encoding = [""]
-Allocated = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+buf.Encoding = ["The first length bytes at `buf` need to be valid UTF-8."]
+buf.Allocated = ["The memory at `buf` needs to have been previously allocated by the same allocator the standard library uses."]
+buf.Initialized = ["The first length bytes at `buf` need to be valid UTF-8."]
+buf.ConsistantLayout = [""]
+buf.Aligned = ["The memory at buf is required alignment of exactly 1."]
+length.RelativeBound = ["`length` needs to be less than or equal to `capacity`."]
+capacity.ConstBound = ["`capacity` needs to be the correct value."]
+retval.DualOwner = ["The ownership of `buf` is effectively transferred to the `String` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.from_utf8_unchecked"]
 row = 245
-Encoding = [""]
+bytes.Encoding = ["It does not check that the bytes passed to it are valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.as_mut_vec"]
 row = 246
-Encoding = [""]
+self.Untyped = ["The returned &mut Vec allows writing bytes which are not valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.assume_init"]
 row = 247
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the inner value really is in an initialized state. Calling this when the content is not yet fully initialized causes immediate undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.assume_init-1"]
 row = 248
-Initialized = [""]
+self.Initialized = ["It is up to the caller to guarantee that the inner value really is in an initialized state. Calling this when the content is not yet fully initialized causes immediate undefined behavior."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.from_raw"]
 row = 249
-Allocated = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
+ptr.Allocated = ["The raw pointer must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = [
+    "The raw pointer must have been previously returned by a call to `Arc<U>::into_raw`.",
+    "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
+]
+ptr.Aligned = [
+    "`Arc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
+]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.from_raw_in"]
 row = 250
+ptr.Allocated = ["The raw pointer must point to a block of memory allocated by `alloc` in the provided allocator."]
+ptr.Initialized = [
+    "The raw pointer must have been previously returned by a call to `Arc<U>::into_raw`.",
+    "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
+]
+ptr.Aligned = [
+    "`Arc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
+]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.increment_strong_count"]
 row = 251
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-ConsistantLayout = [""]
+ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
+ptr.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.increment_strong_count_in"]
 row = 252
+ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
+ptr.ConsistantLayout = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.decrement_strong_count"]
 row = 253
-RelativeBound = [""]
-Allocated = [""]
-Initialized = [""]
-ConsistantLayout = [""]
-Freed = [""]
+ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
+ptr.ConsistantLayout = [""]
+ptr.Freed = ["This method can be used to release the final `Arc` and backing storage, but should not be called after the final `Arc` has been released."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.decrement_strong_count_in"]
 row = 254
+ptr.ConstBound = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by allocated by `alloc` in the provided allocator."]
+ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
+ptr.ConsistantLayout = [""]
+ptr.Freed = ["This method can be used to release the final `Arc` and backing storage, but should not be called after the final `Arc` has been released."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.get_mut_unchecked"]
 row = 255
-ConsistantLayout = [""]
-AliasingMutating = [""]
+retval.AliasingMutating = ["If any other `Arc` or `Weak` pointers to the same allocation exist, then they must not be dereferenced or have active borrows for the duration of the returned borrow, and their inner type must be exactly the same as the inner type of this `Arc` (including lifetimes)."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.downcast_unchecked"]
 row = 256
-ConsistantLayout = [""]
+self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Weak.html#method.from_raw"]
 row = 257
-Allocated = [""]
-ConsistantLayout = [""]
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
+ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Weak.html#method.from_raw_in"]
 row = 258
+ptr.Allocated = ["`ptr` must point to a block of memory allocated by `alloc` in the provided allocator."]
+ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
+ptr.ConsistantLayout = [""]
+retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/collections/hash_map/struct.HashMap.html#method.get_many_unchecked_mut"]
 row = 259
-RelativeBound = [""]
+retval.AliasingMutating = ["Calling this method with overlapping keys is undefined behavior even if the resulting references are not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/trait.FromRawFd.html#tymethod.from_raw_fd"]
 row = 260
