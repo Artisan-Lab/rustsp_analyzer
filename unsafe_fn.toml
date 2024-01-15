@@ -85,11 +85,11 @@ initialized.Bounded = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/char/fn.from_u32_unchecked.html"]
 row = 14
-i.Encoding = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
+i.Initialized = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.from_u32_unchecked"]
 row = 15
-i.Encoding = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
+i.Initialized = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/convert/trait.FloatToInt.html"]
 row = 16
@@ -101,16 +101,16 @@ self.Bounded = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_ptr"]
 row = 17
-ptr.Encoding = ["The memory pointed to by `ptr` must contain a valid nul terminator at the end of the string."]
 ptr.Bounded = ["The nul terminator must be within `isize::MAX` from `ptr`."]
 ptr.Allocated = ["`ptr` must be non-null even for a zero-length cstr."]
+ptr.Initialized = ["The memory pointed to by `ptr` must contain a valid nul terminator at the end of the string."]
 ptr.Dereferencable = ["The entire memory range of this `CStr` must be contained within a single allocated object!"]
 retval.AliasingMutating = ["The memory referenced by the returned `CStr` must not be mutated for the duration of lifetime `'a`."]
 retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked"]
 row = 18
-bytes.Encoding = ["The provided slice must be nul-terminated and not contain any interior nul bytes."]
+bytes.Initialized = ["The provided slice must be nul-terminated and not contain any interior nul bytes."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/iter/trait.Step.html#method.forward_unchecked"]
 row = 21
@@ -299,7 +299,7 @@ retval.Untyped = ["The padding byte is not necessarily zeroed. There is no guara
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute.html"]
 row = 38
-RelativeBound = [""]
+Bounded = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
@@ -308,7 +308,7 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute_copy.html"]
 row = 39
-RelativeBound = [""]
+Bounded = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
@@ -1881,7 +1881,7 @@ mid.Bounded = ["Calling this method with an out-of-bounds index is undefined beh
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to"]
 row = 174
-RelativeBound = [""]
+Bounded = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
@@ -1891,7 +1891,7 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to_mut"]
 row = 175
-RelativeBound = [""]
+Bounded = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
@@ -1901,15 +1901,15 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked.html"]
 row = 176
-v.Encoding = ["The bytes passed in must be valid UTF-8."]
+v.Initialized = ["The bytes passed in must be valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked_mut.html"]
 row = 177
-v.Encoding = ["The bytes passed in must be valid UTF-8."]
+v.Initialized = ["The bytes passed in must be valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.as_bytes_mut"]
 row = 178
-self.Encoding = ["The caller must ensure that the content of the slice is valid UTF-8 before the borrow ends and the underlying `str` is used."]
+self.Initialized = ["The caller must ensure that the content of the slice is valid UTF-8 before the borrow ends and the underlying `str` is used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.get_unchecked"]
 row = 179
@@ -1917,7 +1917,7 @@ i.Bounded = [
     "The starting index must not exceed the ending index.",
     "Indexes must be within bounds of the original slice."
 ]
-i.Encoding = ["Indexes must lie on UTF-8 sequence boundaries."]
+i.Initialized = ["Indexes must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.get_unchecked_mut"]
 row = 180
@@ -1925,7 +1925,7 @@ i.Bounded = [
     "The starting index must not exceed the ending index.",
     "Indexes must be within bounds of the original slice."
 ]
-i.Encoding = ["Indexes must lie on UTF-8 sequence boundaries."]
+i.Initialized = ["Indexes must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.slice_unchecked"]
 row = 181
@@ -1933,9 +1933,9 @@ begin.Bounded = [
     "`begin` must not exceed `end`.",
     "`begin` must be byte positions within the string slice."
 ]
-begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
+begin.Initialized = ["`begin` must lie on UTF-8 sequence boundaries."]
 end.Bounded = ["`end` must be byte positions within the string slice."]
-end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
+end.Initialized = ["`end` must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.str.html#method.slice_mut_unchecked"]
 row = 182
@@ -1943,9 +1943,9 @@ begin.Bounded = [
     "`begin` must not exceed `end`.",
     "`begin` must be byte positions within the string slice."
 ]
-begin.Encoding = ["`begin` must lie on UTF-8 sequence boundaries."]
+begin.Initialized = ["`begin` must lie on UTF-8 sequence boundaries."]
 end.Bounded = ["`end` must be byte positions within the string slice."]
-end.Encoding = ["`end` must lie on UTF-8 sequence boundaries."]
+end.Initialized = ["`end` must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked"]
 row = 183
@@ -2249,16 +2249,16 @@ self.Initialized = ["The caller must ensure that the first `n` unfilled bytes of
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_vec_unchecked"]
 row = 218
-v.Encoding = ["This method is equivalent to `CString::new` except that no runtime assertion is made that `v` contains no 0 bytes, and it requires an actual byte vector, not anything that can be converted to one with `Into`."]
+v.Initialized = ["This method is equivalent to `CString::new` except that no runtime assertion is made that `v` contains no 0 bytes, and it requires an actual byte vector, not anything that can be converted to one with `Into`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_raw"]
 row = 219
-ptr.Encoding = ["Owned, C-compatible, nul-terminated string with no nul bytes in the middle."]
 ptr.Allocated = [
     "The raw pointer must point to a block of memory allocated by the global allocator.",
     "Other usage (trying to take ownership of a string that was allocated by foreign code) is likely to lead to undefined behavior or allocator corruption."
 ]
 ptr.Initialized = [
+    "Owned, C-compatible, nul-terminated string with no nul bytes in the middle.",
     "This should only ever be called with a pointer that was earlier obtained by calling `CString::into_raw`.",
     "The recomputed length must match the original length from the `CString::into_raw` call. This means the `CString::into_raw/from_raw` methods should not be used when passing the string to C functions that can modify the string's length."
 ]
@@ -2266,7 +2266,7 @@ retval.DualOwner = ["Retakes ownership of a `CString` that was transferred to C 
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_vec_with_nul_unchecked"]
 row = 220
-v.Encoding = ["The given `Vec` must have one nul byte as its last element. This means it cannot be empty nor have any other nul byte anywhere else."]
+v.Initialized = ["The given `Vec` must have one nul byte as its last element. This means it cannot be empty nor have any other nul byte anywhere else."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.from_raw_parts"]
 row = 221
@@ -2426,11 +2426,10 @@ retval.DualOwner = ["It takes ownership of one weak reference. This can be used 
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/str/fn.from_boxed_utf8_unchecked.html"]
 row = 243
-v.Encoding = ["Converts a boxed slice of bytes to a boxed string slice without checking that the string contains valid UTF-8."]
+v.Initialized = ["Converts a boxed slice of bytes to a boxed string slice without checking that the string contains valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.from_raw_parts"]
 row = 244
-buf.Encoding = ["The first length bytes at `buf` need to be valid UTF-8."]
 buf.Allocated = ["The memory at `buf` needs to have been previously allocated by the same allocator the standard library uses."]
 buf.Initialized = ["The first length bytes at `buf` need to be valid UTF-8."]
 buf.Aligned = ["The memory at buf is required alignment of exactly 1."]
@@ -2440,7 +2439,7 @@ retval.DualOwner = ["The ownership of `buf` is effectively transferred to the `S
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.from_utf8_unchecked"]
 row = 245
-bytes.Encoding = ["It does not check that the bytes passed to it are valid UTF-8."]
+bytes.Initialized = ["It does not check that the bytes passed to it are valid UTF-8."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.as_mut_vec"]
 row = 246
@@ -2705,7 +2704,7 @@ Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.assume.html"]
 row = 289
-ConstBound = [""]
+Bounded = [""]
 Unreachable = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_allocate.html"]
@@ -2955,7 +2954,7 @@ to_drop.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.transmute.html"]
 row = 331
-RelativeBound = [""]
+Bounded = [""]
 Initialized = [""]
 Aligned = [""]
 ConsistantLayout = [""]
