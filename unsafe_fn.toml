@@ -2088,135 +2088,147 @@ retval.Pinned = ["The data you return will not move so long as the argument valu
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicBool.html#method.from_ptr"]
 row = 210
-ptr.Allocated = [""]
-ptr.Initialized = [""]
-ptr.Dereferencable = [""]
-ptr.Aligned = [""]
-ptr.ConsistantLayout = [""]
-ptr.Thread = [""]
-retval.AliasingMutating = [""]
-retval.Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicBool>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU8.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU8>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU16.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU16>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU32.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU32>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU64.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU64>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicUsize.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicUsize>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI8.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI8>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI16.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI16>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI32.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI32>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI64.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI64>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicIsize.html#method.from_ptr"]
 row = 210
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicIsize>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicPtr.html#method.from_ptr"]
 row = 211
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Allocated = [
+    "A null pointer is never valid, not even for accesses of size zero.",
+    "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
+]
+ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicPtr<T>>()`."]
+ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
+retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_unchecked"]
 row = 212
