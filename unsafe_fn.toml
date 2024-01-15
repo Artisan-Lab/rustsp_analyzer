@@ -22,8 +22,8 @@ ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory b
 layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 layout.EST = ["`layout` has non-zero size."]
 new_size.Bounded = [
-    "`new_size` must be greater than zero",
-    "`new_size`, when rounded up to the nearest multiple of layout.align(), must not overflow `isize::MAX`."
+    "`new_size` must be greater than zero.",
+    "`new_size`, when rounded up to the nearest multiple of `layout.align()`, must not overflow `isize::MAX`."
 ]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
@@ -2021,12 +2021,7 @@ slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavi
 
 [unsafe_fn."https://doc.rust-lang.org/core/task/struct.Waker.html#method.from_raw"]
 row = 195
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-ConsistantLayout = [""]
-Unreachable = [""]
-Thread = [""]
+waker.Thread = ["These functions must all be thread-safe (even though `RawWaker` is `!Send + !Sync`) because `Waker` is `Send + Sync`, and thus wakers may be moved to arbitrary threads or invoked by `&` reference."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/hint/fn.unreachable_unchecked.html"]
 row = 196
@@ -2692,20 +2687,20 @@ ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory b
 layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 layout.EST = ["`layout` has non-zero size."]
 new_size.Bounded = [
-    "`new_size` must be greater than zero",
-    "`new_size`, when rounded up to the nearest multiple of layout.align(), must not overflow `isize::MAX`."
+    "`new_size` must be greater than zero.",
+    "`new_size`, when rounded up to the nearest multiple of `layout.align()`, must not overflow `isize::MAX`."
 ]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn_unchecked"]
 row = 288
-Outliving = [""]
+self.Initialized = ["Panics if a thread name was set and it contained null bytes."]
+retval.Outliving = ["The spawned thread may outlive the caller. The caller has to ensure that the spawned thread does not outlive any references in the supplied thread closure and its return type."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.assume.html"]
 row = 289
-Bounded = [""]
-Unreachable = [""]
+b.Bounded = ["If the condition is false, the behavior is undefined."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_allocate.html"]
 row = 291
@@ -2717,7 +2712,7 @@ align.Bounded = ["`align` argument must be a power of two."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_eval_select.html"]
 row = 293
-Unreachable = [""]
+called_in_const.Bounded = ["The two functions must behave observably equivalent. Safe code in other crates may assume that calling a `const fn` at compile-time and at run-time produces the same result. A function that produces a different result when evaluated at run-time, or has any other observable side-effects, is unsound."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ctlz_nonzero.html"]
 row = 294
@@ -2741,19 +2736,19 @@ x.Bounded = ["Float addition that allows optimizations based on algebraic rules.
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fdiv_fast.html"]
 row = 298
-x.Bounded = ["Float division that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float division that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fmul_fast.html"]
 row = 299
-x.Bounded = ["Float multiplication that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float multiplication that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.frem_fast.html"]
 row = 300
-x.Bounded = ["Float remainder that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float remainder that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fsub_fast.html"]
 row = 301
-x.Bounded = ["Float subtraction that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
+x.Bounded = ["Float subtraction that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from.html"]
 row = 311
@@ -2788,15 +2783,10 @@ base.Dereferencable = ["`base` must be either in bounds or one byte past the end
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.raw_eq.html"]
 row = 313
-Initialized = [""]
-Aligned = [""]
-
-[unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.try.html"]
-row = 317
-Allocated = [""]
-Initialized = [""]
-Dereferencable = [""]
-Unreachable = [""]
+a.Initialized = ["It's UB to call this if any of the bytes in `*a` are uninitialized or carry a pointer value."]
+a.Aligned = ["Note that this is a stricter criterion than just the values being fully-initialized: if `T` has padding, it's UB to call this intrinsic."]
+b.Initialized = ["It's UB to call this if any of the bytes in `*b` are uninitialized or carry a pointer value."]
+b.Aligned = ["Note that this is a stricter criterion than just the values being fully-initialized: if `T` has padding, it's UB to call this intrinsic."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unaligned_volatile_load.html"]
 row = 318
@@ -2888,13 +2878,11 @@ dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.vtable_align.html"]
 row = 326
-Allocated = [""]
-EST = [""]
+ptr.EST = ["`ptr` must point to a vtable."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.vtable_size.html"]
 row = 327
-Allocated = [""]
-EST = [""]
+ptr.EST = ["`ptr` must point to a vtable."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.copy.html"]
 row = 328
