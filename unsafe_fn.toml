@@ -2178,14 +2178,14 @@ retval.Pinned = ["The data you return will not move so long as the argument valu
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicBool.html#method.from_ptr"]
 row = 210
-Allocated = [""]
+ptr.Allocated = [""]
 Initialized = [""]
 Dereferencable = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-Thread = [""]
-AliasingMutating = [""]
-Outliving = [""]
+ptr.Aligned = [""]
+ptr.ConsistantLayout = [""]
+ptr.Thread = [""]
+retval.AliasingMutating = [""]
+retval.Outliving = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU8.html#method.from_ptr"]
 row = 210
@@ -2637,133 +2637,174 @@ retval.AliasingMutating = ["Calling this method with overlapping keys is undefin
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/trait.FromRawFd.html#tymethod.from_raw_fd"]
 row = 260
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpStream.html#method.from_raw_fd"]
 row = 261
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpListener.html#method.from_raw_fd"]
 row = 261
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.from_raw_fd"]
 row = 261
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/struct.BorrowedFd.html#method.borrow_raw"]
 row = 262
-ConstBound = [""]
-SystemIO = [""]
+fd.ConstBound = ["The resource pointed to by `fd` must not have the value `-1`."]
+fd.SystemIO = ["The resource pointed to by `fd` must remain open for the duration of the returned `BorrowedFd`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/struct.OwnedFd.html#method.from_raw_fd"]
 row = 263
-SystemIO = [""]
+fd.SystemIO = ["The resource pointed to by `fd` must be open and suitable for assuming ownership. The resource must not require any cleanup other than `close`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/type.RawFd.html#method.from_raw_fd"]
 row = 264
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/fs/struct.File.html#method.from_raw_fd"]
 row = 265
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/linux/process/struct.PidFd.html#method.from_raw_fd"]
 row = 266
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.from_raw_fd"]
 row = 267
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.from_raw_fd"]
 row = 268
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.from_raw_fd"]
 row = 269
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/process/struct.Stdio.html#method.from_raw_fd"]
 row = 270
-SystemIO = [""]
+fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.BorrowedHandle.html#method.borrow_raw"]
 row = 271
-SystemIO = [""]
+handle.SystemIO = ["The resource pointed to by handle must be a valid open handle, it must remain open for the duration of the returned `BorrowedHandle`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.OwnedHandle.html#method.from_raw_handle"]
 row = 272
-SystemIO = [""]
+handle.SystemIO = [
+    "`handle` must be an owned handle; in particular, it must be open.",
+    "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.HandleOrNull.html#method.from_raw_handle"]
 row = 273
-SystemIO = [""]
+handle.SystemIO = [
+    "The passed handle value must either satisfy the safety requirements of `FromRawHandle::from_raw_handle` (below), or be null.",
+    "`handle` must be an owned handle; in particular, it must be open.",
+    "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.HandleOrInvalid.html#method.from_raw_handle"]
 row = 274
-SystemIO = [""]
+handle.SystemIO = [
+    "The passed handle value must either satisfy the safety requirements of `FromRawHandle::from_raw_handle` (below), or be `INVALID_HANDLE_VALUE` (-1).",
+    "`handle` must be an owned handle; in particular, it must be open.",
+    "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/trait.FromRawHandle.html#tymethod.from_raw_handle"]
 row = 275
-SystemIO = [""]
+handle.SystemIO = [
+    "`handle` must be an owned handle; in particular, it must be open.",
+    "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/fs/struct.File.html#method.from_raw_handle"]
 row = 276
-SystemIO = [""]
+handle.SystemIO = [
+    "`handle` must be an owned handle; in particular, it must be open.",
+    "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/trait.FromRawSocket.html#tymethod.from_raw_socket"]
 row = 277
-SystemIO = [""]
+sock.SystemIO = [
+    "`sock` must be an owned socket; in particular, it must be open.",
+    "`sock` must be a socket that may be freed via `closesocket`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpStream.html#method.from_raw_socket"]
 row = 278
-SystemIO = [""]
+sock.SystemIO = [
+    "`sock` must be an owned socket; in particular, it must be open.",
+    "`sock` must be a socket that may be freed via `closesocket`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpListener.html#method.from_raw_socket"]
 row = 279
-SystemIO = [""]
+sock.SystemIO = [
+    "`sock` must be an owned socket; in particular, it must be open.",
+    "`sock` must be a socket that may be freed via `closesocket`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.from_raw_socket"]
 row = 280
-SystemIO = [""]
+sock.SystemIO = [
+    "`sock` must be an owned socket; in particular, it must be open.",
+    "`sock` must be a socket that may be freed via `closesocket`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.BorrowedSocket.html#method.borrow_raw"]
 row = 281
-ConstBound = [""]
-SystemIO = [""]
+socket.ConstBound = ["The resource pointed to by raw must not have the value `INVALID_SOCKET`."]
+socket.SystemIO = ["The resource pointed to by `raw` must remain open for the duration of the returned `BorrowedSocket`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.OwnedSocket.html#method.from_raw_socket"]
 row = 282
-SystemIO = [""]
+socket.SystemIO = [
+    "`socket` must be an owned socket; in particular, it must be open.",
+    "`socket` must be a socket that may be freed via `closesocket`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/process/struct.Stdio.html#method.from_raw_handle"]
 row = 283
-SystemIO = [""]
+handle.SystemIO = [
+    "`handle` must be an owned handle; in particular, it must be open.",
+    "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.alloc"]
 row = 284
-EST = [""]
-Untyped = [""]
-Freed = [""]
+layout.EST = ["`layout` has non-zero size."]
+retval.Untyped = ["The allocated block of memory may or may not be initialized."]
+retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.alloc_zeroed"]
 row = 285
-EST = [""]
-Freed = [""]
+layout.EST = ["`layout` has non-zero size."]
+retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
+retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.dealloc"]
 row = 286
-Allocated = [""]
-ConsistantLayout = [""]
+ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
+layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.realloc"]
 row = 287
-ConstBound = [""]
-Allocated = [""]
-ConsistantLayout = [""]
-EST = [""]
-Freed = [""]
+ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
+ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
+layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
+layout.EST = ["`layout` has non-zero size."]
+new_size.ConstBound = [
+    "`new_size` must be greater than zero",
+    "`new_size`, when rounded up to the nearest multiple of layout.align(), must not overflow `isize::MAX`."
+]
+retval.Untyped = ["The allocated block of memory may or may not be initialized."]
+retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn_unchecked"]
 row = 288
@@ -2776,15 +2817,11 @@ Unreachable = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_allocate.html"]
 row = 291
-ConstBound = [""]
-EST = [""]
-Untyped = [""]
-Freed = [""]
+align.ConstBound = ["`align` argument must be a power of two."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_deallocate.html"]
 row = 292
-Allocated = [""]
-ConsistantLayout = [""]
+align.ConstBound = ["`align` argument must be a power of two."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.const_eval_select.html"]
 row = 293
@@ -2792,35 +2829,39 @@ Unreachable = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ctlz_nonzero.html"]
 row = 294
-ConstBound = [""]
+x.ConstBound = ["Like `ctlz`, but extra-unsafe as it returns `undef` when given an `x` with value `0`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.cttz_nonzero.html"]
 row = 295
-ConstBound = [""]
+x.ConstBound = ["Like `cttz`, but extra-unsafe as it returns `undef` when given an `x` with value `0`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.exact_div.html"]
 row = 296
-ConstBound = [""]
+x.ConstBound = [
+    "Resulting in undefined behavior where `x % y != 0`.",
+    "Resulting in undefined behavior where `x == T::MIN && y == -1`."
+]
+y.ConstBound = ["Resulting in undefined behavior where `y == 0`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fadd_fast.html"]
 row = 297
-ConstBound = [""]
+x.ConstBound = ["Float addition that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fdiv_fast.html"]
 row = 298
-ConstBound = [""]
+x.ConstBound = ["Float division that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fmul_fast.html"]
 row = 299
-ConstBound = [""]
+x.ConstBound = ["Float multiplication that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.frem_fast.html"]
 row = 300
-ConstBound = [""]
+x.ConstBound = ["Float remainder that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.fsub_fast.html"]
 row = 301
-ConstBound = [""]
+x.ConstBound = ["Float subtraction that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`"]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from.html"]
 row = 311
@@ -2893,15 +2934,15 @@ dst.Leaked = ["This is safe, but it could leak allocations or resources, so care
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_add.html"]
 row = 320
-ConstBound = [""]
+x.ConstBound = ["Returns the result of an unchecked addition, resulting in undefined behavior when `x + y > T::MAX` or `x + y < T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_mul.html"]
 row = 321
-ConstBound = [""]
+x.ConstBound = ["Returns the result of an unchecked multiplication, resulting in undefined behavior when `x * y > T::MAX` or `x * y < T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_sub.html"]
 row = 322
-ConstBound = [""]
+x.ConstBound = ["Returns the result of an unchecked subtraction, resulting in undefined behavior when `x - y > T::MAX` or `x - y < T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.volatile_copy_memory.html"]
 row = 323
