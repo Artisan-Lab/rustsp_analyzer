@@ -1,17 +1,17 @@
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.GlobalAlloc.html#tymethod.alloc"]
 row = 3
-layout.EST = ["`layout` has non-zero size."]
+layout.Layout = ["`layout` has non-zero size."]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.GlobalAlloc.html#tymethod.dealloc"]
 row = 4
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
-layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
+layout.Layout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.GlobalAlloc.html#method.alloc_zeroed"]
 row = 5
-layout.EST = ["`layout` has non-zero size."]
+layout.Layout = ["`layout` has non-zero size."]
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
@@ -19,8 +19,10 @@ retval.Freed = ["Returning a null pointer indicates that either memory is exhaus
 row = 6
 ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
 ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
-layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
-layout.EST = ["`layout` has non-zero size."]
+layout.Layout = [
+    "`layout` has non-zero size.",
+    "`layout` must be the same layout that was used to allocate that block of memory."
+]
 new_size.Bounded = [
     "`new_size` must be greater than zero.",
     "`new_size`, when rounded up to the nearest multiple of `layout.align()`, must not overflow `isize::MAX`."
@@ -34,7 +36,7 @@ t.Bounded = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
-t.EST = [
+t.Layout = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
@@ -50,13 +52,13 @@ size.Bounded = ["`size`, when rounded up to the nearest multiple of `align`, mus
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#tymethod.deallocate"]
 row = 9
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
-layout.ConsistantLayout = ["`layout` must fit that block of memory."]
+layout.Layout = ["`layout` must fit that block of memory."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.grow"]
 row = 10
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
-old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
+old_layout.Layout = ["`old_layout` must fit that block of memory."]
 new_layout.Bounded = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 
@@ -64,7 +66,7 @@ retval.Untyped = ["The allocated block of memory may or may not be initialized."
 row = 11
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
-old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
+old_layout.Layout = ["`old_layout` must fit that block of memory."]
 new_layout.Bounded = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 
@@ -72,7 +74,7 @@ retval.Untyped = ["The allocated block of memory is guaranteed to be initialized
 row = 12
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
-old_layout.ConsistantLayout = ["`old_layout` must fit that block of memory."]
+old_layout.Layout = ["`old_layout` must fit that block of memory."]
 new_layout.Bounded = ["`new_layout.size()` must be smaller than or equal to `old_layout.size()`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/array/struct.IntoIter.html#method.new_unchecked"]
@@ -249,8 +251,11 @@ retval.DualOwner = ["This function creates a bitwise copy of the contents, regar
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_drop"]
 row = 29
-self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
-self.ConsistantLayout = ["All additional invariants of the type `T` must be satisfied, as the `Drop` implementation of `T` (or its members) may rely on this."]
+self.Initialized = [
+    "It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state.",
+    "All additional invariants of the type `T` must be satisfied, as the `Drop` implementation of `T` (or its members) may rely on this."
+]
+self.ConsistantLayout = []
 self.Freed = ["Drops the contained value in place."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_ref"]
@@ -279,7 +284,7 @@ val.Bounded = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
-val.EST = [
+val.Layout = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
@@ -290,7 +295,7 @@ val.Bounded = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
-val.EST = [
+val.Layout = [
     "If the unsized tail of `T` is a slice, then the length of the slice tail must be an initialized integer, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`.",
     "If the unsized tail of `T` is a trait object, then the vtable part of the pointer must point to a valid vtable for the type `T` acquired by an unsizing coercion, and the size of the entire value (dynamic tail length + statically sized prefix) must fit in `isize`."
 ]
@@ -305,10 +310,10 @@ src.Initialized = [
     "Both the argument and the result must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
-src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 src.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
+    "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
 retval.Aliased = [
@@ -323,10 +328,10 @@ src.Initialized = [
     "Both the argument and the result must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
-src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 src.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
+    "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
 retval.DualOwner = ["It will also unsafely create a copy of the contained value instead of moving out of `src`."]
 retval.Aliased = [
@@ -716,7 +721,7 @@ row = 50
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -726,7 +731,7 @@ retval.Aliased = [
 row = 51
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -755,7 +760,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -770,7 +775,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -786,7 +791,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -822,7 +827,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_volatile"]
@@ -833,7 +838,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 retval.DualOwner = [
     "If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
@@ -856,13 +861,13 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 dest.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dest.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dest.Aligned = ["`dest` must be properly aligned."]
+dest.Layout = ["`dest` must be properly aligned."]
 dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
@@ -877,7 +882,7 @@ self.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 dest.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -886,7 +891,7 @@ dest.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
-dest.Aligned = ["`dest` must be properly aligned."]
+dest.Layout = ["`dest` must be properly aligned."]
 dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
@@ -901,7 +906,7 @@ row = 67
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = ["The pointer must be aligned even for zero-length slices."]
+self.Layout = ["The pointer must be aligned even for zero-length slices."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -912,7 +917,7 @@ row = 68
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -922,7 +927,7 @@ retval.Aliased = [
 row = 69
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -945,7 +950,7 @@ row = 72
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -955,7 +960,7 @@ retval.Aliased = [
 row = 73
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -972,7 +977,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -987,7 +992,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -1003,7 +1008,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
@@ -1039,7 +1044,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_volatile-1"]
@@ -1050,7 +1055,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 retval.DualOwner = [
     "If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
@@ -1073,13 +1078,13 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 dest.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dest.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dest.Aligned = ["`dest` must be properly aligned."]
+dest.Layout = ["`dest` must be properly aligned."]
 dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
@@ -1094,7 +1099,7 @@ self.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 dest.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -1103,7 +1108,7 @@ dest.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
-dest.Aligned = ["`dest` must be properly aligned."]
+dest.Layout = ["`dest` must be properly aligned."]
 dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
@@ -1115,14 +1120,14 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = [""]
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
@@ -1136,7 +1141,7 @@ self.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `src` with the same size."
 ]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = [""]
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1146,7 +1151,7 @@ src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `src` with the same size."
 ]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
@@ -1158,7 +1163,7 @@ self.Allocated = [
 ]
 self.Initialized = ["The value `self` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = [
+self.Layout = [
     "`self` must be properly aligned, even if `T` has size 0.",
     "Unaligned values cannot be dropped in place, they must be copied to an aligned location first using `ptr::read_unaligned`."
 ]
@@ -1171,7 +1176,7 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.write_bytes"]
@@ -1181,7 +1186,7 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Untyped = ["Additionally, note that changing `self` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
 self.Leaked = [""]
 
@@ -1192,7 +1197,7 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.write_unaligned"]
@@ -1212,7 +1217,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 src.Leaked = ["Neither value is dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.swap"]
@@ -1222,14 +1227,14 @@ self.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-selfx.Aligned = ["`self` must be properly aligned."]
+selfx.Layout = ["`self` must be properly aligned."]
 self.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 with.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 with.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-with.Aligned = ["`with` must be properly aligned."]
+with.Layout = ["`with` must be properly aligned."]
 with.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.split_at_mut"]
@@ -1260,7 +1265,7 @@ row = 98
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = ["The pointer must be aligned even for zero-length slices."]
+self.Layout = ["The pointer must be aligned even for zero-length slices."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1271,7 +1276,7 @@ row = 99
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = ["The pointer must be aligned even for zero-length slices."]
+self.Layout = ["The pointer must be aligned even for zero-length slices."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1292,7 +1297,7 @@ to_drop.Allocated = [
 ]
 to_drop.Initialized = ["The value `to_drop` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
 to_drop.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-to_drop.Aligned = [
+to_drop.Layout = [
     "`to_drop` must be properly aligned, even if `T` has size 0.",
     "Unaligned values cannot be dropped in place, they must be copied to an aligned location first using `ptr::read_unaligned`."
 ]
@@ -1305,14 +1310,14 @@ x.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 x.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-x.Aligned = ["`x` must be properly aligned."]
+x.Layout = ["`x` must be properly aligned."]
 x.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 y.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 y.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-y.Aligned = ["`y` must be properly aligned."]
+y.Layout = ["`y` must be properly aligned."]
 y.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.swap_nonoverlapping.html"]
@@ -1325,7 +1330,7 @@ x.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `x` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `y` with the same size."
 ]
-x.Aligned = ["`x` must be properly aligned."]
+x.Layout = ["`x` must be properly aligned."]
 x.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 y.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1335,7 +1340,7 @@ y.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `x` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `y` with the same size."
 ]
-y.Aligned = ["`y` must be properly aligned."]
+y.Layout = ["`y` must be properly aligned."]
 y.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.replace.html"]
@@ -1346,7 +1351,7 @@ dst.Allocated = [
 ]
 dst.Initialized = ["`dst` must point to a properly initialized value of type `T`."]
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 src.Leaked = ["Neither value is dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.read.html"]
@@ -1357,7 +1362,7 @@ src.Allocated = [
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.read_unaligned.html"]
@@ -1377,7 +1382,7 @@ dst.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.write_unaligned.html"]
@@ -1396,7 +1401,7 @@ dst.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
 dst.Leaked = [""]
 
@@ -1407,13 +1412,13 @@ src.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
@@ -1428,7 +1433,7 @@ src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -1437,7 +1442,7 @@ dst.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
@@ -1450,7 +1455,7 @@ src.Allocated = [
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 retval.DualOwner = [
     "If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
@@ -1463,13 +1468,13 @@ dst.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_ref"]
 row = 114
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1479,7 +1484,7 @@ retval.Aliased = [
 row = 115
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1493,7 +1498,7 @@ ptr.Allocated = ["`ptr` must be non-null."]
 row = 117
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1503,7 +1508,7 @@ retval.Aliased = [
 row = 118
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["The pointer must be properly aligned."]
+self.Layout = ["The pointer must be properly aligned."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1549,7 +1554,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset_from"]
@@ -1562,7 +1567,7 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.sub_ptr"]
@@ -1576,21 +1581,21 @@ self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
+self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.read"]
 row = 128
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.read_volatile"]
 row = 129
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 retval.DualOwner = [
     "If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
@@ -1605,9 +1610,9 @@ retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_to"]
 row = 131
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 dest.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dest.Aligned = ["`dest` must be properly aligned."]
+dest.Layout = ["`dest` must be properly aligned."]
 dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
@@ -1618,12 +1623,12 @@ self.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 dest.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
-dest.Aligned = ["`dest` must be properly aligned."]
+dest.Layout = ["`dest` must be properly aligned."]
 dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
@@ -1631,10 +1636,10 @@ dest.Leaked = [""]
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_from"]
 row = 133
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = [""]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
@@ -1644,13 +1649,13 @@ self.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `src` with the same size."
 ]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = [""]
 src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `src` with the same size."
 ]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
@@ -1658,7 +1663,7 @@ src.Untyped = ["The copy is untyped in the sense that data may be uninitialized 
 row = 135
 self.Initialized = ["The value `self` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = [
+self.Layout = [
     "`self` must be properly aligned, even if `T` has size 0.",
     "Unaligned values cannot be dropped in place, they must be copied to an aligned location first using `ptr::read_unaligned`."
 ]
@@ -1667,20 +1672,20 @@ self.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write"]
 row = 136
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write_bytes"]
 row = 137
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Untyped = ["Additionally, note that changing `self` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
 self.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write_volatile"]
 row = 138
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write_unaligned"]
@@ -1692,16 +1697,16 @@ self.Leaked = ["This is safe, but it could leak allocations or resources, so car
 row = 140
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-self.Aligned = ["`self` must be properly aligned."]
+self.Layout = ["`self` must be properly aligned."]
 src.Leaked = ["Neither value is dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.swap"]
 row = 141
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-selfx.Aligned = ["`self` must be properly aligned."]
+selfx.Layout = ["`self` must be properly aligned."]
 self.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 with.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-with.Aligned = ["`with` must be properly aligned."]
+with.Layout = ["`with` must be properly aligned."]
 with.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice"]
@@ -1709,7 +1714,7 @@ row = 142
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = ["The pointer must be aligned even for zero-length slices."]
+self.Layout = ["The pointer must be aligned even for zero-length slices."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1720,7 +1725,7 @@ row = 143
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = ["The pointer must be aligned even for zero-length slices."]
+self.Layout = ["The pointer must be aligned even for zero-length slices."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1736,7 +1741,7 @@ row = 145
 data.Allocated = ["`data` must be non-null even for zero-length slices."]
 data.Initialized = ["`data` must point to `len` consecutive properly initialized values of type `T`."]
 data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-data.Aligned = ["`data` must be aligned even for zero-length slices."]
+data.Layout = ["`data` must be aligned even for zero-length slices."]
 len.Bounded = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 retval.Aliased = [
     "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
@@ -1748,7 +1753,7 @@ row = 146
 data.Allocated = ["`data` must be non-null even for zero-length slices."]
 data.Initialized = ["`data` must point to `len` consecutive properly initialized values of type `T`."]
 data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-data.Aligned = ["`data` must be aligned even for zero-length slices."]
+data.Layout = ["`data` must be aligned even for zero-length slices."]
 len.Bounded = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
 retval.Aliased = [
     "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
@@ -1764,11 +1769,11 @@ self.Allocated = [
 ]
 self.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
 self.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = [
+self.Layout = [
     "The `start` pointer of the range must be properly aligned to the first element of a slice.",
-    "The `end` pointer of the range must be to one past the last element."
+    "The `end` pointer of the range must be to one past the last element.",
+    "This function panics if `T` is a Zero-Sized Type (ZST)."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 retval.Aliased = [
     "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
     "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
@@ -1783,11 +1788,11 @@ self.Allocated = [
 ]
 self.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
 self.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Aligned = [
+self.Layout = [
     "The `start` pointer of the range must be properly aligned to the first element of a slice.",
-    "The `end` pointer of the range must be to one past the last element."
+    "The `end` pointer of the range must be to one past the last element.",
+    "This function panics if `T` is a Zero-Sized Type (ZST)."
 ]
-self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 retval.Aliased = [
     "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
     "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
@@ -1942,12 +1947,12 @@ self.Initialized = [
     "Both the `T` and the `U` must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
-self.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 self.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute.",
+    "This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything.",
+    "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
-self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
 retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
@@ -1961,12 +1966,12 @@ self.Initialized = [
     "Both the `T` and the `U` must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
-self.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 self.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute.",
+    "This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything.",
+    "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
-self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
 retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
@@ -2168,7 +2173,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicBool>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicBool>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2182,7 +2187,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU8>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU8>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2196,7 +2201,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU16>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU16>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2210,7 +2215,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU32>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU32>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2224,7 +2229,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU64>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU64>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2238,7 +2243,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicUsize>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicUsize>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2252,7 +2257,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI8>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI8>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2266,7 +2271,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI16>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI16>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2280,7 +2285,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI32>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI32>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2294,7 +2299,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI64>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI64>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2308,7 +2313,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicIsize>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicIsize>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2322,7 +2327,7 @@ ptr.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicPtr<T>>()`."]
+ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicPtr<T>>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
@@ -2379,7 +2384,7 @@ row = 221
 ptr.Bounded = ["The allocated size in bytes must be no larger than `isize::MAX`."]
 ptr.Allocated = ["`ptr` must have been allocated using the global allocator, such as via the `alloc::alloc` function."]
 ptr.Initialized = ["The first `length` values must be properly initialized values of type `T`."]
-ptr.Aligned = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
+ptr.Layout = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
 capacity.Bounded = [
     "The size of `T` times the `capacity` (ie. the allocated size in bytes) needs to be the same size as the pointer was allocated with.",
     "`capacity` needs to be the capacity that the pointer was allocated with.",
@@ -2392,7 +2397,7 @@ row = 222
 ptr.Bounded = ["The allocated size in bytes must be no larger than `isize::MAX`."]
 ptr.Allocated = ["`ptr` must be currently allocated via the given allocator `alloc`."]
 ptr.Initialized = ["The first `length` values must be properly initialized values of type `T`."]
-ptr.Aligned = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
+ptr.Layout = ["`T` needs to have the same alignment as what `ptr` was allocated with."]
 capacity.Bounded = [
     "The size of `T` times the `capacity` (ie. the allocated size in bytes) needs to be the same size as the pointer was allocated with.",
     "`capacity` needs to be the capacity that the pointer was allocated with.",
@@ -2424,7 +2429,7 @@ self.Initialized = [
     "Recreate a `Box` which was previously converted to a raw pointer using `Box::into_raw`.",
     "It is valid to convert both ways between a `Box` and a raw pointer allocated with the Global allocator, given that the `Layout` used with the allocator is correct for the type."
 ]
-self.Aligned = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
+self.Layout = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
 retval.DualOwner = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.from_raw_in"]
@@ -2437,7 +2442,7 @@ self.Initialized = [
     "Recreate a `Box` which was previously converted to a raw pointer using `Box::into_raw_with_allocator.",
     "It is valid to convert both ways between a `Box` and a raw pointer allocated with the given allocator, given that the `Layout` used with the allocator is correct for the type."
 ]
-self.Aligned = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
+self.Layout = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
 retval.DualOwner = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.downcast_unchecked"]
@@ -2467,7 +2472,7 @@ ptr.Initialized = [
     "The raw pointer must have been previously returned by a call to `Rc<U>::into_raw`.",
     "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
 ]
-ptr.Aligned = [
+ptr.Layout = [
     "`Rc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
 retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
@@ -2479,7 +2484,7 @@ ptr.Initialized = [
     "The raw pointer must have been previously returned by a call to `Rc<U>::into_raw`.",
     "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
 ]
-ptr.Aligned = [
+ptr.Layout = [
     "`Rc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
 retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
@@ -2538,7 +2543,7 @@ v.Initialized = ["Converts a boxed slice of bytes to a boxed string slice withou
 row = 244
 buf.Allocated = ["The memory at `buf` needs to have been previously allocated by the same allocator the standard library uses."]
 buf.Initialized = ["The first length bytes at `buf` need to be valid UTF-8."]
-buf.Aligned = ["The memory at buf is required alignment of exactly 1."]
+buf.Layout = ["The memory at buf is required alignment of exactly 1."]
 length.Bounded = ["`length` needs to be less than or equal to `capacity`."]
 capacity.Bounded = ["`capacity` needs to be the correct value."]
 retval.DualOwner = ["The ownership of `buf` is effectively transferred to the `String` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
@@ -2566,7 +2571,7 @@ ptr.Initialized = [
     "The raw pointer must have been previously returned by a call to `Arc<U>::into_raw`.",
     "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
 ]
-ptr.Aligned = [
+ptr.Layout = [
     "`Arc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
 retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
@@ -2578,7 +2583,7 @@ ptr.Initialized = [
     "The raw pointer must have been previously returned by a call to `Arc<U>::into_raw`.",
     "Note that if `U` is not `T` but has the same size and alignment, this is basically like transmuting references of different types."
 ]
-ptr.Aligned = [
+ptr.Layout = [
     "`Arc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
 retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
@@ -2776,27 +2781,29 @@ handle.SystemIO = [
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.alloc"]
 row = 284
-layout.EST = ["`layout` has non-zero size."]
+layout.Layout = ["`layout` has non-zero size."]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.alloc_zeroed"]
 row = 285
-layout.EST = ["`layout` has non-zero size."]
+layout.Layout = ["`layout` has non-zero size."]
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.dealloc"]
 row = 286
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
-layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
+layout.Layout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.realloc"]
 row = 287
 ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
 ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
-layout.ConsistantLayout = ["`layout` must be the same layout that was used to allocate that block of memory."]
-layout.EST = ["`layout` has non-zero size."]
+layout.Layout = [
+    "`layout` has non-zero size.",
+    "`layout` must be the same layout that was used to allocate that block of memory."
+]
 new_size.Bounded = [
     "`new_size` must be greater than zero.",
     "`new_size`, when rounded up to the nearest multiple of `layout.align()`, must not overflow `isize::MAX`."
@@ -2895,9 +2902,9 @@ base.Dereferencable = ["`base` must be either in bounds or one byte past the end
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.raw_eq.html"]
 row = 313
 a.Initialized = ["It's UB to call this if any of the bytes in `*a` are uninitialized or carry a pointer value."]
-a.Aligned = ["Note that this is a stricter criterion than just the values being fully-initialized: if `T` has padding, it's UB to call this intrinsic."]
+a.Layout = ["Note that this is a stricter criterion than just the values being fully-initialized: if `T` has padding, it's UB to call this intrinsic."]
 b.Initialized = ["It's UB to call this if any of the bytes in `*b` are uninitialized or carry a pointer value."]
-b.Aligned = ["Note that this is a stricter criterion than just the values being fully-initialized: if `T` has padding, it's UB to call this intrinsic."]
+b.Layout = ["Note that this is a stricter criterion than just the values being fully-initialized: if `T` has padding, it's UB to call this intrinsic."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unaligned_volatile_load.html"]
 row = 318
@@ -2940,14 +2947,13 @@ src.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
-dst.ConsistantLayout = [""]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
@@ -2962,7 +2968,7 @@ src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -2971,7 +2977,7 @@ dst.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
@@ -2983,7 +2989,7 @@ dst.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned ('min_align_of::<T>()')."]
+dst.Layout = ["`dst` must be properly aligned ('min_align_of::<T>()')."]
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
 dst.Leaked = [""]
 
@@ -3002,13 +3008,13 @@ src.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
@@ -3023,7 +3029,7 @@ src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
-src.Aligned = ["`src` must be properly aligned."]
+src.Layout = ["`src` must be properly aligned."]
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -3032,7 +3038,7 @@ dst.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
@@ -3045,7 +3051,7 @@ to_drop.Allocated = [
 ]
 to_drop.Initialized = ["The value `to_drop` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
 to_drop.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-to_drop.Aligned = [
+to_drop.Layout = [
     "`to_drop` must be properly aligned, even if `T` has size 0.",
     "Unaligned values cannot be dropped in place, they must be copied to an aligned location first using `ptr::read_unaligned`."
 ]
@@ -3057,10 +3063,10 @@ src.Initialized = [
     "Both the argument and the result must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
-src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 src.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
+    "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
 retval.Aliased = [
@@ -3076,7 +3082,7 @@ dst.Allocated = [
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
-dst.Aligned = ["`dst` must be properly aligned."]
+dst.Layout = ["`dst` must be properly aligned."]
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
 dst.Leaked = [""]
 
@@ -3086,10 +3092,10 @@ src.Initialized = [
     "Both the argument and the result must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
-src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 src.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
+    "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
 retval.Aliased = [
