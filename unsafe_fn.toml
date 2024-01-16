@@ -299,22 +299,35 @@ retval.Untyped = ["The padding byte is not necessarily zeroed. There is no guara
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute.html"]
 row = 38
-Bounded = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+src.Initialized = [
+    "Both the argument and the result must be valid at their given type.",
+    "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
+]
+src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
+src.Layout = [
+    "Both types must have the same size.",
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+]
+retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
+retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute_copy.html"]
 row = 39
-Bounded = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-DualOwner = [""]
-AliasingMutating = [""]
-Outliving = [""]
+src.Initialized = [
+    "Both the argument and the result must be valid at their given type.",
+    "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
+]
+src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
+src.Layout = [
+    "Both types must have the same size.",
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+]
+retval.DualOwner = ["It will also unsafely create a copy of the contained value instead of moving out of `src`."]
+retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
+retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f32.html#method.to_int_unchecked"]
 row = 40
@@ -1881,23 +1894,37 @@ mid.Bounded = ["Calling this method with an out-of-bounds index is undefined beh
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to"]
 row = 174
-Bounded = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
+self.Initialized = [
+    "Both the `T` and the result must be valid at their given type.",
+    "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
+]
+self.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
+self.Layout = [
+    "Both types must have the same size.",
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+]
 self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
-AliasingMutating = [""]
-Outliving = [""]
+retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
+retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to_mut"]
 row = 175
-Bounded = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
+self.Initialized = [
+    "Both the `T` and the result must be valid at their given type.",
+    "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
+]
+self.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
+self.Layout = [
+    "Both types must have the same size.",
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+]
 self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
-AliasingMutating = [""]
-Outliving = [""]
+retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
+retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked.html"]
 row = 176
@@ -2954,12 +2981,19 @@ to_drop.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.transmute.html"]
 row = 331
-Bounded = [""]
-Initialized = [""]
-Aligned = [""]
-ConsistantLayout = [""]
-AliasingMutating = [""]
-Outliving = [""]
+src.Initialized = [
+    "Both the argument and the result must be valid at their given type.",
+    "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
+]
+src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
+src.Layout = [
+    "Both types must have the same size.",
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+]
+retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
+retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.write_bytes.html"]
 row = 332
@@ -2971,3 +3005,19 @@ dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>
 dst.Aligned = ["`dst` must be properly aligned."]
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
 dst.Leaked = [""]
+
+[unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.transmute_unchecked.html"]
+row = 333
+src.Initialized = [
+    "Both the argument and the result must be valid at their given type.",
+    "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
+]
+src.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
+src.Layout = [
+    "Both types must have the same size.",
+    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+]
+retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
+retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
