@@ -105,8 +105,10 @@ ptr.Bounded = ["The nul terminator must be within `isize::MAX` from `ptr`."]
 ptr.Allocated = ["`ptr` must be non-null even for a zero-length cstr."]
 ptr.Initialized = ["The memory pointed to by `ptr` must contain a valid nul terminator at the end of the string."]
 ptr.Dereferencable = ["The entire memory range of this `CStr` must be contained within a single allocated object!"]
-retval.AliasingMutating = ["The memory referenced by the returned `CStr` must not be mutated for the duration of lifetime `'a`."]
-retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
+retval.Aliased = [
+    "The memory referenced by the returned `CStr` must not be mutated for the duration of lifetime `'a`.",
+    "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked"]
 row = 18
@@ -309,8 +311,10 @@ src.Layout = [
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
 ]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
-retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
-retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Aliased = [
+    "It can turn a `*mut T` into an `&mut T`.",
+    "It can extend a lifetime, or shorten an invariant lifetime."
+]
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute_copy.html"]
@@ -325,8 +329,10 @@ src.Layout = [
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
 ]
 retval.DualOwner = ["It will also unsafely create a copy of the contained value instead of moving out of `src`."]
-retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
-retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Aliased = [
+    "It can turn a `*mut T` into an `&mut T`.",
+    "It can extend a lifetime, or shorten an invariant lifetime."
+]
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f32.html#method.to_int_unchecked"]
@@ -711,16 +717,20 @@ self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref"]
 row = 51
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset"]
 row = 52
@@ -892,8 +902,10 @@ self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice m
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_ref-1"]
 row = 68
@@ -901,16 +913,20 @@ self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref-1"]
 row = 69
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset-1"]
 row = 70
@@ -930,16 +946,20 @@ self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_mut"]
 row = 73
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from-1"]
 row = 74
@@ -1241,8 +1261,10 @@ self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice m
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_slice_mut"]
 row = 99
@@ -1250,8 +1272,10 @@ self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice m
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.Alignment.html#method.new_unchecked"]
 row = 100
@@ -1446,16 +1470,20 @@ dst.Leaked = ["This is safe, but it could leak allocations or resources, so care
 row = 114
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_mut"]
 row = 115
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.new_unchecked"]
 row = 116
@@ -1466,16 +1494,20 @@ row = 117
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_mut"]
 row = 118
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Aligned = ["The pointer must be properly aligned."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset"]
 row = 119
@@ -1678,8 +1710,10 @@ self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice m
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice_mut"]
 row = 143
@@ -1687,8 +1721,10 @@ self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice m
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Aligned = ["The pointer must be aligned even for zero-length slices."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.get_unchecked_mut"]
 row = 144
@@ -1702,8 +1738,10 @@ data.Initialized = ["`data` must point to `len` consecutive properly initialized
 data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 data.Aligned = ["`data` must be aligned even for zero-length slices."]
 len.Bounded = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
-retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
-retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
+retval.Aliased = [
+    "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
+    "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_raw_parts_mut.html#"]
 row = 146
@@ -1712,8 +1750,10 @@ data.Initialized = ["`data` must point to `len` consecutive properly initialized
 data.Dereferencable = ["The entire memory range (`len * mem::size_of::<T>()` bytes) of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 data.Aligned = ["`data` must be aligned even for zero-length slices."]
 len.Bounded = ["The total size `len * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
-retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
-retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
+retval.Aliased = [
+    "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
+    "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_ptr_range.html#"]
 row = 147
@@ -1729,8 +1769,10 @@ self.Aligned = [
     "The `end` pointer of the range must be to one past the last element."
 ]
 self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
-retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
-retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
+retval.Aliased = [
+    "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
+    "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_mut_ptr_range.html#"]
 row = 148
@@ -1746,8 +1788,10 @@ self.Aligned = [
     "The `end` pointer of the range must be to one past the last element."
 ]
 self.EST = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
-retval.AliasingMutating = ["The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`."]
-retval.Outliving = ["The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."]
+retval.Aliased = [
+    "The memory referenced by the returned slice must not be mutated for the duration of lifetime `'a`.",
+    "The lifetime for the returned slice is inferred from its usage. To prevent accidental misuse, it's suggested to tie the lifetime to whichever source lifetime is safe in the context."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked"]
 row = 149
@@ -1895,36 +1939,40 @@ mid.Bounded = ["Calling this method with an out-of-bounds index is undefined beh
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to"]
 row = 174
 self.Initialized = [
-    "Both the `T` and the result must be valid at their given type.",
+    "Both the `T` and the `U` must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
 self.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 self.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute."
 ]
 self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
-retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
-retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
-retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
+retval.Aliased = [
+    "It can turn a `*mut T` into an `&mut T`.",
+    "It can extend a lifetime, or shorten an invariant lifetime."
+]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `T` and `U`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to_mut"]
 row = 175
 self.Initialized = [
-    "Both the `T` and the result must be valid at their given type.",
+    "Both the `T` and the `U` must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
 self.Aligned = ["When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."]
 self.Layout = [
     "Both types must have the same size.",
-    "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
+    "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute."
 ]
 self.EST = ["This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything."]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
-retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
-retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
-retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
+retval.Aliased = [
+    "It can turn a `*mut T` into an `&mut T`.",
+    "It can extend a lifetime, or shorten an invariant lifetime."
+]
+retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `T` and `U`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked.html"]
 row = 176
@@ -2083,7 +2131,7 @@ self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/cell/struct.RefCell.html#method.try_borrow_unguarded"]
 row = 203
-retval.AliasingMutating = ["Mutably borrowing the `RefCell` while the reference returned by this method is alive is undefined behaviour."]
+retval.Aliased = ["Mutably borrowing the `RefCell` while the reference returned by this method is alive is undefined behaviour."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/option/enum.Option.html#method.unwrap_unchecked"]
 row = 204
@@ -2122,8 +2170,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicBool>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU8.html#method.from_ptr"]
 row = 210
@@ -2134,8 +2184,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU8>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU16.html#method.from_ptr"]
 row = 210
@@ -2146,8 +2198,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU16>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU32.html#method.from_ptr"]
 row = 210
@@ -2158,8 +2212,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU32>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU64.html#method.from_ptr"]
 row = 210
@@ -2170,8 +2226,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicU64>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicUsize.html#method.from_ptr"]
 row = 210
@@ -2182,8 +2240,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicUsize>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI8.html#method.from_ptr"]
 row = 210
@@ -2194,8 +2254,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI8>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI16.html#method.from_ptr"]
 row = 210
@@ -2206,8 +2268,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI16>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI32.html#method.from_ptr"]
 row = 210
@@ -2218,8 +2282,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI32>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI64.html#method.from_ptr"]
 row = 210
@@ -2230,8 +2296,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicI64>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicIsize.html#method.from_ptr"]
 row = 210
@@ -2242,8 +2310,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicIsize>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicPtr.html#method.from_ptr"]
 row = 211
@@ -2254,8 +2324,10 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Aligned = ["`ptr` must be aligned to `align_of::<AtomicPtr<T>>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
-retval.AliasingMutating = ["You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated."]
-retval.Outliving = ["The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."]
+retval.Aliased = [
+    "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
+    "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
+]
 
 [unsafe_fn."https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_unchecked"]
 row = 212
@@ -2440,7 +2512,7 @@ ptr.Freed = ["This method can be used to release the final `Rc` and backing stor
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.get_mut_unchecked"]
 row = 239
-retval.AliasingMutating = ["If any other `Rc` or `Weak` pointers to the same allocation exist, then they must not be dereferenced or have active borrows for the duration of the returned borrow, and their inner type must be exactly the same as the inner type of this `Rc` (including lifetimes)."]
+retval.Aliased = ["If any other `Rc` or `Weak` pointers to the same allocation exist, then they must not be dereferenced or have active borrows for the duration of the returned borrow, and their inner type must be exactly the same as the inner type of this `Rc` (including lifetimes)."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.downcast_unchecked"]
 row = 240
@@ -2539,7 +2611,7 @@ ptr.Freed = ["This method can be used to release the final `Arc` and backing sto
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.get_mut_unchecked"]
 row = 255
-retval.AliasingMutating = ["If any other `Arc` or `Weak` pointers to the same allocation exist, then they must not be dereferenced or have active borrows for the duration of the returned borrow, and their inner type must be exactly the same as the inner type of this `Arc` (including lifetimes)."]
+retval.Aliased = ["If any other `Arc` or `Weak` pointers to the same allocation exist, then they must not be dereferenced or have active borrows for the duration of the returned borrow, and their inner type must be exactly the same as the inner type of this `Arc` (including lifetimes)."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.downcast_unchecked"]
 row = 256
@@ -2559,7 +2631,7 @@ retval.DualOwner = ["It takes ownership of one weak reference. This can be used 
 
 [unsafe_fn."https://doc.rust-lang.org/std/collections/hash_map/struct.HashMap.html#method.get_many_unchecked_mut"]
 row = 259
-retval.AliasingMutating = ["Calling this method with overlapping keys is undefined behavior even if the resulting references are not used."]
+retval.Aliased = ["Calling this method with overlapping keys is undefined behavior even if the resulting references are not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/trait.FromRawFd.html#tymethod.from_raw_fd"]
 row = 260
@@ -2735,7 +2807,7 @@ retval.Freed = ["Returning a null pointer indicates that either memory is exhaus
 [unsafe_fn."https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn_unchecked"]
 row = 288
 self.Initialized = ["Panics if a thread name was set and it contained null bytes."]
-retval.Outliving = ["The spawned thread may outlive the caller. The caller has to ensure that the spawned thread does not outlive any references in the supplied thread closure and its return type."]
+retval.Aliased = ["The spawned thread may outlive the caller. The caller has to ensure that the spawned thread does not outlive any references in the supplied thread closure and its return type."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.assume.html"]
 row = 289
@@ -2991,8 +3063,10 @@ src.Layout = [
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
 ]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
-retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
-retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Aliased = [
+    "It can turn a `*mut T` into an `&mut T`.",
+    "It can extend a lifetime, or shorten an invariant lifetime."
+]
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.write_bytes.html"]
@@ -3018,6 +3092,8 @@ src.Layout = [
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute."
 ]
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
-retval.AliasingMutating = ["It can turn a `*mut T` into an `&mut T`."]
-retval.Outliving = ["It can extend a lifetime, or shorten an invariant lifetime."]
+retval.Aliased = [
+    "It can turn a `*mut T` into an `&mut T`.",
+    "It can extend a lifetime, or shorten an invariant lifetime."
+]
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
