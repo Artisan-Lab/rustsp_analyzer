@@ -255,7 +255,6 @@ self.Initialized = [
     "It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state.",
     "All additional invariants of the type `T` must be satisfied, as the `Drop` implementation of `T` (or its members) may rely on this."
 ]
-self.ConsistantLayout = []
 self.Freed = ["Drops the contained value in place."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_ref"]
@@ -1762,14 +1761,14 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_ptr_range.html#"]
 row = 147
-self.Bounded = ["The total length of the `range` must be no larger than `isize::MAX`."]
-self.Allocated = [
+range.Bounded = ["The total length of the `range` must be no larger than `isize::MAX`."]
+range.Allocated = [
     "The `start` pointer of the range must be non-null even for zero-length slices.",
     "The `end` pointer of the range must be non-null even for zero-length slices."
 ]
-self.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
-self.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Layout = [
+range.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
+range.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
+range.Layout = [
     "The `start` pointer of the range must be properly aligned to the first element of a slice.",
     "The `end` pointer of the range must be to one past the last element.",
     "This function panics if `T` is a Zero-Sized Type (ZST)."
@@ -1781,14 +1780,14 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/fn.from_mut_ptr_range.html#"]
 row = 148
-self.Bounded = ["The total length of the `range` must be no larger than `isize::MAX`."]
-self.Allocated = [
+range.Bounded = ["The total length of the `range` must be no larger than `isize::MAX`."]
+range.Allocated = [
     "The `start` pointer of the range must be non-null even for zero-length slices.",
     "The `end` pointer of the range must be non-null even for zero-length slices."
 ]
-self.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
-self.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
-self.Layout = [
+range.Initialized = ["The range must contain `N` consecutive properly initialized values of type `T`."]
+range.Dereferencable = ["The entire memory range of this slice must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
+range.Layout = [
     "The `start` pointer of the range must be properly aligned to the first element of a slice.",
     "The `end` pointer of the range must be to one past the last element.",
     "This function panics if `T` is a Zero-Sized Type (ZST)."
