@@ -230,7 +230,7 @@ start.Bounded = ["`start` - `count` may overflow the range of values supported b
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html#method.take"]
 row = 25
-retval.DualOwner = [
+retval.DualOwned = [
     "This function semantically moves out the contained value without preventing further usage, leaving the state of this container unchanged. It is your responsibility to ensure that this `ManuallyDrop` is not used again."
 ]
 
@@ -247,7 +247,7 @@ self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_read"]
 row = 28
 self.Initialized = ["It is up to the caller to guarantee that the `MaybeUninit<T>` really is in an initialized state."]
-retval.DualOwner = ["This function creates a bitwise copy of the contents, regardless whether the contained type implements the `Copy` trait or not. When using multiple copies of the data (by calling `assume_init_read` multiple times, or first calling `assume_init_read` and then `assume_init`), it is your responsibility to ensure that data may indeed be duplicated."]
+retval.DualOwned = ["This function creates a bitwise copy of the contents, regardless whether the contained type implements the `Copy` trait or not. When using multiple copies of the data (by calling `assume_init_read` multiple times, or first calling `assume_init_read` and then `assume_init`), it is your responsibility to ensure that data may indeed be duplicated."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/union.MaybeUninit.html#method.assume_init_drop"]
 row = 29
@@ -332,7 +332,7 @@ src.Layout = [
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
     "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
-retval.DualOwner = ["It will also unsafely create a copy of the contained value instead of moving out of `src`."]
+retval.DualOwned = ["It will also unsafely create a copy of the contained value instead of moving out of `src`."]
 retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
     "It can extend a lifetime, or shorten an invariant lifetime."
@@ -827,7 +827,7 @@ self.Allocated = [
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Layout = ["`self` must be properly aligned."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_volatile"]
 row = 62
@@ -838,7 +838,7 @@ self.Allocated = [
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Layout = ["`self` must be properly aligned."]
-retval.DualOwner = [
+retval.DualOwned = [
     "If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
 ]
@@ -851,7 +851,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_to"]
 row = 64
@@ -867,7 +867,7 @@ dest.Allocated = [
 ]
 dest.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dest.Layout = ["`dest` must be properly aligned."]
-dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
+dest.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
 
@@ -891,7 +891,7 @@ dest.Dereferencable = [
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
 dest.Layout = ["`dest` must be properly aligned."]
-dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
+dest.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
 
@@ -1044,7 +1044,7 @@ self.Allocated = [
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Layout = ["`self` must be properly aligned."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_volatile-1"]
 row = 82
@@ -1055,7 +1055,7 @@ self.Allocated = [
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Layout = ["`self` must be properly aligned."]
-retval.DualOwner = [
+retval.DualOwned = [
     "If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
 ]
@@ -1068,7 +1068,7 @@ self.Allocated = [
 ]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_to-1"]
 row = 84
@@ -1084,7 +1084,7 @@ dest.Allocated = [
 ]
 dest.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dest.Layout = ["`dest` must be properly aligned."]
-dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
+dest.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
 
@@ -1108,7 +1108,7 @@ dest.Dereferencable = [
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
 dest.Layout = ["`dest` must be properly aligned."]
-dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
+dest.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
 
@@ -1127,7 +1127,7 @@ src.Allocated = [
 ]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
-src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
+src.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_from_nonoverlapping"]
@@ -1151,7 +1151,7 @@ src.Dereferencable = [
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `src` with the same size."
 ]
 src.Layout = ["`src` must be properly aligned."]
-src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
+src.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.drop_in_place"]
@@ -1362,7 +1362,7 @@ src.Allocated = [
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.read_unaligned.html"]
 row = 106
@@ -1372,7 +1372,7 @@ src.Allocated = [
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.write.html"]
 row = 107
@@ -1418,7 +1418,7 @@ dst.Allocated = [
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
-dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
 
@@ -1442,7 +1442,7 @@ dst.Dereferencable = [
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
 dst.Layout = ["`dst` must be properly aligned."]
-dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
 
@@ -1455,7 +1455,7 @@ src.Allocated = [
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
-retval.DualOwner = [
+retval.DualOwned = [
     "If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
 ]
@@ -1588,14 +1588,14 @@ row = 128
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Layout = ["`self` must be properly aligned."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.read_volatile"]
 row = 129
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Layout = ["`self` must be properly aligned."]
-retval.DualOwner = [
+retval.DualOwned = [
     "If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
 ]
@@ -1604,7 +1604,7 @@ retval.DualOwner = [
 row = 130
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-retval.DualOwner = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
+retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_to"]
 row = 131
@@ -1612,7 +1612,7 @@ self.Dereferencable = ["The memory range of the given size (`count * size_of::<T
 self.Layout = ["`self` must be properly aligned."]
 dest.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dest.Layout = ["`dest` must be properly aligned."]
-dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
+dest.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
 
@@ -1628,7 +1628,7 @@ dest.Dereferencable = [
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dest` with the same size."
 ]
 dest.Layout = ["`dest` must be properly aligned."]
-dest.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
+dest.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dest` can violate memory safety. Note that assigning to `*dest` counts as a use because it will attempt to drop the value at `*dest`."]
 dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dest.Leaked = [""]
 
@@ -1639,7 +1639,7 @@ self.Layout = ["`self` must be properly aligned."]
 self.Leaked = [""]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
-src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
+src.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_from_nonoverlapping"]
@@ -1655,7 +1655,7 @@ src.Dereferencable = [
     "The region of memory beginning at `self` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `src` with the same size."
 ]
 src.Layout = ["`src` must be properly aligned."]
-src.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
+src.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.drop_in_place"]
@@ -2372,7 +2372,7 @@ ptr.Initialized = [
     "This should only ever be called with a pointer that was earlier obtained by calling `CString::into_raw`.",
     "The recomputed length must match the original length from the `CString::into_raw` call. This means the `CString::into_raw/from_raw` methods should not be used when passing the string to C functions that can modify the string's length."
 ]
-retval.DualOwner = ["Retakes ownership of a `CString` that was transferred to C via `CString::into_raw`."]
+retval.DualOwned = ["Retakes ownership of a `CString` that was transferred to C via `CString::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_vec_with_nul_unchecked"]
 row = 220
@@ -2389,7 +2389,7 @@ capacity.Bounded = [
     "`capacity` needs to be the capacity that the pointer was allocated with.",
     "`length` needs to be less than or equal to `capacity`."
 ]
-retval.DualOwner = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
+retval.DualOwned = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.from_raw_parts_in"]
 row = 222
@@ -2402,7 +2402,7 @@ capacity.Bounded = [
     "`capacity` needs to be the capacity that the pointer was allocated with.",
     "`length` needs to be less than or equal to `capacity`."
 ]
-retval.DualOwner = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
+retval.DualOwned = ["The ownership of `ptr` is effectively transferred to the `Vec<T>` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/vec/struct.Vec.html#method.set_len"]
 row = 223
@@ -2429,7 +2429,7 @@ self.Initialized = [
     "It is valid to convert both ways between a `Box` and a raw pointer allocated with the Global allocator, given that the `Layout` used with the allocator is correct for the type."
 ]
 self.Layout = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
-retval.DualOwner = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
+retval.DualOwned = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.from_raw_in"]
 row = 227
@@ -2442,7 +2442,7 @@ self.Initialized = [
     "It is valid to convert both ways between a `Box` and a raw pointer allocated with the given allocator, given that the `Layout` used with the allocator is correct for the type."
 ]
 self.Layout = ["The `Box` pointer has to be sufficiently aligned (always be fully aligned)."]
-retval.DualOwner = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
+retval.DualOwned = ["After calling this function, the raw pointer is owned by the resulting `Box`. A double-free may occur if the function is called twice on the same raw pointer."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.downcast_unchecked"]
 row = 228
@@ -2474,7 +2474,7 @@ ptr.Initialized = [
 ptr.Layout = [
     "`Rc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
-retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
+retval.DualOwned = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.from_raw_in"]
 row = 234
@@ -2486,7 +2486,7 @@ ptr.Initialized = [
 ptr.Layout = [
     "`Rc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
-retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
+retval.DualOwned = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Rc.html#method.increment_strong_count"]
 row = 235
@@ -2526,13 +2526,13 @@ self.Initialized = ["The contained value must be of type `T`."]
 row = 241
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
-retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
+retval.DualOwned = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/rc/struct.Weak.html#method.from_raw_in"]
 row = 242
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by `alloc` in the provided allocator."]
 ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
-retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
+retval.DualOwned = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/str/fn.from_boxed_utf8_unchecked.html"]
 row = 243
@@ -2545,7 +2545,7 @@ buf.Initialized = ["The first length bytes at `buf` need to be valid UTF-8."]
 buf.Layout = ["The memory at buf is required alignment of exactly 1."]
 length.Bounded = ["`length` needs to be less than or equal to `capacity`."]
 capacity.Bounded = ["`capacity` needs to be the correct value."]
-retval.DualOwner = ["The ownership of `buf` is effectively transferred to the `String` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
+retval.DualOwned = ["The ownership of `buf` is effectively transferred to the `String` which may then deallocate, reallocate or change the contents of memory pointed to by the pointer at will. Ensure that nothing else uses the pointer after calling this function."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/string/struct.String.html#method.from_utf8_unchecked"]
 row = 245
@@ -2573,7 +2573,7 @@ ptr.Initialized = [
 ptr.Layout = [
     "`Arc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
-retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
+retval.DualOwned = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.from_raw_in"]
 row = 250
@@ -2585,7 +2585,7 @@ ptr.Initialized = [
 ptr.Layout = [
     "`Arc<U>::into_raw` where `U` must have the same size and alignment as `T`.",
 ]
-retval.DualOwner = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
+retval.DualOwned = ["The user of `from_raw` has to make sure a specific value of `T` is only dropped once."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.increment_strong_count"]
 row = 251
@@ -2625,13 +2625,13 @@ self.Initialized = ["The contained value must be of type `T`."]
 row = 257
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
-retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
+retval.DualOwned = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Weak.html#method.from_raw_in"]
 row = 258
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by `alloc` in the provided allocator."]
 ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
-retval.DualOwner = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
+retval.DualOwned = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/collections/hash_map/struct.HashMap.html#method.get_many_unchecked_mut"]
 row = 259
@@ -2913,7 +2913,7 @@ src.Allocated = [
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
-retval.DualOwner = [
+retval.DualOwned = [
     "If `T` is not `Copy`, using both the returned value and the value at `src` can violate memory safety. Note that assigning to `src` counts as a use because it will attempt to drop the value at `src`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
 ]
@@ -2953,7 +2953,7 @@ dst.Allocated = [
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
-dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
 
@@ -2977,7 +2977,7 @@ dst.Dereferencable = [
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
 dst.Layout = ["`dst` must be properly aligned."]
-dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
 
@@ -3014,7 +3014,7 @@ dst.Allocated = [
 ]
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
-dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
 
@@ -3038,7 +3038,7 @@ dst.Dereferencable = [
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
 dst.Layout = ["`dst` must be properly aligned."]
-dst.DualOwner = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 dst.Leaked = [""]
 
