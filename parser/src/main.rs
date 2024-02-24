@@ -21,9 +21,37 @@ struct SpMapping {
    map: HashMap<Identifier, Vec<SpTri>>,
 }
 
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct SpMappingMerge {
+   map: HashMap<Identifier, String>,
+}
+
+fn remove_prefix(s: String) -> String {
+   if let Some(index) = s.find("core/") {
+       // 包含"core"的部分及其之前的字符长度
+       let length_to_remove = index + "core/".len();
+       // 返回从length_to_remove位置开始到字符串末尾的切片
+       s[length_to_remove..].to_owned()
+   } else if let Some(index) = s.find("std/") {
+      let length_to_remove = index + "std/".len();
+      // 返回从length_to_remove位置开始到字符串末尾的切片
+      s[length_to_remove..].to_owned()
+   } else if let Some(index) = s.find("alloc/") {
+      let length_to_remove = index + "alloc/".len();
+      // 返回从length_to_remove位置开始到字符串末尾的切片
+      s[length_to_remove..].to_owned()
+   } else {
+      // 如果没有找到"core"，则返回原始字符串
+      unreachable!()
+   }
+}
+
+use core::ptr::read;
+
 fn main() {
    let j:Value = serde_json::from_str(JSON).unwrap();
    let mut sp_mapping = SpMapping::default();
+   let mut sp_mapping_merge = SpMappingMerge::default();
 
    let j_funcs = &j["unsafe_fn"];
    match j_funcs {
@@ -31,7 +59,7 @@ fn main() {
          
          // iterate all identifer (weblinks)
          for func in j_map {
-            let id = func.0.to_string();
+            let id = remove_prefix(func.0.to_string());
             //sp4func records all field - sp - doc pairs
             let sp4func = func.1.as_object().unwrap();
             let mut sp_tris:Vec<SpTri> = Vec::default();
@@ -63,7 +91,20 @@ fn main() {
       _ => panic!(),
    }
 
-   let output = serde_json::to_string(&sp_mapping).unwrap();
+   for elem in &sp_mapping.map {
+      let mut ans = String::new();
+      for tri in elem.1 {
+         ans.push_str(&format!("‼️`{}` **{}**:\n ", &tri.f, &tri.sp) );
+         for d in &tri.des {
+            ans.push_str(&format!("> _{}_\n\n ", d));
+         }
+         ans.push_str("\n");
+      }
+      ans.push_str("\n");
+      sp_mapping_merge.map.insert(elem.0.to_owned(), ans);
+   }
+
+   let output = serde_json::to_string(&sp_mapping_merge).unwrap();
    fs::write("spmap.json", output).unwrap();
 }
 
