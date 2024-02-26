@@ -1,0 +1,3 @@
+[submodule "sp-analyzer"]
+	path = sp-analyzer
+	url = https://github.com/VaynNecol/rust-analyzer
