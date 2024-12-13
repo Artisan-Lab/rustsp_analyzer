@@ -1,3 +1,6 @@
+# Missing 118
+# Link 202
+
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.GlobalAlloc.html#tymethod.alloc"]
 row = 3
 layout.Layout = ["`layout` has non-zero size."]
@@ -12,6 +15,7 @@ layout.Layout = ["`layout` must be the same layout that was used to allocate tha
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.GlobalAlloc.html#method.alloc_zeroed"]
 row = 5
 layout.Layout = ["`layout` has non-zero size."]
+# Missing
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
@@ -20,6 +24,7 @@ row = 6
 ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
 ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
 layout.Layout = [
+    # Missing
     "`layout` has non-zero size.",
     "`layout` must be the same layout that was used to allocate that block of memory."
 ]
@@ -27,6 +32,7 @@ new_size.Bounded = [
     "`new_size` must be greater than zero.",
     "`new_size`, when rounded up to the nearest multiple of `layout.align()`, must not overflow `isize::MAX`."
 ]
+# Missing
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
@@ -42,6 +48,7 @@ t.Layout = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/struct.Layout.html#method.from_size_align_unchecked"]
+# Link
 row = 8
 align.Bounded = [
     "`align` must not be zero.",
@@ -60,14 +67,17 @@ ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via th
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
 old_layout.Layout = ["`old_layout` must fit that block of memory."]
 new_layout.Bounded = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
+# Missing
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.grow_zeroed"]
 row = 11
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
+# Missing
 ptr.Freed = ["If this returns `Ok`, then ownership of the memory block referenced by `ptr` has been transferred to this allocator. "]
 old_layout.Layout = ["`old_layout` must fit that block of memory."]
 new_layout.Bounded = ["`new_layout.size()` must be greater than or equal to `old_layout.size()`."]
+# Missing
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/alloc/trait.Allocator.html#method.shrink"]
@@ -87,6 +97,7 @@ initialized.Bounded = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/char/fn.from_u32_unchecked.html"]
 row = 14
+# Missing
 i.Initialized = ["Not all valid `u32`s are valid `char`s, it may construct invalid `char` values."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.from_u32_unchecked"]
@@ -95,6 +106,7 @@ i.Initialized = ["Not all valid `u32`s are valid `char`s, it may construct inval
 
 [unsafe_fn."https://doc.rust-lang.org/core/convert/trait.FloatToInt.html"]
 row = 16
+# Missing
 self.Bounded = [
     "The value must not be `NaN`.",
     "The value must not be infinite.",
@@ -104,8 +116,11 @@ self.Bounded = [
 [unsafe_fn."https://doc.rust-lang.org/core/ffi/struct.CStr.html#method.from_ptr"]
 row = 17
 ptr.Bounded = ["The nul terminator must be within `isize::MAX` from `ptr`."]
+# Link
 ptr.Allocated = ["`ptr` must be non-null even for a zero-length cstr."]
+# Link
 ptr.Initialized = ["The memory pointed to by `ptr` must contain a valid nul terminator at the end of the string."]
+# Link
 ptr.Dereferencable = ["The entire memory range of this `CStr` must be contained within a single allocated object!"]
 retval.Aliased = [
     "The memory referenced by the returned `CStr` must not be mutated for the duration of lifetime `'a`.",
@@ -126,106 +141,132 @@ start.Bounded = ["`start` - `count` may overflow the range of values supported b
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `char::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `i8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `i16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `i32::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `i64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `i128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `u8::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `u16::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `u64::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `u128::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `isize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.forward_unchecked"]
 row = 23
+# Link
 start.Bounded = ["`start` + `count` may overflow the range of values supported by `usize::MAX`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.char.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `char::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i8.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `i8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i16.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `i16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i32.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `i32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i64.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `i64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.i128.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `i128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u8.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `u8::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u16.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `u16::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u32.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `u32::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u64.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `u64::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.u128.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `u128::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.isize.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `isize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.backward_unchecked"]
 row = 24
+# Link
 start.Bounded = ["`start` - `count` may overflow the range of values supported by `usize::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html#method.take"]
@@ -314,6 +355,7 @@ src.Layout = [
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
     "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
+# Link
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
 retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
@@ -323,10 +365,12 @@ retval.Untyped = ["It is therefore your responsibility to guarantee that every v
 
 [unsafe_fn."https://doc.rust-lang.org/core/mem/fn.transmute_copy.html"]
 row = 39
+# Missing
 src.Initialized = [
     "Both the argument and the result must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
+# Missing
 src.Layout = [
     "Both types must have the same size.",
     "Note that source and destination are passed by-value, which means if `Src` or `Dst` contain padding, that padding is not guaranteed to be preserved by transmute.",
@@ -337,6 +381,7 @@ retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
     "It can extend a lifetime, or shorten an invariant lifetime."
 ]
+# Missing
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `Src` and `Dst`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.f32.html#method.to_int_unchecked"]
@@ -595,123 +640,123 @@ self.Bounded = ["This results in undefined behavior if `rhs` is larger than or e
 row = 46
 self.Bounded = ["This results in undefined behavior if `rhs` is larger than or equal to the number of bits in `self`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU8.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU16.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU32.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU64.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU128.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroUsize.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI8.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI8.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI16.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI16.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI32.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI32.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI64.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI64.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI128.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI128.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroIsize.html#method.new_unchecked"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroIsize.html#tymethod.new_unchecked"]
 row = 47
 n.Bounded = ["The value must not be zero."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.unchecked_add"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU8.html#tymethod.unchecked_add"]
 row = 48
 self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u8::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.unchecked_add"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU16.html#tymethod.unchecked_add"]
 row = 48
 self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u16::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.unchecked_add"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU32.html#tymethod.unchecked_add"]
 row = 48
 self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u32::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.unchecked_add"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU64.html#tymethod.unchecked_add"]
 row = 48
 self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u64::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.unchecked_add"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU128.html#tymethod.unchecked_add"]
 row = 48
 self.Bounded = ["The behaviour is undefined as soon as `self + rhs > u128::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.unchecked_add"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroUsize.html#tymethod.unchecked_add"]
 row = 48
 self.Bounded = ["The behaviour is undefined as soon as `self + rhs > usize::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU8.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU8.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u8::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU16.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU16.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u16::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU32.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU32.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u32::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU64.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU64.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u64::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroU128.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroU128.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > u128::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroUsize.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroUsize.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > usize::MAX`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI8.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI8.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i8::MAX`, or `self * rhs < i8::MIN`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI16.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI16.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i16::MAX`, or `self * rhs < i16::MIN`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI32.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI32.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i32::MAX`, or `self * rhs < i32::MIN`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI64.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI64.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i64::MAX`, or `self * rhs < i64::MIN`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroI128.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroI128.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > i128::MAX`, or `self * rhs < i128::MIN`."]
 
-[unsafe_fn."https://doc.rust-lang.org/core/num/struct.NonZeroIsize.html#method.unchecked_mul"]
+[unsafe_fn."https://doc.rust-lang.org/core/num/type.NonZeroIsize.html#tymethod.unchecked_mul"]
 row = 49
 self.Bounded = ["The behaviour is undefined as soon as `self * rhs > isize::MAX`, or `self * rhs < isize::MIN`."]
 
@@ -719,8 +764,11 @@ self.Bounded = ["The behaviour is undefined as soon as `self * rhs > isize::MAX`
 row = 50
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -729,8 +777,11 @@ retval.Aliased = [
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref"]
 row = 51
 self.Allocated = ["Either the pointer is null or all of the following is true."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -744,8 +795,10 @@ self.Dereferencable = ["Both the starting and resulting pointer must be either i
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset"]
 row = 53
+# Link
 self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = [""]
+# Link
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.offset_from"]
@@ -765,17 +818,21 @@ origin.Dereferencable = ["`origin` must be either in bounds or one byte past the
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset_from"]
 row = 55
+# Link
 self.Bounded = [
     "The distance between the pointers, in bytes, cannot overflow an `isize`.",
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
 ]
 self.Allocated = [""]
+# Link
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
     "Both pointers must be derived from a pointer to the same object."
 ]
+# Link
 self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Allocated = [""]
+# Link
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.sub_ptr"]
@@ -801,6 +858,7 @@ self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_add"]
+# Link
 row = 58
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
@@ -813,12 +871,14 @@ self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_sub"]
+# Link
 row = 60
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read"]
+# Link
 row = 61
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -830,6 +890,7 @@ self.Layout = ["`self` must be properly aligned."]
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_volatile"]
+# Link
 row = 62
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -844,6 +905,7 @@ retval.DualOwned = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_unaligned"]
+# Link
 row = 63
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -854,6 +916,7 @@ self.Dereferencable = ["The memory range of the given size starting at the point
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_to"]
+# Link
 row = 64
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -872,6 +935,7 @@ dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized
 dest.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_to_nonoverlapping"]
+# Link
 row = 65
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -915,8 +979,11 @@ retval.Aliased = [
 row = 68
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -925,8 +992,11 @@ retval.Aliased = [
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_ref-1"]
 row = 69
 self.Allocated = ["Either the pointer is null or all of the following is true."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -939,6 +1009,7 @@ self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_offset-1"]
+# Link
 row = 71
 self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = [""]
@@ -948,14 +1019,18 @@ self.Dereferencable = ["Both the starting and resulting pointer must be either i
 row = 72
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.as_uninit_mut"]
+# Link
 row = 73
 self.Allocated = ["Either the pointer is null or all of the following is true."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1018,6 +1093,7 @@ self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_add-1"]
+# Link
 row = 78
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
@@ -1030,12 +1106,14 @@ self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.byte_sub-1"]
+# Link
 row = 80
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = [""]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read-1"]
+# Link
 row = 81
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1047,6 +1125,7 @@ self.Layout = ["`self` must be properly aligned."]
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_volatile-1"]
+# Link
 row = 82
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1061,6 +1140,7 @@ retval.DualOwned = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.read_unaligned-1"]
+# Link
 row = 83
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1071,6 +1151,7 @@ self.Dereferencable = ["The memory range of the given size starting at the point
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_to-1"]
+# Link
 row = 84
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1089,6 +1170,7 @@ dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized
 dest.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_to_nonoverlapping-1"]
+# Link
 row = 85
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1113,6 +1195,7 @@ dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized
 dest.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_from"]
+# Link
 row = 86
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1131,6 +1214,7 @@ src.DualOwned = ["If `T` is not `Copy`, using both the values in the region begi
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.copy_from_nonoverlapping"]
+# Link
 row = 87
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1155,6 +1239,7 @@ src.DualOwned = ["If `T` is not `Copy`, using both the values in the region begi
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.drop_in_place"]
+# Link
 row = 88
 self.Allocated = [
     "`self` must be nonnull, even if T has size 0.",
@@ -1169,6 +1254,7 @@ self.Layout = [
 self.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.write"]
+# Link
 row = 89
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1179,6 +1265,7 @@ self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.write_bytes"]
+# Link
 row = 90
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1190,6 +1277,7 @@ self.Untyped = ["Additionally, note that changing `self` in this way can easily 
 self.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.write_volatile"]
+# Link
 row = 91
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1200,6 +1288,7 @@ self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.write_unaligned"]
+# Link
 row = 92
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1209,6 +1298,7 @@ self.Dereferencable = ["The memory range of the given size starting at the point
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.replace"]
+# Link
 row = 93
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1220,6 +1310,7 @@ self.Layout = ["`self` must be properly aligned."]
 src.Leaked = ["Neither value is dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.pointer.html#method.swap"]
+# Link
 row = 94
 self.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
@@ -1292,9 +1383,11 @@ align.Bounded = [
 row = 101
 to_drop.Allocated = [
     "`to_drop` must be nonnull, even if T has size 0.",
+    # Link
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 to_drop.Initialized = ["The value `to_drop` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
+# Link
 to_drop.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 to_drop.Layout = [
     "`to_drop` must be properly aligned, even if `T` has size 0.",
@@ -1304,101 +1397,123 @@ to_drop.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.swap.html"]
 row = 102
+# Link
 x.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 x.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 x.Layout = ["`x` must be properly aligned."]
 x.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Link
 y.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 y.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 y.Layout = ["`y` must be properly aligned."]
 y.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.swap_nonoverlapping.html"]
 row = 103
+# Link
 x.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 x.Dereferencable = [
+    # Link
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `x` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `y` with the same size."
 ]
 x.Layout = ["`x` must be properly aligned."]
+# Missing
 x.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Link
 y.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 y.Dereferencable = [
+    # Link
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `x` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `y` with the same size."
 ]
 y.Layout = ["`y` must be properly aligned."]
+# Missing
 y.Untyped = ["The operation is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.replace.html"]
 row = 104
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 dst.Initialized = ["`dst` must point to a properly initialized value of type `T`."]
+# Link
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
 src.Leaked = ["Neither value is dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.read.html"]
 row = 105
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
+# Link
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.read_unaligned.html"]
 row = 106
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
+# Link
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `*src` can violate memory safety. Note that assigning to `*src` counts as a use because it will attempt to drop the value at `*src`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.write.html"]
 row = 107
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
 dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.write_unaligned.html"]
 row = 108
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.write_bytes.html"]
 row = 109
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
@@ -1406,12 +1521,14 @@ dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.copy.html"]
 row = 110
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -1420,10 +1537,12 @@ dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>
 dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.copy_nonoverlapping.html"]
 row = 111
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -1433,6 +1552,7 @@ src.Dereferencable = [
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
 src.Layout = ["`src` must be properly aligned."]
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -1444,15 +1564,18 @@ dst.Dereferencable = [
 dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Link
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.read_volatile.html"]
 row = 112
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
+# Link
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
 retval.DualOwned = [
@@ -1462,25 +1585,32 @@ retval.DualOwned = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/fn.write_volatile.html"]
 row = 113
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
 dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_ref"]
 row = 114
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_mut"]
+# Link
 row = 115
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1495,6 +1625,7 @@ row = 116
 ptr.Allocated = ["`ptr` must be non-null."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_ref"]
+# Link
 row = 117
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
@@ -1507,10 +1638,15 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_mut"]
 row = 118
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
+# Missing
 self.Initialized = ["The pointer must point to an initialized instance of `T`."]
+# Missing
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 self.Layout = ["The pointer must be properly aligned."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get accessed (read or written) through any other pointer.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -1519,10 +1655,12 @@ retval.Aliased = [
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset"]
 row = 119
 self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset"]
+# Link
 row = 120
 self.Bounded = ["The computed offset, in bytes, cannot overflow an `isize`."]
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
@@ -1531,10 +1669,12 @@ self.Dereferencable = ["Both the starting and resulting pointer must be either i
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.add"]
 row = 121
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_add"]
+# Link
 row = 122
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
@@ -1543,12 +1683,15 @@ self.Dereferencable = ["Both the starting and resulting pointer must be either i
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.sub"]
 row = 123
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_sub"]
+# Link
 row = 124
 self.Bounded = ["The computed offset cannot exceed `isize::MAX` bytes."]
+self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["Both the starting and resulting pointer must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from"]
@@ -1557,6 +1700,7 @@ self.Bounded = [
     "The distance between the pointers, in bytes, cannot overflow an `isize`.",
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`."
 ]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
@@ -1566,6 +1710,7 @@ self.Layout = ["This function panics if `T` is a Zero-Sized Type (ZST)."]
 origin.Dereferencable = ["`origin` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.byte_offset_from"]
+# Link
 row = 126
 self.Bounded = [
     "The distance between the pointers, in bytes, cannot overflow an `isize`.",
@@ -1587,6 +1732,7 @@ self.Bounded = [
     "The distance between the pointers, in bytes, must be an exact multiple of the size of `T`.",
     "The distance between the pointers must be non-negative (`self` >= `subtracted`)."
 ]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = [
     "`self` must be either in bounds or one byte past the end of the same allocated object.",
@@ -1597,6 +1743,7 @@ subtracted.Allocated = ["Even for operations of size zero, the pointer must not 
 subtracted.Dereferencable = ["`subtracted` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.read"]
+# Link
 row = 128
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
@@ -1605,6 +1752,7 @@ self.Layout = ["`self` must be properly aligned."]
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.read_volatile"]
+# Link
 row = 129
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
@@ -1616,6 +1764,7 @@ retval.DualOwned = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.read_unaligned"]
+# Link
 row = 130
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
@@ -1623,6 +1772,7 @@ self.Dereferencable = ["The memory range of the given size starting at the point
 retval.DualOwned = ["If `T` is not `Copy`, using both the returned value and the value at `self` can violate memory safety. Note that assigning to `self` counts as a use because it will attempt to drop the value at `self`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_to"]
+# Link
 row = 131
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1635,6 +1785,7 @@ dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized
 dest.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_to_nonoverlapping"]
+# Link
 row = 132
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = [
@@ -1653,6 +1804,7 @@ dest.Untyped = ["The copy is untyped in the sense that data may be uninitialized
 dest.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_from"]
+# Link
 row = 133
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1665,6 +1817,7 @@ src.DualOwned = ["If `T` is not `Copy`, using both the values in the region begi
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.copy_from_nonoverlapping"]
+# Link
 row = 134
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = [
@@ -1683,6 +1836,7 @@ src.DualOwned = ["If `T` is not `Copy`, using both the values in the region begi
 src.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.drop_in_place"]
+# Link
 row = 135
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Initialized = ["The value `self` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
@@ -1694,6 +1848,7 @@ self.Layout = [
 self.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write"]
+# Link
 row = 136
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1701,6 +1856,7 @@ self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write_bytes"]
+# Link
 row = 137
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1709,6 +1865,7 @@ self.Untyped = ["Additionally, note that changing `self` in this way can easily 
 self.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write_volatile"]
+# Link
 row = 138
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1716,12 +1873,14 @@ self.Layout = ["`self` must be properly aligned."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.write_unaligned"]
+# Link
 row = 139
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 self.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.replace"]
+# Link
 row = 140
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Initialized = ["`self` must point to a properly initialized value of type `T`."]
@@ -1730,6 +1889,7 @@ self.Layout = ["`self` must be properly aligned."]
 src.Leaked = ["Neither value is dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.swap"]
+# Link
 row = 141
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
@@ -1743,6 +1903,7 @@ with.Untyped = ["The operation is untyped in the sense that data may be uninitia
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice"]
 row = 142
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Layout = ["The pointer must be aligned even for zero-length slices."]
@@ -1754,6 +1915,7 @@ retval.Aliased = [
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.as_uninit_slice_mut"]
 row = 143
 self.Bounded = ["The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`."]
+# Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["The entire memory range of this slice (`ptr.len() * mem::size_of::<T>()` bytes) must be contained within a single allocated object! Slices can never span across multiple allocated objects."]
 self.Layout = ["The pointer must be aligned even for zero-length slices."]
@@ -1764,6 +1926,7 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.get_unchecked_mut"]
 row = 144
+Missing
 self.Allocated = ["Even for operations of size zero, the pointer must not be pointing to deallocated memory."]
 self.Dereferencable = ["When `self` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 index.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting pointer is not used."]
@@ -1833,106 +1996,126 @@ retval.Aliased = [
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked"]
 row = 149
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+# Missing
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+# Missing
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/slice/trait.SliceIndex.html#tymethod.get_unchecked_mut"]
 row = 150
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
+# Missing
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
+# Missing
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.get_unchecked"]
+# Link
 row = 151
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.usize.html#method.get_unchecked_mut"]
+# Link
 row = 152
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked-1"]
+# Link
 row = 153
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked_mut-1"]
+# Link
 row = 154
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked"]
+# Link
 row = 155
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked_mut"]
+# Link
 row = 156
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked"]
+# Link
 row = 157
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked_mut"]
+# Link
 row = 158
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked-1"]
+# Link
 row = 159
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked_mut-1"]
+# Link
 row = 160
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked-1"]
+# Link
 row = 161
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked_mut-1"]
+# Link
 row = 162
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked-1"]
+# Link
 row = 163
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked_mut-1"]
+# Link
 row = 164
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.tuple.html#method.get_unchecked"]
+# Link
 row = 165
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.tuple.html#method.get_unchecked_mut"]
+# Link
 row = 166
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
@@ -1975,40 +2158,50 @@ mid.Bounded = ["Calling this method with an out-of-bounds index is undefined beh
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to"]
 row = 174
+# Missing
 self.Initialized = [
     "Both the `T` and the `U` must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
+# Missing
 self.Layout = [
     "Both types must have the same size.",
     "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute.",
     "This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything.",
     "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
+# Missing
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+# Missing
 retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
     "It can extend a lifetime, or shorten an invariant lifetime."
 ]
+# Missing
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `T` and `U`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/primitive.slice.html#method.align_to_mut"]
 row = 175
+# Missing
 self.Initialized = [
     "Both the `T` and the `U` must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
 ]
+# Missing
 self.Layout = [
     "Both types must have the same size.",
     "Note that source and destination are passed by-value, which means if `T` or `U` contain padding, that padding is not guaranteed to be preserved by transmute.",
     "This method has no purpose when either input element `T` or output element `U` are zero-sized and will return the original slice without splitting anything.",
     "When transmuting values that point elsewhere (such as pointers, references, boxes…), the caller has to ensure proper alignment of the pointed-to values."
 ]
+# Missing
 retval.Initialized = ["Both the argument and the result must be valid at their given type."]
+# Missing
 retval.Aliased = [
     "It can turn a `*mut T` into an `&mut T`.",
     "It can extend a lifetime, or shorten an invariant lifetime."
 ]
+# Missing
 retval.Untyped = ["It is therefore your responsibility to guarantee that every value passed to transmute is valid at both types `T` and `U`. Failing to uphold this condition may lead to unexpected and unstable compilation results."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/str/fn.from_utf8_unchecked.html"]
@@ -2060,72 +2253,84 @@ end.Bounded = ["`end` must be byte positions within the string slice."]
 end.Initialized = ["`end` must lie on UTF-8 sequence boundaries."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked"]
+# Link
 row = 183
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFull.html#method.get_unchecked_mut"]
+# Link
 row = 184
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked"]
+# Link
 row = 185
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.Range.html#method.get_unchecked_mut"]
+# Link
 row = 186
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked-1"]
+# Link
 row = 187
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeTo.html#method.get_unchecked_mut-1"]
+# Link
 row = 188
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked-1"]
+# Link
 row = 189
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeFrom.html#method.get_unchecked_mut-1"]
+# Link
 row = 190
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked"]
+# Link
 row = 191
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html#method.get_unchecked_mut"]
+# Link
 row = 192
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked"]
+# Link
 row = 193
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
 slice.Dereferencable = ["When `slice` is not dereferenceable is undefined behavior even if the resulting pointer is not used."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/ops/struct.RangeToInclusive.html#method.get_unchecked_mut"]
+# Link
 row = 194
 self.Bounded = ["Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used."]
 slice.Allocated = ["A dangling slice pointer is undefined behavior even if the resulting reference is not used."]
@@ -2151,19 +2356,23 @@ row = 198
 self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_ref_unchecked-1"]
+#Link
 row = 199
 self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_mut_unchecked-1"]
+#Link
 row = 200
 self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_ref_unchecked-2"]
 row = 201
+# Missing
 self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/any/trait.Any.html#method.downcast_mut_unchecked-2"]
 row = 202
+# Missing
 self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/cell/struct.RefCell.html#method.try_borrow_unguarded"]
@@ -2200,6 +2409,7 @@ retval.Pinned = ["The data you return will not move so long as the argument valu
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicBool.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
@@ -2207,6 +2417,7 @@ ptr.Allocated = [
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicBool>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2214,13 +2425,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU8.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU8>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2228,13 +2442,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU16.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU16>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2242,13 +2459,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU32.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU32>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2256,13 +2476,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicU64.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicU64>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2270,13 +2493,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicUsize.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicUsize>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2284,13 +2510,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI8.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI8>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2298,13 +2527,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI16.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI16>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2312,13 +2544,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI32.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI32>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2326,13 +2561,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicI64.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicI64>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2340,13 +2578,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicIsize.html#method.from_ptr"]
 row = 210
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicIsize>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2354,13 +2595,16 @@ retval.Aliased = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/sync/atomic/struct.AtomicPtr.html#method.from_ptr"]
 row = 211
+# Link
 ptr.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 ptr.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
 ptr.Layout = ["`ptr` must be aligned to `align_of::<AtomicPtr<T>>()`."]
 ptr.Thread = ["You must adhere to the Memory model for atomic accesses. In particular, it is not allowed to mix atomic and non-atomic accesses, or atomic accesses of different sizes, without synchronization."]
+# Missing
 retval.Aliased = [
     "You must enforce Rust's aliasing rules. In particular, while this reference exists, the memory the pointer points to must not get mutated.",
     "The returned lifetime `'a` is arbitrarily chosen and does not necessarily reflect the actual lifetime of the data."
@@ -2396,6 +2640,7 @@ v.Initialized = ["This method is equivalent to `CString::new` except that no run
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_raw"]
 row = 219
+# Missing
 ptr.Allocated = [
     "The raw pointer must point to a block of memory allocated by the global allocator.",
     "Other usage (trying to take ownership of a string that was allocated by foreign code) is likely to lead to undefined behavior or allocator corruption."
@@ -2405,6 +2650,7 @@ ptr.Initialized = [
     "This should only ever be called with a pointer that was earlier obtained by calling `CString::into_raw`.",
     "The recomputed length must match the original length from the `CString::into_raw` call. This means the `CString::into_raw/from_raw` methods should not be used when passing the string to C functions that can modify the string's length."
 ]
+# Missing
 retval.DualOwned = ["Retakes ownership of a `CString` that was transferred to C via `CString::into_raw`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/ffi/struct.CString.html#method.from_vec_with_nul_unchecked"]
@@ -2453,6 +2699,7 @@ self.Initialized = ["It is up to the caller to guarantee that the value really i
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.from_raw"]
 row = 226
+# Missing
 self.Allocated = [
     "For non-zero-sized values, a `Box` will use the Global allocator for its allocation.",
     "For zero-sized values, the `Box` pointer still has to be valid for reads and writes (always be non-null pointers)."
@@ -2466,6 +2713,7 @@ retval.DualOwned = ["After calling this function, the raw pointer is owned by th
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/boxed/struct.Box.html#method.from_raw_in"]
 row = 227
+# Missing
 self.Allocated = [
     "For non-zero-sized values, a `Box` will use the in the given allocator for its allocation.",
     "For zero-sized values, the `Box` pointer still has to be valid for reads and writes (always be non-null pointers)."
@@ -2623,6 +2871,7 @@ retval.DualOwned = ["The user of `from_raw` has to make sure a specific value of
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.increment_strong_count"]
 row = 251
 ptr.Bounded = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) for the duration of this method."]
+# Missing
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
 
@@ -2635,6 +2884,7 @@ ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`.
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Arc.html#method.decrement_strong_count"]
 row = 253
 ptr.Bounded = ["The associated `Arc` instance must be valid (i.e. the strong count must be at least 1) when invoking this method."]
+# Missing
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have been obtained through `Arc::into_raw`."]
 ptr.Freed = ["This method can be used to release the final `Arc` and backing storage, but should not be called after the final `Arc` has been released."]
@@ -2656,6 +2906,7 @@ self.Initialized = ["The contained value must be of type `T`."]
 
 [unsafe_fn."https://doc.rust-lang.org/alloc/sync/struct.Weak.html#method.from_raw"]
 row = 257
+# Missing
 ptr.Allocated = ["`ptr` must point to a block of memory allocated by the global allocator."]
 ptr.Initialized = ["The pointer must have originated from the `Weak::into_raw` and must still own its potential weak reference."]
 retval.DualOwned = ["It takes ownership of one weak reference. This can be used to deallocate the weak count by dropping the `Weak<T>`."]
@@ -2675,14 +2926,17 @@ row = 260
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpStream.html#method.from_raw_fd"]
+# Link
 row = 261
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpListener.html#method.from_raw_fd"]
+# Link
 row = 261
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.from_raw_fd"]
+# Link
 row = 261
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
@@ -2696,30 +2950,37 @@ row = 263
 fd.SystemIO = ["The resource pointed to by `fd` must be open and suitable for assuming ownership. The resource must not require any cleanup other than `close`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/fd/type.RawFd.html#method.from_raw_fd"]
+# Link
 row = 264
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/fs/struct.File.html#method.from_raw_fd"]
+# Link
 row = 265
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/linux/process/struct.PidFd.html#method.from_raw_fd"]
+# Link
 row = 266
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.from_raw_fd"]
+# Link
 row = 267
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.from_raw_fd"]
+# Link
 row = 268
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.from_raw_fd"]
+# Link
 row = 269
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/process/struct.Stdio.html#method.from_raw_fd"]
+# Link
 row = 270
 fd.SystemIO = ["The `fd` passed in must be an owned file descriptor; in particular, it must be open."]
 
@@ -2728,6 +2989,7 @@ row = 271
 handle.SystemIO = ["The resource pointed to by handle must be a valid open handle, it must remain open for the duration of the returned `BorrowedHandle`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.OwnedHandle.html#method.from_raw_handle"]
+# Link
 row = 272
 handle.SystemIO = [
     "`handle` must be an owned handle; in particular, it must be open.",
@@ -2738,7 +3000,9 @@ handle.SystemIO = [
 row = 273
 handle.SystemIO = [
     "The passed handle value must either satisfy the safety requirements of `FromRawHandle::from_raw_handle` (below), or be null.",
+    # Link
     "`handle` must be an owned handle; in particular, it must be open.",
+    # Link
     "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
 ]
 
@@ -2746,7 +3010,9 @@ handle.SystemIO = [
 row = 274
 handle.SystemIO = [
     "The passed handle value must either satisfy the safety requirements of `FromRawHandle::from_raw_handle` (below), or be `INVALID_HANDLE_VALUE` (-1).",
+    # Link
     "`handle` must be an owned handle; in particular, it must be open.",
+    # Link
     "`handle` must be a handle for a resource that may be freed via `CloseHandle`."
 ]
 
@@ -2758,6 +3024,7 @@ handle.SystemIO = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/std/fs/struct.File.html#method.from_raw_handle"]
+# Link
 row = 276
 handle.SystemIO = [
     "`handle` must be an owned handle; in particular, it must be open.",
@@ -2772,6 +3039,7 @@ sock.SystemIO = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpStream.html#method.from_raw_socket"]
+# Link
 row = 278
 sock.SystemIO = [
     "`sock` must be an owned socket; in particular, it must be open.",
@@ -2779,6 +3047,7 @@ sock.SystemIO = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.TcpListener.html#method.from_raw_socket"]
+# Link
 row = 279
 sock.SystemIO = [
     "`sock` must be an owned socket; in particular, it must be open.",
@@ -2786,6 +3055,7 @@ sock.SystemIO = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.from_raw_socket"]
+# Link
 row = 280
 sock.SystemIO = [
     "`sock` must be an owned socket; in particular, it must be open.",
@@ -2798,6 +3068,7 @@ socket.Bounded = ["The resource pointed to by raw must not have the value `INVAL
 socket.SystemIO = ["The resource pointed to by `raw` must remain open for the duration of the returned `BorrowedSocket`."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/os/windows/io/struct.OwnedSocket.html#method.from_raw_socket"]
+# Link
 row = 282
 socket.SystemIO = [
     "`socket` must be an owned socket; in particular, it must be open.",
@@ -2805,6 +3076,7 @@ socket.SystemIO = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/std/process/struct.Stdio.html#method.from_raw_handle"]
+# Link
 row = 283
 handle.SystemIO = [
     "`handle` must be an owned handle; in particular, it must be open.",
@@ -2812,23 +3084,27 @@ handle.SystemIO = [
 ]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.alloc"]
+# Link
 row = 284
 layout.Layout = ["`layout` has non-zero size."]
 retval.Untyped = ["The allocated block of memory may or may not be initialized."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.alloc_zeroed"]
+# Link
 row = 285
 layout.Layout = ["`layout` has non-zero size."]
 retval.Untyped = ["The allocated block of memory is guaranteed to be initialized but may be untyped."]
 retval.Freed = ["Returning a null pointer indicates that either memory is exhausted."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.dealloc"]
+# Link
 row = 286
 ptr.Allocated = ["`ptr` must denote a block of memory currently allocated via this allocator."]
 layout.Layout = ["`layout` must be the same layout that was used to allocate that block of memory."]
 
 [unsafe_fn."https://doc.rust-lang.org/std/alloc/struct.System.html#method.realloc"]
+# Link
 row = 287
 ptr.Allocated = ["`ptr` must be currently allocated via this allocator."]
 ptr.Freed = ["If this returns a non-null pointer, then ownership of the memory block referenced by `ptr` has been transferred to this allocator."]
@@ -2901,6 +3177,7 @@ row = 301
 x.Bounded = ["Float subtraction that allows optimizations based on algebraic rules. The calculated result cannot overflow `T::MAX` or `T::MIN`."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from.html"]
+# Link
 row = 311
 self.Bounded = [
     "The distance between the pointers, in bytes, cannot overflow an `isize`.",
@@ -2916,6 +3193,7 @@ origin.Allocated = [""]
 origin.Dereferencable = ["`base` must be either in bounds or one byte past the end of the same allocated object."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.ptr_offset_from_unsigned.html"]
+# Link
 row = 312
 ptr.Bounded = [
     "The distance between the pointers, in bytes, cannot overflow an `isize`.",
@@ -2940,12 +3218,16 @@ b.Layout = ["Note that this is a stricter criterion than just the values being f
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unaligned_volatile_load.html"]
 row = 318
+# Missing
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 src.Initialized = ["`src` must point to a properly initialized value of type `T`."]
+# Missing
 src.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 retval.DualOwned = [
     "If `T` is not `Copy`, using both the returned value and the value at `src` can violate memory safety. Note that assigning to `src` counts as a use because it will attempt to drop the value at `src`.",
     "However, storing non-`Copy` types in volatile memory is almost certainly incorrect."
@@ -2953,11 +3235,14 @@ retval.DualOwned = [
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unaligned_volatile_store.html"]
 row = 319
+# Missing
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 dst.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 dst.Leaked = ["This is safe, but it could leak allocations or resources, so care should be taken not to overwrite an object that should be dropped."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.unchecked_add.html"]
@@ -2974,55 +3259,78 @@ x.Bounded = ["Returns the result of an unchecked subtraction, resulting in undef
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.volatile_copy_memory.html"]
 row = 323
+# Missing
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 src.Layout = ["`src` must be properly aligned."]
+# Missing
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 dst.Layout = ["`dst` must be properly aligned."]
+# Missing
 dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+# Missing
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.volatile_copy_nonoverlapping_memory.html"]
 row = 324
+# Missing
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
+# Missing
 src.Layout = ["`src` must be properly aligned."]
+# Missing
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 dst.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
+# Missing
 dst.Layout = ["`dst` must be properly aligned."]
+# Missing
 dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
+# Missing
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.volatile_set_memory.html"]
 row = 325
+# Missing
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 dst.Layout = ["`dst` must be properly aligned ('min_align_of::<T>()')."]
+# Missing
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.vtable_align.html"]
@@ -3035,37 +3343,46 @@ ptr.EST = ["`ptr` must point to a vtable."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.copy.html"]
 row = 328
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 src.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 src.Layout = ["`src` must be properly aligned."]
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.copy_nonoverlapping.html"]
 row = 329
+# Link
 src.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 src.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
 ]
 src.Layout = ["`src` must be properly aligned."]
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = [
     "The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object.",
     "The region of memory beginning at `src` with a size of `count * size_of::<T>()` bytes must not overlap with the region of memory beginning at `dst` with the same size."
@@ -3073,20 +3390,26 @@ dst.Dereferencable = [
 dst.Layout = ["`dst` must be properly aligned."]
 dst.DualOwned = ["If `T` is not `Copy`, using both the values in the region beginning at `self` and the region beginning at `*dst` can violate memory safety. Note that assigning to `*dst` counts as a use because it will attempt to drop the value at `*dst`."]
 dst.Untyped = ["The copy is untyped in the sense that data may be uninitialized or otherwise violate the requirements of `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.drop_in_place.html"]
 row = 330
+# Missing
 to_drop.Allocated = [
     "`to_drop` must be nonnull, even if T has size 0.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Missing
 to_drop.Initialized = ["The value `to_drop` points to must be valid for dropping, which may mean it must uphold additional invariants. These invariants depend on the type of the value being dropped."]
+# Missing
 to_drop.Dereferencable = ["The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object."]
+# Missing
 to_drop.Layout = [
     "`to_drop` must be properly aligned, even if `T` has size 0.",
     "Unaligned values cannot be dropped in place, they must be copied to an aligned location first using `ptr::read_unaligned`."
 ]
+# Missing
 to_drop.Freed = ["Executes the destructor (if any) of the pointed-to value."]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.transmute.html"]
@@ -3109,17 +3432,21 @@ retval.Untyped = ["It is therefore your responsibility to guarantee that every v
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.write_bytes.html"]
 row = 332
+# Link
 dst.Allocated = [
     "A null pointer is never valid, not even for accesses of size zero.",
     "Even for operations of size zero, the pointer must not be pointing to deallocated memory."
 ]
+# Link
 dst.Dereferencable = ["The memory range of the given size (`count * size_of::<T>()` bytes) starting at the pointer must all be within the bounds of a single allocated object."]
 dst.Layout = ["`dst` must be properly aligned."]
 dst.Untyped = ["Additionally, note that changing `dst` in this way can easily lead to undefined behavior (UB) later if the written bytes are not a valid representation of some `T`."]
+# Missing
 dst.Leaked = [""]
 
 [unsafe_fn."https://doc.rust-lang.org/core/intrinsics/fn.transmute_unchecked.html"]
 row = 333
+# Link
 src.Initialized = [
     "Both the argument and the result must be valid at their given type.",
     "To transmute the inner type of the contents of a container, you must make sure to not violate any of the container's invariants."
