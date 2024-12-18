@@ -6,11 +6,11 @@ According to the official document [type-layout](https://doc.rust-lang.org/refer
 
 If requiring a signle pointer $p$ to be alligned, the property can be formularized as:
 
-$$p \text{\%} \text{sizeof}(*p) = 0 $$
+$$p \text{%} \text{sizeof}(*p) = 0 $$
 
 If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as(TO BE FIXED):
 
-$$p1 \text{\%} \text{sizeof}(*p1) = p2 \text{\%} \text{sizeof}(*p2) $$
+$$p1 \text{%} \text{sizeof}(*p1) = p2 \text{%} \text{sizeof}(*p2) $$
 
 An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
 
@@ -23,7 +23,7 @@ In particular, Dynamically Sized Types (DST) are not sized, such as trait object
 
 If requiring a value $v$ of type T to be sized, the property can be formularized as:
 
-$$\text{Sizeof}(v) = \text{Constant}(c) \text{ and } \text{Ptr}(v) \text{\%} \text{Sizeof}(v) = 0$$
+$$\text{Sizeof}(v) = \text{Constant}(c) \text{ and } \text{Ptr}(v) \text{%} \text{Sizeof}(v) = 0$$
 
 ```rust
 core::mem::size_of_raw
