@@ -39,7 +39,7 @@ $$p\text{ is defined and } p! = 0 $$
 ### Non-Dangling 
 The pointer should point to a valid memory address, which is neither freed nor unallocated. Here, the memory includes both stack and heap. According to [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), a pointer to a zero-sized types should also be non-dangling (not sure, should be confirmed).
 
-$$\text{Memory}(p)\text{ is allocated or } p > stack pointer $$
+$$\text{Memory}(p)\text{ is allocated or } p > \text{Address}(stack pointer) $$
 
 [API: get_unchecked](https://doc.rust-lang.org/std/slice/trait.SliceIndex.html#tymethod.get_unchecked)
 
