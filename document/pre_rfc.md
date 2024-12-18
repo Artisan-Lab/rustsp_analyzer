@@ -1,7 +1,7 @@
 # Safety Property
-Their are two types of safety properties:
-**Precondition**: the safety requirements need to be satisfied before calling an unsafe API.
-**Postcondition**: calling the unsafe API leads the program to a vulnerable state.
+Their are two types of safety properties:  
+**Precondition**: the safety requirements need to be satisfied before calling an unsafe API.  
+**Postcondition**: calling the unsafe API leads the program to a vulnerable state.  
 
 ## Layout
 Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html).
