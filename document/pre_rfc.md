@@ -18,8 +18,6 @@ $$p1 \text{\\%} \text{sizeof}(*p1) = p2 \text{\\%} \text{sizeof}(*p2) $$
 
 An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
 
-(TO BE FIXED) requirement about **padding**?
-
 ### Sized 
 According to the official document [Sized](https://doc.rust-lang.org/std/marker/trait.Sized.html) and [type-layout](https://doc.rust-lang.org/reference/type-layout.html), it means the size of the type is known at compile time. The size of a value is always a multiple (including 0) of its alignment. 
 
@@ -50,11 +48,10 @@ $$\text{Memory}(p)\text{ is allocated or } p > \text{Address}(stack pointer) $$
 **Not wild**: the pointer should be initialized and point to an allocated memory space. 
 
 ## Content
-
 ### Initialized (Pre condition)
 The content of the object memory must be initiated, at least partially.
 
-[API: assume_init](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
+[assume_init](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
 
 ### Typed (Precondition or Postcondition)
 The content of the object memory must be fully initiated according to the type. This can be either a precondition or a postcondition
@@ -72,17 +69,15 @@ According to the official document [exotically-sized-types](https://doc.rust-lan
 ### No Numerical Overflow
 The relationship expressions based on numerical operations exhibit clear numerical boundaries. The terms of the expressions can be constants, variables, or the return values of function calls. There are six relational operators including EQ, NE, LT, GT, LE, and GE.
 
-[API: offset_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.offset_from-1)
+[offset_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.offset_from-1)
 
 $$\forall x, y \in Values, \, \forall O \in \{EQ, NE, LT, GT, LE, GE\}, \text{ValidRelationalExpression}(x, y, O) $$
-
-$\text{ValidRelationalExpression}(x, y, O)$：对于给定的数值（或子表达式） $x$ 和 $y$ ，以及运算符 $O$ ，表达式 $xOy$ 必须是合法且有效的关系表达式。关系运算符 $O$ 只能是上述六个关系运算符之一。关系操作结果必须为布尔值，表示 $x$ 和 $y$ 之间的关系。
 
 ### Encoded String:
 
 The encoding format of the string includes UTF-8 string, ASCII string (in bytes), and C-compatible string (nul-terminated trailing with no nul bytes in the middle).
 
-[API: from_utf8_unchecked](https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_unchecked)
+[from_utf8_unchecked](https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_unchecked)
 
 ## Concurrency
 ### Send
@@ -127,7 +122,7 @@ $$\forall v \in Values, T \in Types, \text{Outlived}(v, T) \Leftrightarrow \left
 ```rust
 impl<T> Option<T>::unwrap_unchecked
 ```
-[API: unwrap_unchecked](https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_unchecked)
+[unwrap_unchecked](https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_unchecked)
 
 $$\forall v \in Values, T \in Types, \text{Unreachable}(v, T) \Leftrightarrow \left( \text{TriggersUnreachableFlow}(v, T) \right)$$
 
