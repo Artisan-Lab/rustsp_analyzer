@@ -21,7 +21,8 @@ According to the official document [Sized](https://doc.rust-lang.org/std/marker/
 
 In particular, Dynamically Sized Types (DST) are not sized, such as trait objects and slices; Zero Sized Types (ZST) is sized.
 
-If requiring a value $v$ of type T to be sized, the property can be formularized as
+If requiring a value $v$ of type T to be sized, the property can be formularized as:
+
 $$\text{Sizeof}(v) = constant \text{and} Ptr(v) \text{\%} \text{Sizeof}(v) = 0$$
 
 ```rust
