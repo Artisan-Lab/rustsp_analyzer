@@ -4,14 +4,44 @@ Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-
 ### Aligned 
 According to the official document [type-layout](https://doc.rust-lang.org/reference/type-layout.html), aligned means the memory address to store a value of alignment n must only be a multiple of n. Alignment is measured in bytes, and must be at least 1, and always a power of 2. 
 
-If requiring a signle pointer $p$ to be alligned, the property can be formularized as $$p%sizeof(*p) = 0$$ 
-If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as $$p1%sizeof(*p1) = p2%sizeof(*p2)$$ (TO BE FIXED)
+If requiring a signle pointer $p$ to be alligned, the property can be formularized as $$p\%sizeof(*p) = 0$$ 
+If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as $$p1\%sizeof(*p1) = p2\%sizeof(*p2)$$ (TO BE FIXED)
 
 An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
 
 (TO BE FIXED) requirement about **padding**?
 
-**Non-Null**: A null pointer is never valid, not even for accesses of size zero.
+### Sized 
+According to the official document [Sized](https://doc.rust-lang.org/std/marker/trait.Sized.html) and [type-layout](https://doc.rust-lang.org/reference/type-layout.html), it means the size of the type is known at compile time. The size of a value is always a multiple (including 0) of its alignment. 
+
+In particular, Dynamically Sized Types (DST) are not sized, such as trait objects and slices; Zero Sized Types (ZST) is sized.
+
+If requiring a value $v$ of type T to be sized, the property can be formularized as
+$$Sizeof(v) = constant && Ptr(v)\%Sizeof(v) = 0$$
+
+```rust
+core::mem::size_of_raw
+```
+[API: size_of_raw](https://doc.rust-lang.org/std/mem/fn.size_of_val.html)
+
+
+
+$\text{StaticSize}(T)$：类型 $T$ 的大小是在编译时已知静态值。例如，原始数据类型（如`i32`、`f64`）以及结构体类型。 $\text{DST}(T)$ ：类型 $T$ 是动态大小类型（DST），即其大小在编译时未知。 $\text{ZST}(T)$ ：类型 $T$ 是零大小类型（ZST），不占用内存空间。
+
+### Dereferencable**: 
+According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types). Dereferencable implies nonnull and aligned.
+
+The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object.
+```rust
+impl<T: ?Sized> *mut T::copy_from
+```
+[API: copy_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_from)
+
+$$ \forall p \in P, n \in \mathbb{N}, \text{Dereferencable}(p, n) \Leftrightarrow \left( \exists O \in Objects \, | \, \text{Allocated}(O) \land \text{WithinBounds}(p, n, O) \right)$$
+
+$\text{Dereferencable}(p, n)$：指针 $p$ 是否指向一块大小为 $n$ 的内存区域，并且该区域是合法的、可以被解引用的。 $\text{Allocated}(O)$ ：对象 $O$ 是否已经分配。 $\text{WithinBounds}(p, n, O)$ ：指针 $p$ 所指向的内存区域从 $p$ 开始，长度为 $n$ ，是否完全位于已分配对象 $O$ 的内存范围内。
+
+### Non-Null: A null pointer is never valid, not even for accesses of size zero.
 ```rust
 impl<T: Sized> NonNull<T>::new_unchecked
 ```
@@ -42,17 +72,6 @@ impl<T: ?Sized> *mut T::offset_from {}
 $$\forall x, y \in Values, \, \forall O \in \{EQ, NE, LT, GT, LE, GE\}, \text{ValidRelationalExpression}(x, y, O) $$
 
 $\text{ValidRelationalExpression}(x, y, O)$：对于给定的数值（或子表达式） $x$ 和 $y$ ，以及运算符 $O$ ，表达式 $xOy$ 必须是合法且有效的关系表达式。关系运算符 $O$ 只能是上述六个关系运算符之一。关系操作结果必须为布尔值，表示 $x$ 和 $y$ 之间的关系。
-
----
-**Dereferencable**: The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object.
-```rust
-impl<T: ?Sized> *mut T::copy_from
-```
-[API: copy_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_from)
-
-$$ \forall p \in P, n \in \mathbb{N}, \text{Dereferencable}(p, n) \Leftrightarrow \left( \exists O \in Objects \, | \, \text{Allocated}(O) \land \text{WithinBounds}(p, n, O) \right)$$
-
-$\text{Dereferencable}(p, n)$：指针 $p$ 是否指向一块大小为 $n$ 的内存区域，并且该区域是合法的、可以被解引用的。 $\text{Allocated}(O)$ ：对象 $O$ 是否已经分配。 $\text{WithinBounds}(p, n, O)$ ：指针 $p$ 所指向的内存区域从 $p$ 开始，长度为 $n$ ，是否完全位于已分配对象 $O$ 的内存范围内。
 
 ---
 **Initialized**: The value that has been initialized can be divided into two scenarios: fully initialized and partially initialized.
@@ -91,16 +110,7 @@ $$\forall s \in Strings, \text{Encoded}(s) \Leftrightarrow \left( \text{UTF8}(s)
 
 $\text{UTF8}(s)$：字符串 $s$ 是否符合UTF-8编码格式。 $\text{ASCII}(s)$ ：字符串 $s$ 是否仅包含ASCII字符，并以字节数组形式存储。 $\text{CCompatible}(s)$ ：字符串 $s$ 是否符合C兼容字符串格式，即以空字符结尾且不包含中间的空字符。
 
----
-**Sized**: The restrictions on Exotically Sized Types (EST), including Dynamically Sized Types (DST) that lack a statically known size, such as trait objects and slices; and Zero Sized Types (ZST) that occupy no space.
-```rust
-core::mem::size_of_raw
-```
-[API: size_of_raw](https://doc.rust-lang.org/std/mem/fn.size_of_val.html)
 
-$$\forall T \in Types, \text{Sized}(T) \Leftrightarrow \left( \text{StaticSize}(T) \lor \text{DST}(T) \lor \text{ZST}(T) \right) $$
-
-$\text{StaticSize}(T)$：类型 $T$ 的大小是在编译时已知静态值。例如，原始数据类型（如`i32`、`f64`）以及结构体类型。 $\text{DST}(T)$ ：类型 $T$ 是动态大小类型（DST），即其大小在编译时未知。 $\text{ZST}(T)$ ：类型 $T$ 是零大小类型（ZST），不占用内存空间。
 
 ---
 **Fitted**: The layout (including size and alignment) must be the same layout that was used to allocate that block of memory.
