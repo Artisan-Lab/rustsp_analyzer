@@ -8,10 +8,9 @@ If requiring a signle pointer $p$ to be alligned, the property can be formulariz
 
 $$p \text{\%} \text{sizeof}(*p) = 0 $$
 
-If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as:
+If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as(TO BE FIXED):
 
 $$p1 \text{\%} \text{sizeof}(*p1) = p2 \text{\%} \text{sizeof}(*p2) $$
-(TO BE FIXED)
 
 An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
 
@@ -23,7 +22,7 @@ According to the official document [Sized](https://doc.rust-lang.org/std/marker/
 In particular, Dynamically Sized Types (DST) are not sized, such as trait objects and slices; Zero Sized Types (ZST) is sized.
 
 If requiring a value $v$ of type T to be sized, the property can be formularized as
-$$\text{Sizeof}(v) = constant \text{\&\&} Ptr(v) \text{\%} \text{Sizeof}(v) = 0$$
+$$\text{Sizeof}(v) = constant \text{and} Ptr(v) \text{\%} \text{Sizeof}(v) = 0$$
 
 ```rust
 core::mem::size_of_raw
