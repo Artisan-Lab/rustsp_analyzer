@@ -6,7 +6,7 @@ According to the official document [type-layout](https://doc.rust-lang.org/refer
 
 If requiring a signle pointer $p$ to be alligned, the property can be formularized as:
 
-$$p \bmod \text{sizeof}(*p) = 0 $$
+$$p \, \% \, \text{sizeof}(*p) = 0 $$
 
 If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as(TO BE FIXED):
 
