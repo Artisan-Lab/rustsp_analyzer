@@ -122,10 +122,15 @@ The API leads to a bad state that an object has multiple mutable references.
 
 [as_mut](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut)
 
+### DualOwned (pre or post condition)
+It may create multiple overlapped owners in the ownership system that share the same memory via retaking the owner or creating a bitwise copy.
+
+[from_raw](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_raw)
+
 ### Mutated (pre or post condition)
 The API leads to a bad state that an object owned by an immutable binding (under certain circumstances) could be be mutated through other mutable bindings.
 
-[API: as_ref](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref-1)
+[as_ref](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref-1)
 
 ### Lifetime (pre or post condition) 
 the lifetime of the returned reference must be shorter than the object pointed by the ptr.
@@ -133,17 +138,6 @@ the lifetime of the returned reference must be shorter than the object pointed b
 [from_ptr](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
 
 $$\forall v \in Values, T \in Types, \text{Outlived}(v, T) \Leftrightarrow \left( \exists L, \text{ArbitraryLifetime}(L) \land \text{LifetimeExceedsMemory}(v, L) \right)$$
-
-$\text{ArbitraryLifetime}(L)$：表示存在一个任意的生命周期 $L$ ，其长度可以根据上下文的需求而变长或变短，且通常没有具体的上限。 $\text{LifetimeExceedsMemory}(v, L)$ ：值 $v$ 的生命周期 $L$ 是否超出了它所指向内存的生命周期，即在内存被释放之后，生命周期依然被延长，可能导致引用失效。
-
-### DualOwned**
-It may create multiple overlapped owners in the ownership system that share the same memory via retaking the owner or creating a bitwise copy.
-
-[API: from_raw](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_raw)
-
-$$\forall v \in Values, \text{DualOwned}(T) \Leftrightarrow \left( \exists v_1, v_2 \in Values, \text{OverlappingOwners}(v_1, v_2, T) \right)$$
-
-$\text{OverlappingOwners}(v_1, v_2, T)$：类型为 $T$ 的两个值 $v_1$ 和 $v_2$ 同时拥有对同一内存块的所有权。通过复原所有权（如通过`from_raw`）或者通过创建位拷贝对象（如`read()`）来实现。
 
 ## More
 **Unreachable**: The specific value will trigger unreachable data flow, such as enumeration index (variance), boolean value, etc.
