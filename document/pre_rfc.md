@@ -30,30 +30,17 @@ core::mem::size_of_raw
 ```
 [API: size_of_raw](https://doc.rust-lang.org/std/mem/fn.size_of_val.html)
 
-
-
 $\text{StaticSize}(T)$：类型 $T$ 的大小是在编译时已知静态值。例如，原始数据类型（如`i32`、`f64`）以及结构体类型。 $\text{DST}(T)$ ：类型 $T$ 是动态大小类型（DST），即其大小在编译时未知。 $\text{ZST}(T)$ ：类型 $T$ 是零大小类型（ZST），不占用内存空间。
 
-### Dereferencable**: 
-According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types). Dereferencable implies nonnull and aligned.
+### NonNull
+This property requires the pointer address should not be null. A null pointer is undefined. This property is mainly related to the [NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html) struct and the [ptr::null()](https://doc.rust-lang.org/std/ptr/fn.null.html) function.
 
-The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object.
-```rust
-impl<T: ?Sized> *mut T::copy_from
-```
-[API: copy_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_from)
+$$p\text{ is defined and} p! = 0 $$
 
-$$ \forall p \in P, n \in \mathbb{N}, \text{Dereferencable}(p, n) \Leftrightarrow \left( \exists O \in Objects \, | \, \text{Allocated}(O) \land \text{WithinBounds}(p, n, O) \right)$$
-
-$\text{Dereferencable}(p, n)$：指针 $p$ 是否指向一块大小为 $n$ 的内存区域，并且该区域是合法的、可以被解引用的。 $\text{Allocated}(O)$ ：对象 $O$ 是否已经分配。 $\text{WithinBounds}(p, n, O)$ ：指针 $p$ 所指向的内存区域从 $p$ 开始，长度为 $n$ ，是否完全位于已分配对象 $O$ 的内存范围内。
-
-### Non-Null: A null pointer is never valid, not even for accesses of size zero.
 ```rust
 impl<T: Sized> NonNull<T>::new_unchecked
 ```
 [API: new_unchecked](https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.new_unchecked)
-
-$$\forall p \in P, \neg \text{NullPointer}(p) \Rightarrow \text{ValidPointer}(p)$$
 
 $NullPointer(p)$：指针 $p$ 是否为空（NULL）。 $\text{ValidPointer}(p)$ ：指针 $p$ 是否指向有效的内存区域。该属性要求在任何情况下空指针 $p$ 都不应被当作有效指针来使用。即使是在某些情况下对零大小内存区域的访问，也不应使用空指针。
 
@@ -67,6 +54,19 @@ trait SliceIndex<T: ?Sized>::get_unchecked
 $$\forall p \in P, \forall A \in Memory, \text{Deallocated}(A) \Rightarrow \neg \text{PointsTo}(p, A)$$
 
 $\text{Deallocated}(A)$：内存区域 $A$ 是否已被释放。 $\text{PointsTo}(p, A)$ ：指针 $p$ 是否指向内存区域 $A$ 。该需求要求指针在内存释放后不应继续指向该内存区域，避免出现悬空指针问题。悬空指针指向已释放的内存，可能导致未定义行为。
+
+### Dereferencable**: 
+According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types). Dereferencable implies nonnull and aligned.
+
+The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object.
+```rust
+impl<T: ?Sized> *mut T::copy_from
+```
+[API: copy_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_from)
+
+$$ \forall p \in P, n \in \mathbb{N}, \text{Dereferencable}(p, n) \Leftrightarrow \left( \exists O \in Objects \, | \, \text{Allocated}(O) \land \text{WithinBounds}(p, n, O) \right)$$
+
+$\text{Dereferencable}(p, n)$：指针 $p$ 是否指向一块大小为 $n$ 的内存区域，并且该区域是合法的、可以被解引用的。 $\text{Allocated}(O)$ ：对象 $O$ 是否已经分配。 $\text{WithinBounds}(p, n, O)$ ：指针 $p$ 所指向的内存区域从 $p$ 开始，长度为 $n$ ，是否完全位于已分配对象 $O$ 的内存范围内。
 
 ---
 **Numerical**: The relationship expressions based on numerical operations exhibit clear numerical boundaries. The terms of the expressions can be constants, variables, or the return values of function calls. There are six relational operators including EQ, NE, LT, GT, LE, and GE.
