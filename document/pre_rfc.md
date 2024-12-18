@@ -25,35 +25,23 @@ If requiring a value $v$ of type T to be sized, the property can be formularized
 
 $$\text{Sizeof}(v) = \text{Constant}(c) \text{ and } \text{Ptr}(v) \text{\\%} \text{Sizeof}(v) = 0$$
 
-```rust
-core::mem::size_of_raw
-```
 [API: size_of_raw](https://doc.rust-lang.org/std/mem/fn.size_of_val.html)
 
 $\text{StaticSize}(T)$：类型 $T$ 的大小是在编译时已知静态值。例如，原始数据类型（如`i32`、`f64`）以及结构体类型。 $\text{DST}(T)$ ：类型 $T$ 是动态大小类型（DST），即其大小在编译时未知。 $\text{ZST}(T)$ ：类型 $T$ 是零大小类型（ZST），不占用内存空间。
 
-### NonNull
+### Non-Null
 This property requires the pointer address should not be null. A null pointer is undefined. This property is mainly related to the [NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html) struct and the [ptr::null()](https://doc.rust-lang.org/std/ptr/fn.null.html) function.
 
-$$p\text{ is defined and} p! = 0 $$
+$$p\text{ is defined and } p! = 0 $$
 
-```rust
-impl<T: Sized> NonNull<T>::new_unchecked
-```
 [API: new_unchecked](https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.new_unchecked)
 
-$NullPointer(p)$：指针 $p$ 是否为空（NULL）。 $\text{ValidPointer}(p)$ ：指针 $p$ 是否指向有效的内存区域。该属性要求在任何情况下空指针 $p$ 都不应被当作有效指针来使用。即使是在某些情况下对零大小内存区域的访问，也不应使用空指针。
+### Non-Dangling 
+The pointer should point to a valid memory address, which is neither freed nor unallocated. Here, the memory includes both stack and heap. According to [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), a pointer to a zero-sized types should also be non-dangling (not sure, should be confirmed).
 
----
-**Non-Dangling**: The value must not be pointing to the deallocated memory even for operations of size zero, including data stored in the stack frame and heap chunk.
-```rust
-trait SliceIndex<T: ?Sized>::get_unchecked
-```
+$$\text{Memory}(p)\text{ is allocated or } p > stack pointer $$
+
 [API: get_unchecked](https://doc.rust-lang.org/std/slice/trait.SliceIndex.html#tymethod.get_unchecked)
-
-$$\forall p \in P, \forall A \in Memory, \text{Deallocated}(A) \Rightarrow \neg \text{PointsTo}(p, A)$$
-
-$\text{Deallocated}(A)$：内存区域 $A$ 是否已被释放。 $\text{PointsTo}(p, A)$ ：指针 $p$ 是否指向内存区域 $A$ 。该需求要求指针在内存释放后不应继续指向该内存区域，避免出现悬空指针问题。悬空指针指向已释放的内存，可能导致未定义行为。
 
 ### Dereferencable**: 
 According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types). Dereferencable implies nonnull and aligned.
