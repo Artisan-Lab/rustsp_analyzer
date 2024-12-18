@@ -27,7 +27,7 @@ $$\text{Sizeof}(v) = \text{Constant}(c) \text{ and } \text{Ptr}(v) \text{\\%} \t
 
 [API: size_of_raw](https://doc.rust-lang.org/std/mem/fn.size_of_val.html)
 
-$\text{StaticSize}(T)$：类型 $T$ 的大小是在编译时已知静态值。例如，原始数据类型（如`i32`、`f64`）以及结构体类型。 $\text{DST}(T)$ ：类型 $T$ 是动态大小类型（DST），即其大小在编译时未知。 $\text{ZST}(T)$ ：类型 $T$ 是零大小类型（ZST），不占用内存空间。
+## Pointer Validity
 
 ### Non-Null
 This property requires the pointer address should not be null. A null pointer is undefined. This property is mainly related to the [NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html) struct and the [ptr::null()](https://doc.rust-lang.org/std/ptr/fn.null.html) function.
@@ -37,26 +37,28 @@ $$p\text{ is defined and } p! = 0 $$
 [API: new_unchecked](https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.new_unchecked)
 
 ### Non-Dangling 
-The pointer should point to a valid memory address, which is neither freed nor unallocated. Here, the memory includes both stack and heap. According to [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), a pointer to a zero-sized types should also be non-dangling (not sure, should be confirmed).
+The pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. According to [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), a pointer to a zero-sized types should also be non-dangling (not sure, should be confirmed).
 
 $$\text{Memory}(p)\text{ is allocated or } p > \text{Address}(stack pointer) $$
 
 [API: get_unchecked](https://doc.rust-lang.org/std/slice/trait.SliceIndex.html#tymethod.get_unchecked)
 
-### Dereferencable**: 
-According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types). Dereferencable implies nonnull and aligned.
+### Other Pointer Validity Requirements
+**Not wild**: the pointer should be initialized and point to an allocated memory space. 
+
+## Dereferencable
+Dereferencable implies pointer validity and aligned.
+According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), dereferencable implies nonnull.
 
 The memory range of the given size starting at the pointer must all be within the bounds of a single allocated object.
-```rust
-impl<T: ?Sized> *mut T::copy_from
-```
+
 [API: copy_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_from)
 
 $$ \forall p \in P, n \in \mathbb{N}, \text{Dereferencable}(p, n) \Leftrightarrow \left( \exists O \in Objects \, | \, \text{Allocated}(O) \land \text{WithinBounds}(p, n, O) \right)$$
 
 $\text{Dereferencable}(p, n)$：指针 $p$ 是否指向一块大小为 $n$ 的内存区域，并且该区域是合法的、可以被解引用的。 $\text{Allocated}(O)$ ：对象 $O$ 是否已经分配。 $\text{WithinBounds}(p, n, O)$ ：指针 $p$ 所指向的内存区域从 $p$ 开始，长度为 $n$ ，是否完全位于已分配对象 $O$ 的内存范围内。
 
----
+## Number Overflow
 **Numerical**: The relationship expressions based on numerical operations exhibit clear numerical boundaries. The terms of the expressions can be constants, variables, or the return values of function calls. There are six relational operators including EQ, NE, LT, GT, LE, and GE.
 ```rust
 impl<T: ?Sized> *mut T::offset_from {}
