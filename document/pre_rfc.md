@@ -1,3 +1,15 @@
+## Safety Requirements
+---
+**Aligned**: The value is properly aligned via a specific allocator or the attribute #[repr], including the alignment and the padding.
+```rust
+impl<T: ?Sized> *mut T::swap
+```
+[API: swap](https://doc.rust-lang.org/std/ptr/fn.swap.html)
+
+$$\forall v \in Values, T \in Types, \text{Aligned}(v, T) \Leftrightarrow \left( \text{AlignedByAllocator}(v, T) \lor \text{AlignedByRepr}(v, T) \right)$$
+
+$\text{AlignedByAllocator}(v, T)$：值 $v$ 在内存中的对齐由指定的内存分配器保证。分配器会根据目标平台的对齐要求为类型 $T$ 分配内存。 $\text{AlignedByRepr}(v, T)$ ：值 $v$ 的对齐由`#[repr]`属性指定。`#[repr]`属性用于控制类型的内存布局，确保符合对齐要求，尤其是在涉及结构体和枚举时。此属性可以明确指定对齐值、填充或甚至数据的内存布局。
+
 **Non-Null**: A null pointer is never valid, not even for accesses of size zero.
 ```rust
 impl<T: Sized> NonNull<T>::new_unchecked
@@ -88,17 +100,6 @@ core::mem::size_of_raw
 $$\forall T \in Types, \text{Sized}(T) \Leftrightarrow \left( \text{StaticSize}(T) \lor \text{DST}(T) \lor \text{ZST}(T) \right) $$
 
 $\text{StaticSize}(T)$：类型 $T$ 的大小是在编译时已知静态值。例如，原始数据类型（如`i32`、`f64`）以及结构体类型。 $\text{DST}(T)$ ：类型 $T$ 是动态大小类型（DST），即其大小在编译时未知。 $\text{ZST}(T)$ ：类型 $T$ 是零大小类型（ZST），不占用内存空间。
-
----
-**Aligned**: The value is properly aligned via a specific allocator or the attribute #[repr], including the alignment and the padding.
-```rust
-impl<T: ?Sized> *mut T::swap
-```
-[API: swap](https://doc.rust-lang.org/std/ptr/fn.swap.html)
-
-$$\forall v \in Values, T \in Types, \text{Aligned}(v, T) \Leftrightarrow \left( \text{AlignedByAllocator}(v, T) \lor \text{AlignedByRepr}(v, T) \right)$$
-
-$\text{AlignedByAllocator}(v, T)$：值 $v$ 在内存中的对齐由指定的内存分配器保证。分配器会根据目标平台的对齐要求为类型 $T$ 分配内存。 $\text{AlignedByRepr}(v, T)$ ：值 $v$ 的对齐由`#[repr]`属性指定。`#[repr]`属性用于控制类型的内存布局，确保符合对齐要求，尤其是在涉及结构体和枚举时。此属性可以明确指定对齐值、填充或甚至数据的内存布局。
 
 ---
 **Fitted**: The layout (including size and alignment) must be the same layout that was used to allocate that block of memory.
