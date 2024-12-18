@@ -5,9 +5,11 @@ Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-
 According to the official document [type-layout](https://doc.rust-lang.org/reference/type-layout.html), aligned means the memory address to store a value of alignment n must only be a multiple of n. Alignment is measured in bytes, and must be at least 1, and always a power of 2. 
 
 If requiring a signle pointer $p$ to be alligned, the property can be formularized as:
+
 $$p\% \text{sizeof}(*p) = 0 $$
 
 If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as:
+
 $$p1\% \text{sizeof}(*p1) = p2 \% \text{sizeof}(*p2) $$
 (TO BE FIXED)
 
