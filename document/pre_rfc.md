@@ -1,4 +1,8 @@
-# Safety Requirements
+# Safety Property
+Their are two types of safety properties:
+**Precondition**: the safety requirements need to be satisfied before calling an unsafe API.
+**Postcondition**: calling the unsafe API leads the program to a vulnerable state.
+
 ## Layout
 Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html).
 ### Aligned 
@@ -46,6 +50,18 @@ $$\text{Memory}(p)\text{ is allocated or } p > \text{Address}(stack pointer) $$
 ### Other Pointer Validity Requirements
 **Not wild**: the pointer should be initialized and point to an allocated memory space. 
 
+## Content
+
+### Initialized (Pre condition)
+The content of the object memory must be initiated, at least partially.
+
+[API: assume_init](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
+
+### Typed (Precondition or Postcondition)
+The content of the object memory must be fully initiated according to the type. This can be either a precondition or a postcondition
+
+For example, the API [read](https://doc.rust-lang.org/std/primitive.pointer.html#method.read) has a precondition that the pointed memory should be typed. On the other hand, the API [alloc_zeored](https://doc.rust-lang.org/std/alloc/fn.alloc_zeroed.html) create a threat that the resulting object is not typed. 
+
 ## Dereferencable
 Dereferencable implies pointer validity and aligned.
 According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), dereferencable implies nonnull.
@@ -57,32 +73,6 @@ The memory range of the given size starting at the pointer must all be within th
 $$ \forall p \in P, n \in \mathbb{N}, \text{Dereferencable}(p, n) \Leftrightarrow \left( \exists O \in Objects \, | \, \text{Allocated}(O) \land \text{WithinBounds}(p, n, O) \right)$$
 
 $\text{Dereferencable}(p, n)$：指针 $p$ 是否指向一块大小为 $n$ 的内存区域，并且该区域是合法的、可以被解引用的。 $\text{Allocated}(O)$ ：对象 $O$ 是否已经分配。 $\text{WithinBounds}(p, n, O)$ ：指针 $p$ 所指向的内存区域从 $p$ 开始，长度为 $n$ ，是否完全位于已分配对象 $O$ 的内存范围内。
-
-## Content
-
-### Initialized: The value that has been initialized can be divided into two scenarios: fully initialized and partially initialized.
-```rust
-impl<T> MaybeUninit<T>::assume_init
-```
-[API: assume_init](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
-
-$$\forall v \in Values, \text{Initialized}(v) \Leftrightarrow \left( \text{FullyInitialized}(v) \lor \text{PartiallyInitialized}(v) \right)$$
-
-$$\text{FullyInitialized}(v) \Leftrightarrow \forall f \in Fields(v), \text{Initialized}(f)$$
-
-$$\text{PartiallyInitialized}(v) \Leftrightarrow \exists f \in Fields(v), \neg \text{Initialized}(f) $$
-
-$\text{FullyInitialized}(v)$：值 $v$ 的所有域、元素都已初始化。 $\text{PartiallyInitialized}(v)$ ：值 $v$ 的某些域或元素已初始化，而其他部分尚未初始化。 $Fields(v)$ ：表示值 $v$ 的所有域或元素。
-
-
-### Typed
-**Precondition**: The bit pattern of the initialized value must be valid at the given type and uphold additional invariants for generics.
-[API: read](https://doc.rust-lang.org/std/primitive.pointer.html#method.read)
-
-**Post Condition**: Untyped. The value may not be in the initialized state, or the byte pattern represents an invalid value of its type.
-
-[API: alloc_zeored](https://doc.rust-lang.org/std/alloc/fn.alloc_zeroed.html)
-
 
 ## Numbers and Strings
 ### No Numerical Overflow
