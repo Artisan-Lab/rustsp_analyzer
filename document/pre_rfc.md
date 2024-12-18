@@ -1,14 +1,15 @@
 ## Safety Requirements
----
-**Aligned**: The value is properly aligned via a specific allocator or the attribute #[repr], including the alignment and the padding.
-```rust
-impl<T: ?Sized> *mut T::swap
-```
-[API: swap](https://doc.rust-lang.org/std/ptr/fn.swap.html)
+### Layout
+Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html).
+### Aligned 
+According to the official document [type-layout](https://doc.rust-lang.org/reference/type-layout.html), aligned means the memory address to store a value of alignment n must only be a multiple of n. Alignment is measured in bytes, and must be at least 1, and always a power of 2. 
 
-$$\forall v \in Values, T \in Types, \text{Aligned}(v, T) \Leftrightarrow \left( \text{AlignedByAllocator}(v, T) \lor \text{AlignedByRepr}(v, T) \right)$$
+If requiring a signle pointer $p$ to be alligned, the property can be formularized as $$p%sizeof(*p) = 0$$ 
+If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as $$p1%sizeof(*p1) = p2%sizeof(*p2)$$ (TO BE FIXED)
 
-$\text{AlignedByAllocator}(v, T)$：值 $v$ 在内存中的对齐由指定的内存分配器保证。分配器会根据目标平台的对齐要求为类型 $T$ 分配内存。 $\text{AlignedByRepr}(v, T)$ ：值 $v$ 的对齐由`#[repr]`属性指定。`#[repr]`属性用于控制类型的内存布局，确保符合对齐要求，尤其是在涉及结构体和枚举时。此属性可以明确指定对齐值、填充或甚至数据的内存布局。
+An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
+
+(TO BE FIXED) requirement about **padding**?
 
 **Non-Null**: A null pointer is never valid, not even for accesses of size zero.
 ```rust
