@@ -81,14 +81,8 @@ $\text{ValidRelationalExpression}(x, y, O)$：对于给定的数值（或子表�
 ### Encoded String:
 
 The encoding format of the string includes UTF-8 string, ASCII string (in bytes), and C-compatible string (nul-terminated trailing with no nul bytes in the middle).
-```rust
-impl String::from_utf8_unchecked
-```
+
 [API: from_utf8_unchecked](https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_unchecked)
-
-$$\forall s \in Strings, \text{Encoded}(s) \Leftrightarrow \left( \text{UTF8}(s) \lor \text{ASCII}(s) \lor \text{CCompatible}(s) \right)$$
-
-$\text{UTF8}(s)$：字符串 $s$ 是否符合UTF-8编码格式。 $\text{ASCII}(s)$ ：字符串 $s$ 是否仅包含ASCII字符，并以字节数组形式存储。 $\text{CCompatible}(s)$ ：字符串 $s$ 是否符合C兼容字符串格式，即以空字符结尾且不包含中间的空字符。
 
 ## Concurrency
 ### Send
@@ -96,25 +90,14 @@ The type can be transferred across threads.
 
 [trati: Send](https://doc.rust-lang.org/std/marker/trait.Send.html)
 
-$$\forall T \in Types, \text{Send}(T) \Leftrightarrow \left( \forall v \in Values, \text{ThreadSafe}(v, T) \right)$$
-
-$\text{ThreadSafe}(v, T)$：类型 $T$ 的值 $v$ 是否在线程间传递时是线程安全的。通常， $v$ 不包含可变的、共享的状态，或采用了适当的同步机制（如锁、原子操作等）来确保线程安全。
-
 ### Sync 
 The type can be safe to share references between threads.
 [trait: Sync](https://doc.rust-lang.org/std/marker/trait.Sync.html)
-
-$$\forall T \in Types, \text{Sync}(T) \Leftrightarrow \left( \forall v \in Values, \text{SafeSharedReference}(v, T) \right)$$
-
-$\text{SafeSharedReference}(v, T)$：类型 $T$ 的值 $v$ 是否能够在多个线程之间安全地共享引用而不会出现数据竞争或不一致的状态。
 
 ## Pinned (Postcondition? both pre and post?)
 A vulnerable state that the value may be moved.
 
 [new_unchecked](https://doc.rust-lang.org/std/pin/struct.Pin.html#method.new_unchecked)
-
-$\text{ShouldBePinned}(v, T)$：值 $v$ 是否应该被固定在内存中，不应被移动。类型 $T$ 需要保证固定，例如通过`Pin<T>`来防止移动。 $\text{MovedDespitePinning}(v, T)$ ：值 $v$ 是否被错误地移动，尽管它应该被固定。移动固定值可能导致不可预期的行为，尤其是在涉及到非堆分配的类型时。
-
 
 ## Ownership
 ### Aliased (post condition)
