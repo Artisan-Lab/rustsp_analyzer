@@ -23,7 +23,7 @@ In particular, Dynamically Sized Types (DST) are not sized, such as trait object
 
 If requiring a value $v$ of type T to be sized, the property can be formularized as:
 
-$$\text{Sizeof}(v) = constant \text{and} Ptr(v) \text{\%} \text{Sizeof}(v) = 0$$
+$$\text{Sizeof}(v) = Constant(c) \text{ and } Ptr(v) \text{\%} \text{Sizeof}(v) = 0$$
 
 ```rust
 core::mem::size_of_raw
