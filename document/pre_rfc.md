@@ -6,11 +6,11 @@ According to the official document [type-layout](https://doc.rust-lang.org/refer
 
 If requiring a signle pointer $p$ to be alligned, the property can be formularized as:
 
-$$p\% \text{sizeof}(*p) = 0 $$
+$$p \text{\%} \text{sizeof}(*p) = 0 $$
 
 If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as:
 
-$$p1\% \text{sizeof}(*p1) = p2 \% \text{sizeof}(*p2) $$
+$$p1 \text{\%} \text{sizeof}(*p1) = p2 \text{\%} \text{sizeof}(*p2) $$
 (TO BE FIXED)
 
 An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
