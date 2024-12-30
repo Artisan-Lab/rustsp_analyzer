@@ -1,14 +1,21 @@
 # Privimitive Safety Properties for Rust Contract Design
 
-[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)
-[MCP759](https://github.com/rust-lang/compiler-team/issues/759)
+This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
+
+[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md).  
+[MCP759](https://github.com/rust-lang/compiler-team/issues/759)  
 [std-contracts-2025h1](https://rust-lang.github.io/rust-project-goals/2025h1/std-contracts.html)
 
-Their are two types of safety properties:  
-**Precondition**: the safety requirements need to be satisfied before calling an unsafe API.  
-**Postcondition**: calling the unsafe API leads the program to a vulnerable state.  
+## Overall Idea
+In contract design, there are two types of safety properties:
 
-## Layout
+**Precondition**: Safety requirements that must be satisfied before calling an unsafe API.  
+**Postcondition**: Traditionally, this refers to properties the system must satisfy after the API call. However, in Rust, it signifies that calling an unsafe API may leave the program in a vulnerable state.  
+
+Sometimes, it can be challenging to classify a safety property as either a precondition or a postcondition. To address this, we further break down safety properties into primitives. Each primitive safety property can serve as either a precondition or a postcondition, depending on the context. The idea also addresses the ambiguity of certain high-level or compound safety properties, such as a "valid pointer." In practice, a valid pointer must satisfy several primitive conditions, including being non-null, non-dangling, and pointing to an object of type T. We will elaborate on these details in the sections that follow.
+
+## Primitive Safety Properties
+### Layout-related Primitives
 Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html).
 ### Aligned 
 According to the official document [type-layout](https://doc.rust-lang.org/reference/type-layout.html), aligned means the memory address to store a value of alignment n must only be a multiple of n. Alignment is measured in bytes, and must be at least 1, and always a power of 2. 
