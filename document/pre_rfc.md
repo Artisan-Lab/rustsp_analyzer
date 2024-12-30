@@ -1,4 +1,9 @@
-# Safety Property
+# Privimitive Safety Properties for Rust Contract Design
+
+[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)
+[MCP759](https://github.com/rust-lang/compiler-team/issues/759)
+[std-contracts-2025h1](https://rust-lang.github.io/rust-project-goals/2025h1/std-contracts.html)
+
 Their are two types of safety properties:  
 **Precondition**: the safety requirements need to be satisfied before calling an unsafe API.  
 **Postcondition**: calling the unsafe API leads the program to a vulnerable state.  
