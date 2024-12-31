@@ -2,9 +2,9 @@
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
-[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)
+[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)  
 [MCP759](https://github.com/rust-lang/compiler-team/issues/759)  
-[std-contracts-2025h1](https://rust-lang.github.io/rust-project-goals/2025h1/std-contracts.html)
+[std-contracts-2025h1](https://rust-lang.github.io/rust-project-goals/2025h1/std-contracts.html)  
 
 ## Overall Idea
 In contract design, there are two types of safety properties:
@@ -21,7 +21,7 @@ Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-
 #### Alignment
 Alignment is measured in bytes. It must be at least 1, and is always a power of 2. It can be represented as $2^x, s.t. x\ge 0$. We say the memory address of a Type T is aligned if the address is a multiple of alignment(T). We can formulate an alignment requirement as:
 
-$$\text{addressof}(\text{instance}(T)) \text{ \% } \text{alignment(T)} = 0$$
+$$\text{addressof}(\text{instance}(T)) \text{ % } \text{alignment(T)} = 0$$
 
 If requiring a pointer $p$ of type T* to be aligned, the property can be formularized as:
 $$p \text{ \% } \text{alignment(T)} = 0$$
