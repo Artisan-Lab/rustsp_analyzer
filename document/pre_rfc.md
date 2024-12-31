@@ -49,22 +49,15 @@ An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsic
 ### II. Pointer-related Primitives
 
 #### Validity
+Refering to the documents about [pointer validity](https://doc.rust-lang.org/std/ptr/index.html#safety), whether a pointer is valid depends on the context of pointer usage, and there are several specific attributes related to pointer validity, non-null, non-wild, non-dangling, point-to-T.
 
-Non-Null
-This property requires the pointer address should not be null for non zero-sized objects. The address of a null pointer is undefined. Note that accodring to the document of [safety](https://doc.rust-lang.org/std/ptr/index.html#safety), a null pointer to a zero-sized object is valid. This property is mainly related to the [NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html) struct and the [ptr::null()](https://doc.rust-lang.org/std/ptr/fn.null.html) function. 
-$$p\text{ is defined and } p! = 0 $$
+- Non-null: The pointer address should not be null, and the address of a null pointer is undefined. This attribute is **confusing** at the current stage, see [pull/134912](https://github.com/rust-lang/rust/pull/134912).
+- Non-wild: The pointer address should points to a memory address that has been allocated by the system, either on heap or stack. Accessing a wild pointer may triger segmentation fault.
+- Non-dangling: The pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. (TO SOLVE: Whehter a dangling pointer to a zero-sized type is valid?).
+- Point-to-T: The pointer must point to a memory unit of type T.
 
-[API: new_unchecked](https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.new_unchecked)
-
-Non-Dangling 
-The pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. According to [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), a pointer to a zero-sized types should also be non-dangling (not sure, should be confirmed).
-
-$$\text{Memory}(p)\text{ is allocated or } p > \text{Address}(stack pointer) $$
-
-[API: get_unchecked](https://doc.rust-lang.org/std/slice/trait.SliceIndex.html#tymethod.get_unchecked)
-
-Other Pointer Validity Requirements
-**Not wild**: the pointer should be initialized and point to an allocated memory space. 
+We may design the requirement of a valid pointer for a particular API by combining these attributes. 
+ $\text{valid}(p) \subseteq {non-null, non-wild non-dangling, point-to-T}$
 
 #### Bounded
 
