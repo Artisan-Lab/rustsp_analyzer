@@ -1,4 +1,4 @@
-# Privimitive Safety Properties for Rust Contract Design
+![image](https://github.com/user-attachments/assets/d6c38c49-e9ca-4ef1-bce1-8d5ea5388e0c)![image](https://github.com/user-attachments/assets/56ce53a2-71a7-4f46-a41b-c47dd3c64c7d)# Privimitive Safety Properties for Rust Contract Design
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
@@ -12,49 +12,66 @@ In contract design, there are two types of safety properties:
 **Precondition**: Safety requirements that must be satisfied before calling an unsafe API.  
 **Postcondition**: Traditionally, this refers to properties the system must satisfy after the API call. However, in Rust, it signifies that calling an unsafe API may leave the program in a vulnerable state.  
 
-Sometimes, it can be challenging to classify a safety property as either a precondition or a postcondition. To address this, we further break down safety properties into primitives. Each primitive safety property can serve as either a precondition or a postcondition, depending on the context. The idea also addresses the ambiguity of certain high-level or compound safety properties, such as a "valid pointer." In practice, a valid pointer may need to satisfy several primitive conditions, including being non-null, non-dangling, and pointing to an object of type T. We will elaborate on these details in the sections that follow.
+Sometimes, it can be challenging to classify a safety property as either a precondition or a postcondition. To address this, we further break down safety properties into primitives. Each primitive safety property can serve as either a precondition or a postcondition, depending on the context. The idea also addresses the ambiguity of certain high-level or compound safety properties, such as a ``valid pointer.'' In practice, a valid pointer may need to satisfy several primitive conditions, including being non-null, non-dangling, and pointing to an object of type T. We will elaborate on these details in the sections that follow.
 
 ## Primitive Safety Properties
-### Layout-related Primitives
+### I. Layout-related Primitives
 Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html), we define three primitives: alignment, size, and padding.
 
-**alignment** is measured in bytes. It must be at least 1, and is always a power of 2. It can be represented as $2^x, s.t. x\ge 0$. We say the memory address of a Type T is aligned if the address is a multiple of alignment(T). We can formulate an alignment requirement as:
+#### Alignment
+Alignment is measured in bytes. It must be at least 1, and is always a power of 2. It can be represented as $2^x, s.t. x\ge 0$. We say the memory address of a Type T is aligned if the address is a multiple of alignment(T). We can formulate an alignment requirement as:
 
-$$\text{Addressof}(Instance(T)) % \text{Alignment(T)} = 0$$
+$$\text{addressof}(\text{instance}(T)) \% \text{alignment(T)} = 0$$
 
 If requiring a pointer $p$ of type T* to be aligned, the property can be formularized as:
-$$p % \text{Alignment(T)} = 0$$
+$$p \% \text{alignment(T)} = 0$$
 
-An example API is[ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
+An example API is [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
 
-### Sized 
-According to the official document [Sized](https://doc.rust-lang.org/std/marker/trait.Sized.html) and [type-layout](https://doc.rust-lang.org/reference/type-layout.html), it means the size of the type is known at compile time. The size of a value is always a multiple (including 0) of its alignment. 
+#### Size 
+The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T)\%\text{alignment}(T)=0$. 
 
-In particular, Dynamically Sized Types (DST) are not sized, such as trait objects and slices; Zero Sized Types (ZST) is sized.
+A safety property may require the size to be not ZST. We can formulate the requirement as $\text{sizeof}(T)!=0$
 
-If requiring a value $v$ of type T to be sized, the property can be formularized as:
+An example API is the [offset_from](https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from) method of NonNull.
 
-$$\text{Sizeof}(v) = \text{Constant}(c) \text{ and } \text{Ptr}(v) \text{\\%} \text{Sizeof}(v) = 0$$
+#### Padding 
+Padding is the unused space required between successive elements in an array, and it will be considered when calculating the size of the element. For example, the following data structure has 1 byte padding, and its size is 4.
+```rust
+struct MyStruct { a: u16,  b: u8 } // alignment: 2; padding 1
+mem::size_of::<MyStruct>(); // size: 4
+```
 
-[API: size_of_raw](https://doc.rust-lang.org/std/mem/fn.size_of_val.html)
+A safety property may require the type T has no padding. We can formulate the requirement as $\text{padding}(T)!=0$
 
-## Pointer Validity
+An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html) function.
 
-### Non-Null
+### Pointer
+
+#### Validity
+
+Non-Null
 This property requires the pointer address should not be null for non zero-sized objects. The address of a null pointer is undefined. Note that accodring to the document of [safety](https://doc.rust-lang.org/std/ptr/index.html#safety), a null pointer to a zero-sized object is valid. This property is mainly related to the [NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html) struct and the [ptr::null()](https://doc.rust-lang.org/std/ptr/fn.null.html) function. 
 $$p\text{ is defined and } p! = 0 $$
 
 [API: new_unchecked](https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.new_unchecked)
 
-### Non-Dangling 
+Non-Dangling 
 The pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. According to [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), a pointer to a zero-sized types should also be non-dangling (not sure, should be confirmed).
 
 $$\text{Memory}(p)\text{ is allocated or } p > \text{Address}(stack pointer) $$
 
 [API: get_unchecked](https://doc.rust-lang.org/std/slice/trait.SliceIndex.html#tymethod.get_unchecked)
 
-### Other Pointer Validity Requirements
+Other Pointer Validity Requirements
 **Not wild**: the pointer should be initialized and point to an allocated memory space. 
+
+#### Bounded
+
+#### Overlap
+
+#### Allocator
+
 
 ## Content
 ### Initialized (Pre condition)
