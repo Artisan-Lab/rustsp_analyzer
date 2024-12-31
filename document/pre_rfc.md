@@ -63,7 +63,7 @@ Refering to the documents about [pointer validity](https://doc.rust-lang.org/std
 
 We may design the requirement of a valid pointer for a particular API by combining these attributes. 
 
-$$\text{valid}(p) \subseteq \lbrace non-null, non-wild non-dangling, point-to-T \rbrace$$
+$$\text{valid}(p) \subseteq \lbrace non-null, non-wild, non-dangling, point-to-T \rbrace$$
 
 For example, 
 
@@ -77,6 +77,7 @@ For example,
 
 
 ### Content-related Primitives
+
 #### Initialization
 
 #### Integer
