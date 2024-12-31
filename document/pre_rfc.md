@@ -21,15 +21,15 @@ Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-
 #### Alignment
 Alignment is measured in bytes. It must be at least 1, and is always a power of 2. It can be represented as $2^x, s.t. x\ge 0$. We say the memory address of a Type T is aligned if the address is a multiple of alignment(T). We can formulate an alignment requirement as:
 
-$$\text{addressof}(\text{instance}(T)) \\% \text{alignment(T)} = 0$$
+$$\text{addressof}(\text{instance}(T)) \\% \text{alignment}(T) = 0$$
 
 If requiring a pointer $p$ of type T* to be aligned, the property can be formularized as:
-$$p \text{ \% } \text{alignment(T)} = 0$$
+$$p \\% \text{alignment}(T) = 0$$
 
 An example API is [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
 
 #### Size 
-The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T) \text{ \% } \text{alignment}(T)=0$. 
+The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T) \\% \text{alignment}(T)=0$. 
 
 A safety property may require the size to be not ZST. We can formulate the requirement as $\text{sizeof}(T)!=0$
 
