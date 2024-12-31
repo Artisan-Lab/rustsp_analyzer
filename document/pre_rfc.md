@@ -2,7 +2,7 @@
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
-[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)  
+[Rust Contracts RFC (draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)  
 [MCP759](https://github.com/rust-lang/compiler-team/issues/759)  
 [std-contracts-2025h1](https://rust-lang.github.io/rust-project-goals/2025h1/std-contracts.html)  
 
@@ -64,11 +64,11 @@ $$ p != null $$
 #### e) Allocation (Primitive)
 To indicate whether the memory address pointed by the pointer is available to use or has been allocated by the system, either on heap or stack. There is a related safety requirements non-dangling, which means the pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. We can fomulate the requirement as 
 
-$$ alloca(p) \in {GlobalAllocator, OtherAllocator, stack} $$
+$$ \text{alloca}(p) \in \{GlobalAllocator, OtherAllocator, stack\} $$
 
 Besides, some properties may require the allocator to be consistent, i.e., the memory address pointed by the pointer p should be allocated by a specific allocator, like the GlobalAllocator.
 
-$$ alloca(p) = GlobalAllocator $$
+$$ \text{alloca}(p) = GlobalAllocator $$
 
 
 #### f) Point-to (Primitive)
