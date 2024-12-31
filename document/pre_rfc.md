@@ -34,7 +34,7 @@ The size of a value is the offset in bytes between successive elements in an a
 
 A safety property may require the size to be not ZST. We can formulate the requirement as 
 
-$$\text{sizeof}(T)!=0$$
+$$\text{sizeof}(T) > 0$$
 
 An example API is the [offset_from](https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from) method of NonNull.
 
@@ -64,7 +64,7 @@ $$ p != null $$
 #### e) Allocation (Primitive)
 To indicate whether the memory address pointed by the pointer is available to use or has been allocated by the system, either on heap or stack. There is a related safety requirements non-dangling, which means the pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. We can fomulate the requirement as 
 
-$$ \text{alloca}(p) \in \{GlobalAllocator, OtherAllocator, stack\} $$
+$$ \text{alloca}(p) \in \lbrace GlobalAllocator, OtherAllocator, stack \rbrace $$
 
 Besides, some properties may require the allocator to be consistent, i.e., the memory address pointed by the pointer p should be allocated by a specific allocator, like the GlobalAllocator.
 
