@@ -100,7 +100,7 @@ Example API: [ptr::copy()](https://doc.rust-lang.org/std/ptr/fn.copy.html)
 
 It may also require the two pointers do not overlap with respect to $T\times n$ : 
 
-$$ p_{dst} - p_{src} > \text{sizeof}(T) * n && p_{src} - p_{dst} > \text{sizeof}(T) * n $$
+$$ |p_{dst} - p_{src}| > \text{sizeof}(T) * n $$
 
 Example API: [ptr::copy_nonoverlapping()](https://doc.rust-lang.org/std/ptr/fn.copy_nonoverlapping.html)
  
