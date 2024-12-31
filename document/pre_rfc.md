@@ -94,7 +94,7 @@ Example API: [ptr::offset()](https://doc.rust-lang.org/std/primitive.pointer.htm
 
 A safety property may require the two pointers do not overlap with respect to T: 
 
-$$ p_{dst} - p_{src} > \text{sizeof}(T)$$
+$$ |p_{dst} - p_{src}| > \text{sizeof}(T)$$
 
 Example API: [ptr::copy()](https://doc.rust-lang.org/std/ptr/fn.copy.html) 
 
@@ -106,30 +106,29 @@ Example API: [ptr::copy_nonoverlapping()](https://doc.rust-lang.org/std/ptr/fn.c
  
 ### Content-related Primitives
 
-#### Initialization
+#### g) Initialization
 
-#### Integer
+#### h) Integer
 
-#### String
+#### i) String
 
-#### Unwrap
+#### j) Unwrap
 
 ### Alias-related Primitives
 
-#### Onwership
+#### k) Onwership
 
-#### Lifetime
+#### l) Lifetime
 
-#### Alias
+#### m) Alias
 
 ### Advanced Primitives
 
-#### Trait
+#### n) Trait
 
-#### Thread-Safe
+#### o) Thread-Safe
 
-#### Pin
+#### p) Pin
 
-#### I/O
-opened, volatile
+#### q) I/O
 
