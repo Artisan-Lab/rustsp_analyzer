@@ -21,15 +21,15 @@ Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-
 #### Alignment
 Alignment is measured in bytes. It must be at least 1, and is always a power of 2. It can be represented as $2^x, s.t. x\ge 0$. We say the memory address of a Type T is aligned if the address is a multiple of alignment(T). We can formulate an alignment requirement as:
 
-$$\text{addressof}(\text{instance}(T)) \% \text{alignment(T)} = 0$$
+$$\text{addressof}(\text{instance}(T)) \text{ \% } \text{alignment(T)} = 0$$
 
 If requiring a pointer $p$ of type T* to be aligned, the property can be formularized as:
-$$p \% \text{alignment(T)} = 0$$
+$$p \text{ \% } \text{alignment(T)} = 0$$
 
 An example API is [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
 
 #### Size 
-The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T)\%\text{alignment}(T)=0$. 
+The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T) \text{ \% } \text{alignment}(T)=0$. 
 
 A safety property may require the size to be not ZST. We can formulate the requirement as $\text{sizeof}(T)!=0$
 
@@ -46,7 +46,7 @@ A safety property may require the type T has no padding. We can formulate the re
 
 An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html) function.
 
-### Pointer
+### II. Pointer-related Primitives
 
 #### Validity
 
@@ -143,46 +143,3 @@ the lifetime of the returned reference must be shorter than the object pointed b
 
 $$\forall v \in Values, T \in Types, \text{Outlived}(v, T) \Leftrightarrow \left( \exists L, \text{ArbitraryLifetime}(L) \land \text{LifetimeExceedsMemory}(v, L) \right)$$
 
-## More
-**Unreachable**: The specific value will trigger unreachable data flow, such as enumeration index (variance), boolean value, etc.
-```rust
-impl<T> Option<T>::unwrap_unchecked
-```
-[unwrap_unchecked](https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_unchecked)
-
-$$\forall v \in Values, T \in Types, \text{Unreachable}(v, T) \Leftrightarrow \left( \text{TriggersUnreachableFlow}(v, T) \right)$$
-
-$\text{TriggersUnreachableFlow}(v, T)$：值 $v$ 是否会导致不可达的数据流或控制流路径。例如，在枚举类型中，如果一个值代表了一个不可能的枚举成员，或者布尔值总是为`true`或`false`（取决于上下文），则它触发不可达路径。
-
----
-**SystemIO**: The variable is related to the system IO and depends on the target platform, including TCP sockets, handles, and file descriptors.
-```rust
-trait FromRawFd::from_raw_fd
-```
-[trait: from_raw_fd](https://doc.rust-lang.org/std/os/fd/trait.FromRawFd.html)
-
-$$forall v \in Variables, T \in Types, \text{SystemIO}(v, T) \Leftrightarrow \left( \text{TCPSockets}(v, T) \lor \text{Handles}(v, T) \lor \text{FileDescriptors}(v, T) \right)$$
-
-$\text{TCPSockets}(v, T)$：变量 $v$ 是否代表一个TCP套接字，该套接字的行为由操作系统的网络栈管理。 $\text{Handles}(v, T)$ ：变量 $v$ 是否代表一个操作系统句柄，如进程句柄、窗口句柄或其他系统级资源的句柄 $\text{FileDescriptors}(v, T)$ ：变量 $v$ 是否代表一个文件描述符，通常用于表示文件、管道或套接字等文件系统资源。
-
-**Freed**:The value may be manually freed or automated dropped.
-```rust
-impl<T: ?Sized> ManuallyDrop<T>::drop
-```
-[API: drop](https://doc.rust-lang.org/std/mem/struct.ManuallyDrop.html#method.drop)
-
-$$\forall v \in Values, T \in Types, \text{Freed}(v, T) \Leftrightarrow \left( \text{ManuallyFreed}(v, T) \lor \text{AutomaticallyDropped}(v, T) \right)$$
-
-$\text{ManuallyFreed}(v, T)$：值 $v$ 是否已经通过手动释放导致内存被回收，内存区域已经不再有效。 $\text{AutomaticallyDropped}(v, T)$ ：值 $v$ 是否已经通过自动释放机制`drop()`被销毁，自动内存管理系统会在所有权转移或作用域结束时自动丢弃值。
-
----
-**Leaked**: The value may be leaked or escaped from the ownership system.
-```rust
-impl<T: ?Sized> *mut T::write
-```
-[API: write](https://doc.rust-lang.org/std/primitive.pointer.html#method.write)
-
-$$\forall v \in Values, T \in Types, \text{Leaked}(v, T) \Leftrightarrow \left( \text{EscapedFromOwnership}(v, T) \lor \text{MemoryLeak}(v, T) \right)$$
-
-$\text{EscapedFromOwnership}(v, T)$：值 $v$ 是否逃逸了所有权系统，意味着该值的所有权被转移或丢失，导致无法再正确管理。可能的情况包括值被传递给外部代码、存储在全局或静态变量中，或者被错误地从所有权管理中移除。 
- $\text{MemoryLeak}(v, T)$ ：值 $v$ 是否导致了内存泄漏，意味着占用的内存没有在预期的时间内释放，导致系统资源无法有效回收。
