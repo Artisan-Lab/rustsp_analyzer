@@ -2,7 +2,7 @@
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
-[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md).  
+[Rust Contracts RFC (Draft)](https://github.com/rust-lang/lang-team/blob/master/design-meeting-minutes/2022-11-25-contracts.md)
 [MCP759](https://github.com/rust-lang/compiler-team/issues/759)  
 [std-contracts-2025h1](https://rust-lang.github.io/rust-project-goals/2025h1/std-contracts.html)
 
@@ -12,23 +12,20 @@ In contract design, there are two types of safety properties:
 **Precondition**: Safety requirements that must be satisfied before calling an unsafe API.  
 **Postcondition**: Traditionally, this refers to properties the system must satisfy after the API call. However, in Rust, it signifies that calling an unsafe API may leave the program in a vulnerable state.  
 
-Sometimes, it can be challenging to classify a safety property as either a precondition or a postcondition. To address this, we further break down safety properties into primitives. Each primitive safety property can serve as either a precondition or a postcondition, depending on the context. The idea also addresses the ambiguity of certain high-level or compound safety properties, such as a "valid pointer." In practice, a valid pointer must satisfy several primitive conditions, including being non-null, non-dangling, and pointing to an object of type T. We will elaborate on these details in the sections that follow.
+Sometimes, it can be challenging to classify a safety property as either a precondition or a postcondition. To address this, we further break down safety properties into primitives. Each primitive safety property can serve as either a precondition or a postcondition, depending on the context. The idea also addresses the ambiguity of certain high-level or compound safety properties, such as a "valid pointer." In practice, a valid pointer may need to satisfy several primitive conditions, including being non-null, non-dangling, and pointing to an object of type T. We will elaborate on these details in the sections that follow.
 
 ## Primitive Safety Properties
 ### Layout-related Primitives
-Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html).
-### Aligned 
-According to the official document [type-layout](https://doc.rust-lang.org/reference/type-layout.html), aligned means the memory address to store a value of alignment n must only be a multiple of n. Alignment is measured in bytes, and must be at least 1, and always a power of 2. 
+Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html), we define three primitives: alignment, size, and padding.
 
-If requiring a signle pointer $p$ to be alligned, the property can be formularized as:
+**alignment** is measured in bytes. It must be at least 1, and is always a power of 2. It can be represented as $2^x, s.t. x\ge 0$. We say the memory address of a Type T is aligned if the address is a multiple of alignment(T). We can formulate an alignment requirement as:
 
-$$p \text{\\%} \text{sizeof}(*p) = 0 $$
+$$\text{Addressof}(Instance(T)) % \text{Alignment(T)} = 0$$
 
-If requiring two pointers $p1$ and $p2$ to be alligned, the property can be formularized as(TO BE FIXED):
+If requiring a pointer $p$ of type T* to be aligned, the property can be formularized as:
+$$p % \text{Alignment(T)} = 0$$
 
-$$p1 \text{\\%} \text{sizeof}(*p1) = p2 \text{\\%} \text{sizeof}(*p2) $$
-
-An example api is[swap](https://doc.rust-lang.org/std/ptr/fn.swap.html).
+An example API is[ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
 
 ### Sized 
 According to the official document [Sized](https://doc.rust-lang.org/std/marker/trait.Sized.html) and [type-layout](https://doc.rust-lang.org/reference/type-layout.html), it means the size of the type is known at compile time. The size of a value is always a multiple (including 0) of its alignment. 
