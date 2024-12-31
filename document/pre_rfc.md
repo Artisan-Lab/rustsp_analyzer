@@ -1,4 +1,4 @@
-<img width="552" alt="image" src="https://github.com/user-attachments/assets/75e9f453-cd5f-4333-a5ad-14ab43db8175" /><img width="529" alt="image" src="https://github.com/user-attachments/assets/d03fffd1-9169-4bff-ab34-ffbfe0e90550" /><img width="359" alt="image" src="https://github.com/user-attachments/assets/9635029a-89b3-414d-8f0e-99e5daffb376" /># Privimitive Safety Properties for Rust Contract Design
+# Privimitive Safety Properties for Rust Contract Design
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
