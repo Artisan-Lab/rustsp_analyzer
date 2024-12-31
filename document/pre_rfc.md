@@ -24,6 +24,7 @@ Alignment is measured in bytes. It must be at least 1, and is always a power of 
 $$\text{addressof}(\text{instance}(T)) \\% \text{alignment}(T) = 0$$
 
 If requiring a pointer $p$ of type T* to be aligned, the property can be formularized as:
+
 $$p \\% \text{alignment}(T) = 0$$
 
 An example API is [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
@@ -31,7 +32,9 @@ An example API is [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.rea
 #### Size 
 The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T) \\% \text{alignment}(T)=0$. 
 
-A safety property may require the size to be not ZST. We can formulate the requirement as $\text{sizeof}(T)!=0$
+A safety property may require the size to be not ZST. We can formulate the requirement as 
+
+$$\text{sizeof}(T)!=0$$
 
 An example API is the [offset_from](https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from) method of NonNull.
 
@@ -42,7 +45,9 @@ struct MyStruct { a: u16,  b: u8 } // alignment: 2; padding 1
 mem::size_of::<MyStruct>(); // size: 4
 ```
 
-A safety property may require the type T has no padding. We can formulate the requirement as $\text{padding}(T)!=0$
+A safety property may require the type T has no padding. We can formulate the requirement as 
+
+$$\text{padding}(T)!=0$$
 
 An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html) function.
 
@@ -54,14 +59,19 @@ Refering to the documents about [pointer validity](https://doc.rust-lang.org/std
 - Non-null: The pointer address should not be null, and the address of a null pointer is undefined. This attribute is **confusing** at the current stage, see [pull/134912](https://github.com/rust-lang/rust/pull/134912).
 - Non-wild: The pointer address should points to a memory address that has been allocated by the system, either on heap or stack. Accessing a wild pointer may triger segmentation fault.
 - Non-dangling: The pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. (TO SOLVE: Whehter a dangling pointer to a zero-sized type is valid?).
-- Point-to-T: The pointer must point to a memory unit of type T.
+- Point-to-T: The pointer must point to a memory unit of type T. Point-to-T generally implies non-wild and non-null.
 
 We may design the requirement of a valid pointer for a particular API by combining these attributes. 
- $\text{valid}(p) \subseteq {non-null, non-wild non-dangling, point-to-T}$
+
+$$\text{valid}(p) \subseteq \{non-null, non-wild non-dangling, point-to-T\}$$
+
+For example, 
 
 #### Bounded
 
+
 #### Overlap
+
 
 #### Allocator
 
