@@ -1,4 +1,4 @@
-# Privimitive Safety Properties for Rust Contract Design
+<img width="552" alt="image" src="https://github.com/user-attachments/assets/75e9f453-cd5f-4333-a5ad-14ab43db8175" /><img width="529" alt="image" src="https://github.com/user-attachments/assets/d03fffd1-9169-4bff-ab34-ffbfe0e90550" /><img width="359" alt="image" src="https://github.com/user-attachments/assets/9635029a-89b3-414d-8f0e-99e5daffb376" /># Privimitive Safety Properties for Rust Contract Design
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
@@ -47,7 +47,7 @@ mem::size_of::<MyStruct>(); // size: 4
 
 A safety property may require the type T has no padding. We can formulate the requirement as 
 
-$$\text{padding}(T)!=0$$
+$$\text{padding}(T)=0$$
 
 An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html) function.
 
@@ -66,9 +66,13 @@ To indicate whether the memory address pointed by the pointer is available to us
 
 $$ \text{alloca}(p) \in \lbrace GlobalAllocator, OtherAllocator, stack \rbrace $$
 
+Example API: [ptr::offset()](https://doc.rust-lang.org/std/primitive.pointer.html#method.offset-1)
+
 Besides, some properties may require the allocator to be consistent, i.e., the memory address pointed by the pointer p should be allocated by a specific allocator, like the GlobalAllocator.
 
 $$ \text{alloca}(p) = GlobalAllocator $$
+
+Example API: [Arc::from_raw()](https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw), and [Arc::from_raw_in()](https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw_in).
 
 
 #### f) Point-to (Primitive)
@@ -84,9 +88,22 @@ There are two useful derived safety properties based on the primitives.
 **Bounded Address (derived)**
 $$ \text{typeof}(*(p + \text{sizeof(T)} \times offset)))  = T $$
 
+Example API: [ptr::offset()](https://doc.rust-lang.org/std/primitive.pointer.html#method.offset-1)
+
 **Overlap (derived)**
+
+A safety property may require the two pointers do not overlap with respect to T: 
+
 $$ p_{dst} - p_{src} > \text{sizeof}(T)$$
 
+Example API: [ptr::copy()](https://doc.rust-lang.org/std/ptr/fn.copy.html) 
+
+It may also require the two pointers do not overlap with respect to $T\times n$ : 
+
+$$ p_{dst} - p_{src} > \text{sizeof}(T) * n && p_{src} - p_{dst} > \text{sizeof}(T) * n $$
+
+Example API: [ptr::copy_nonoverlapping()](https://doc.rust-lang.org/std/ptr/fn.copy_nonoverlapping.html)
+ 
 ### Content-related Primitives
 
 #### Initialization
