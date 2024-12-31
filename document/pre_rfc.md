@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/d6c38c49-e9ca-4ef1-bce1-8d5ea5388e0c)![image](https://github.com/user-attachments/assets/56ce53a2-71a7-4f46-a41b-c47dd3c64c7d)# Privimitive Safety Properties for Rust Contract Design
+# Privimitive Safety Properties for Rust Contract Design
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
@@ -73,73 +73,31 @@ Other Pointer Validity Requirements
 #### Allocator
 
 
-## Content
-### Initialized (Pre condition)
-The content of the object memory must be initiated, at least partially.
+### Content-related Primitives
+#### Initialization
 
-[assume_init](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
+#### Integer
 
-### Typed (Precondition or Postcondition)
-The content of the object memory must be fully initiated according to the type. This can be either a precondition or a postcondition
+#### String
 
-For example, the API [read](https://doc.rust-lang.org/std/primitive.pointer.html#method.read) has a precondition that the pointed memory should be typed. On the other hand, the API [alloc_zeored](https://doc.rust-lang.org/std/alloc/fn.alloc_zeroed.html) create a threat that the resulting object is not typed. 
+#### Unwrap
 
-## Dereferencable
-Accodring to the document of [safety](https://doc.rust-lang.org/std/ptr/index.html#safety), dereferencable implies pointer validity and aligned. Besides, it also requires the memory range of the given size starting at the pointer is bounded within a single allocated object.
+### Alias-related Primitives
 
-According to the official document [exotically-sized-types](https://doc.rust-lang.org/nomicon/exotic-sizes.html#exotically-sized-types), dereferencable implies nonnull.
+#### Onwership
 
-[copy_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_from)
+#### Lifetime
 
-## Numbers and Strings
-### No Numerical Overflow
-The relationship expressions based on numerical operations exhibit clear numerical boundaries. The terms of the expressions can be constants, variables, or the return values of function calls. There are six relational operators including EQ, NE, LT, GT, LE, and GE.
+#### Alias
 
-[offset_from](https://doc.rust-lang.org/std/primitive.pointer.html#method.offset_from-1)
+### Advanced Primitives
 
-$$\forall x, y \in Values, \, \forall O \in \{EQ, NE, LT, GT, LE, GE\}, \text{ValidRelationalExpression}(x, y, O) $$
+#### Trait
 
-### Encoded String:
+#### Thread-Safe
 
-The encoding format of the string includes UTF-8 string, ASCII string (in bytes), and C-compatible string (nul-terminated trailing with no nul bytes in the middle).
+#### Pin
 
-[from_utf8_unchecked](https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_unchecked)
-
-## Concurrency
-### Send
-The type can be transferred across threads.
-
-[trati: Send](https://doc.rust-lang.org/std/marker/trait.Send.html)
-
-### Sync 
-The type can be safe to share references between threads.
-[trait: Sync](https://doc.rust-lang.org/std/marker/trait.Sync.html)
-
-## Pinned (Postcondition? both pre and post?)
-A vulnerable state that the value may be moved.
-
-[new_unchecked](https://doc.rust-lang.org/std/pin/struct.Pin.html#method.new_unchecked)
-
-## Ownership
-### Aliased (post condition)
-The API leads to a bad state that an object has multiple mutable references.
-
-[as_mut](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut)
-
-### DualOwned (pre or post condition)
-It may create multiple overlapped owners in the ownership system that share the same memory via retaking the owner or creating a bitwise copy.
-
-[from_raw](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_raw)
-
-### Mutated (pre or post condition)
-The API leads to a bad state that an object owned by an immutable binding (under certain circumstances) could be be mutated through other mutable bindings.
-
-[as_ref](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref-1)
-
-### Lifetime (pre or post condition) 
-the lifetime of the returned reference must be shorter than the object pointed by the ptr.
-
-[from_ptr](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
-
-$$\forall v \in Values, T \in Types, \text{Outlived}(v, T) \Leftrightarrow \left( \exists L, \text{ArbitraryLifetime}(L) \land \text{LifetimeExceedsMemory}(v, L) \right)$$
+#### I/O
+opened, volatile
 
