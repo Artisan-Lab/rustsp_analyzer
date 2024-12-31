@@ -14,7 +14,7 @@ In contract design, there are two types of safety properties:
 
 Sometimes, it can be challenging to classify a safety property as either a precondition or a postcondition. To address this, we further break down safety properties into primitives. Each primitive safety property can serve as either a precondition or a postcondition, depending on the context. The idea also addresses the ambiguity of certain high-level or compound safety properties, such as a ``valid pointer.'' In practice, a valid pointer may need to satisfy several primitive conditions, including being non-null, non-dangling, and pointing to an object of type T. We will elaborate on these details in the sections that follow.
 
-## Primitive Safety Properties
+## Safety Properties
 ### I. Layout-related Primitives
 Refer to the document of [type-layout](https://doc.rust-lang.org/reference/type-layout.html), we define three primitives: alignment, size, and padding.
 
@@ -51,30 +51,41 @@ $$\text{padding}(T)!=0$$
 
 An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html) function.
 
-### II. Pointer-related Primitives
+### II. Pointer Validity
 
-#### d) Validity
-Refering to the documents about [pointer validity](https://doc.rust-lang.org/std/ptr/index.html#safety), whether a pointer is valid depends on the context of pointer usage, and there are several specific attributes related to pointer validity, non-null, non-wild, non-dangling, point-to-T.
-
-- Non-null: The pointer address should not be null, and the address of a null pointer is undefined. This attribute is **confusing** at the current stage, see [pull/134912](https://github.com/rust-lang/rust/pull/134912).
-- Non-wild: The pointer address should points to a memory address that has been allocated by the system, either on heap or stack. Accessing a wild pointer may triger segmentation fault.
-- Non-dangling: The pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. (TO SOLVE: Whehter a dangling pointer to a zero-sized type is valid?).
-- Point-to-T: The pointer must point to a memory unit of type T. Point-to-T generally implies non-wild and non-null.
-
-We may design the requirement of a valid pointer for a particular API by combining these attributes. 
-
-$$\text{valid}(p) \subseteq \lbrace non-null, non-wild, non-dangling, point-to-T \rbrace$$
-
-For example, 
-
-#### e) Bounded
+Refering to the documents about [pointer validity](https://doc.rust-lang.org/std/ptr/index.html#safety), whether a pointer is valid depends on the context of pointer usage, and the criteria varies for different APIs. To better descript the pointer validity and avoid ambiguity, we breakdown the concept related pointer validity into several primitives. 
 
 
-#### f) Overlap
+#### d) Address (Primitive)
+The memory address that the pointer points to. A safety property may require the pointer address to be null, namely ``non-null``, because the address of a null pointer is undefined. We can fomulate the property as 
+
+$$ p != null $$
+
+#### e) Allocation (Primitive)
+To indicate whether the memory address pointed by the pointer is available to use or has been allocated by the system, either on heap or stack. There is a related safety requirements non-dangling, which means the pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. We can fomulate the requirement as 
+
+$$ alloca(p) \in {GlobalAllocator, OtherAllocator, stack} $$
+
+Besides, some properties may require the allocator to be consistent, i.e., the memory address pointed by the pointer p should be allocated by a specific allocator, like the GlobalAllocator.
+
+$$ alloca(p) = GlobalAllocator $$
 
 
-#### g) Allocator
+#### f) Point-to (Primitive)
+A safety property may require the pointer point to a value of a particular type. We can fomulate the property as 
 
+$$ \text{typeof}(*p) = T $$
+
+Point-to implies non-dangling and non-null(not sure, need to be confirmed).
+
+#### Derived Safety Properties
+There are two useful derived safety properties based on the primitives.
+
+**Bounded Address (derived)**
+$$ \text{typeof}(*(p + \text{sizeof(T)} \times offset)))  = T $$
+
+**Overlap (derived)**
+$$ p_{dst} - p_{src} > \text{sizeof}(T)$$
 
 ### Content-related Primitives
 
