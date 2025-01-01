@@ -144,13 +144,17 @@ Example API: [Box::from_raw()](https://doc.rust-lang.org/std/boxed/struct.Box.ht
 #### m) Alias
 There are six types of alias:
 
-$$pointto(V) = \bigcup p | p\in \lbrace owner, owner_mut, ref, ref_mut, ptr, ptr_mut \rbrace $$
+$$pointto(V) = \bigcup p | p\in \lbrace owner, owner_{mut}, ref, ref_{mut}, ptr, ptr_{mut} \rbrace $$
 
 The exclusive mutability principle of Rust requires that if a value has a mutable alias at one program point, it must not have other aliases at that program point. Otherwise, it may incur unsafe status. We need to track the particular unsafe status and avoid unsafe behaviors. For example, the follow status are vulnerable:
 
-$$ pointto(V) = owner_mut \bigcup ptr \bigcup ref $$
+$$ pointto(V) = owner_{mut} \cup ptr \cup ref $$
 
-$$ pointto(V) = owner_mut \bigcup ptr_mut \bigcup ref_mut $$
+Because it violates the exclusive mutability principle requires $owner_{mut}$ and \cup ref should not exist at the same program point.
+
+$$ pointto(V) = owner_{mut} \cup ptr_{mut} \cup ref_{mut} $$
+
+Because it violates the exclusive mutability principle requires $owner_{mut}$ and \cup ref should not exist at the same program point.
 
 Example API: [pointer.as_mut()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut), [pointer.as_ref()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref-1), [pointer.as_ref_unchecked()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref_unchecked-1)
 
