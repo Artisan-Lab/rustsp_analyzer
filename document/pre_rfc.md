@@ -169,16 +169,21 @@ Example API: [AtomicPtr::from_ptr()](https://doc.rust-lang.org/std/sync/atomic/s
 ### Advanced Primitives
 
 #### n) Trait
+If the parameter has implemented some trait, it is guaranteed to be safe. 
 
-Example API: [ptr::read()](https://doc.rust-lang.org/std/ptr/fn.read.html), [ptr::read_volatile()](https://doc.rust-lang.org/std/ptr/fn.read_volatile.html)
+$$trait(T) = \lbrace Copy, Unpin, Send, Sync \rbrace $$
 
-#### o) Thread-Safe
+For example, the [Unpin](https://doc.rust-lang.org/std/marker/trait.Unpin.html) marker trait for implementing [Pin](https://doc.rust-lang.org/std/pin/struct.Pin.html) can ensure safety. However, this is not required. 
 
-Atomic
+Example API: [ptr::read()](https://doc.rust-lang.org/std/ptr/fn.read.html), [ptr::read_volatile()](https://doc.rust-lang.org/std/ptr/fn.read_volatile.html), [Pin::new_unchecked()](https://doc.rust-lang.org/std/pin/struct.Pin.html#method.new_unchecked)
+
+#### o) Atomicity
+
 
 Example API: Auto trait [Send](https://doc.rust-lang.org/std/marker/trait.Send.html), [Sync](https://doc.rust-lang.org/std/marker/trait.Sync.html)
 
 #### p) Pin
+Implementing Pin for !Unpin is also valid in Rust, developers should not move the Pin object after created.
 
 Example API: [Pin::new_unchecked()](https://doc.rust-lang.org/std/pin/struct.Pin.html#method.new_unchecked)
 
