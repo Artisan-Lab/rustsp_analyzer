@@ -109,15 +109,17 @@ Example API: [ptr::copy_nonoverlapping()](https://doc.rust-lang.org/std/ptr/fn.c
 #### g) Initialization
 A memory of type T pointed by a pointer is either initialized or not. This is a binary primitive.
 
-$$init(*p)\in {true, false}$$
+$$init(*p)\in \lbrace true, false \rbrace $$
 
 Example API: [MaybeUninit.assume_init()](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html#method.assume_init), [Box::assume_init()](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
 
 #### h) Integer
 
-$$ {true, false}$$
+$$ isize:MAX \leq isize(binop (a, b)) \geq isize:MIN $$
 
-Example API: [pointer.add()](https://doc.rust-lang.org/std/primitive.pointer.html#method.add)
+$$ usize:MAX \leq usize(binop (a, b)) \geq usize:MIN $$
+
+Example API: [isize.add()](https://doc.rust-lang.org/std/primitive.isize.html#method.unchecked_add), [](https://doc.rust-lang.org/std/primitive.usize.html#method.unchecked_add), [pointer.add(usize.add())](https://doc.rust-lang.org/std/primitive.pointer.html#method.add)
 
 #### i) String
 
