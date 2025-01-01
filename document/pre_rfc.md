@@ -150,11 +150,11 @@ The exclusive mutability principle of Rust requires that if a value has a mutabl
 
 $$ \text{pointto}(V) = owner_{mut} \cup ptr \cup ref $$
 
-Because it violates the exclusive mutability principle requires $owner_{mut}$ and \cup ref should not exist at the same program point.
+Because it violates the exclusive mutability principle requires $owner_{mut}$ and $ref$ should not exist at the same program point.
 
 $$ \text{pointto}(V) = owner_{mut} \cup ptr_{mut} \cup ref_{mut} $$
 
-Because it violates the exclusive mutability principle requires $owner_{mut}$ and \cup ref should not exist at the same program point.
+Because it violates the exclusive mutability principle requires $owner_{mut}$ and $ref_{mut}$ should not exist at the same program point.
 
 Example APIs: [pointer.as_mut()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut), [pointer.as_ref()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref-1), [pointer.as_ref_unchecked()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref_unchecked-1)
 
