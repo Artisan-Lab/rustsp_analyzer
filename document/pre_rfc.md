@@ -119,7 +119,7 @@ $$ isize:MAX \leq isize(binop (a, b)) \geq isize:MIN $$
 
 $$ usize:MAX \leq usize(binop (a, b)) \geq usize:MIN $$
 
-Example API: [isize.add()](https://doc.rust-lang.org/std/primitive.isize.html#method.unchecked_add), [](https://doc.rust-lang.org/std/primitive.usize.html#method.unchecked_add), [pointer.add(usize.add())](https://doc.rust-lang.org/std/primitive.pointer.html#method.add)
+Example API: [isize.add()](https://doc.rust-lang.org/std/primitive.isize.html#method.unchecked_add), [usize.add()](https://doc.rust-lang.org/std/primitive.usize.html#method.unchecked_add), [pointer.add(usize.add())](https://doc.rust-lang.org/std/primitive.pointer.html#method.add)
 
 #### i) String
 
