@@ -1,4 +1,4 @@
-# Privimitive Safety Properties for Rust Contract Design
+<img width="567" alt="image" src="https://github.com/user-attachments/assets/ecb22c45-a245-4450-8e76-35b578ed27d7" /><img width="631" alt="image" src="https://github.com/user-attachments/assets/e9824650-3f05-45ea-a4a3-d6cd9234505b" /><img width="421" alt="image" src="https://github.com/user-attachments/assets/e8a2e086-7e2d-4c09-812b-bdcd32e7aaa7" /><img width="511" alt="image" src="https://github.com/user-attachments/assets/39febbef-6ec1-4e6b-8e40-72ed13bbab81" /><img width="525" alt="image" src="https://github.com/user-attachments/assets/bd01dfb4-c3fa-4198-a714-4cfce7a72312" /><img width="648" alt="image" src="https://github.com/user-attachments/assets/6eda9b26-6d36-4d7c-b1f8-0baf63fd60b5" /><img width="498" alt="image" src="https://github.com/user-attachments/assets/438b5eb6-58a5-4434-926f-91a2eab45032" /><img width="644" alt="image" src="https://github.com/user-attachments/assets/f1538166-f7d8-4746-b0e0-c40a3388d0be" /><img width="561" alt="image" src="https://github.com/user-attachments/assets/e41b965b-d42d-422e-9c60-e61712f386b9" /># Privimitive Safety Properties for Rust Contract Design
 
 This document proposes a draft that defines the basic safety properties useful for contract definition. Note that the Rust community is advancing the standardization of contract design, as referenced in the following links. We believe this proposal would be useful to facilitate contract specifications.
 
@@ -27,7 +27,7 @@ If requiring a pointer $p$ of type T* to be aligned, the property can be formula
 
 $$p \\% \text{alignment}(T) = 0$$
 
-An example API is [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
+Example API: [ptr::read()](https://doc.rust-lang.org/nightly/std/ptr/fn.read.html).
 
 #### b) Size 
 The size of a value is the offset in bytes between successive elements in an array with that item type including alignment padding. It is always a multiple of its alignment (including 0), i.e., $\text{sizeof}(T) \\% \text{alignment}(T)=0$. 
@@ -36,7 +36,7 @@ A safety property may require the size to be not ZST. We can formulate the requi
 
 $$\text{sizeof}(T) > 0$$
 
-An example API is the [offset_from](https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from) method of NonNull.
+Example API: [NonNull.offset_from](https://doc.rust-lang.org/core/ptr/struct.NonNull.html#method.offset_from)
 
 #### c) Padding 
 Padding is the unused space required between successive elements in an array, and it will be considered when calculating the size of the element. For example, the following data structure has 1 byte padding, and its size is 4.
@@ -49,17 +49,18 @@ A safety property may require the type T has no padding. We can formulate the re
 
 $$\text{padding}(T)=0$$
 
-An example API is the intrinsic [raw_eq](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html) function.
+Example API: intrinsic [raw_eq()](https://doc.rust-lang.org/std/intrinsics/fn.raw_eq.html)
 
 ### II. Pointer Validity
 
 Refering to the documents about [pointer validity](https://doc.rust-lang.org/std/ptr/index.html#safety), whether a pointer is valid depends on the context of pointer usage, and the criteria varies for different APIs. To better descript the pointer validity and avoid ambiguity, we breakdown the concept related pointer validity into several primitives. 
 
-
 #### d) Address (Primitive)
 The memory address that the pointer points to. A safety property may require the pointer address to be null, namely ``non-null``, because the address of a null pointer is undefined. We can fomulate the property as 
 
 $$ p != null $$
+
+Example API: [NonNull::new_unchecked()](https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.new_unchecked), [Box::from_non_null()](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_non_null)
 
 #### e) Allocation (Primitive)
 To indicate whether the memory address pointed by the pointer is available to use or has been allocated by the system, either on heap or stack. There is a related safety requirements non-dangling, which means the pointer should point to a valid memory address that has not been deallocated in the heap or is valid in the stack. We can fomulate the requirement as 
@@ -72,8 +73,7 @@ Besides, some properties may require the allocator to be consistent, i.e., the m
 
 $$ \text{alloca}(p) = GlobalAllocator $$
 
-Example API: [Arc::from_raw()](https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw), and [Arc::from_raw_in()](https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw_in).
-
+Example API: [Arc::from_raw()](https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw), [Arc::from_raw_in()](https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw_in), [Box::from_raw_in()](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_raw_in)
 
 #### f) Point-to (Primitive)
 A safety property may require the pointer point to a value of a particular type. We can fomulate the property as 
@@ -107,28 +107,57 @@ Example API: [ptr::copy_nonoverlapping()](https://doc.rust-lang.org/std/ptr/fn.c
 ### Content-related Primitives
 
 #### g) Initialization
+A memory of type T pointed by a pointer is either initialized or not. This is a binary primitive.
+
+$$init(*p)\in {true, false}$$
+
+Example API: [MaybeUninit.assume_init()](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html#method.assume_init), [Box::assume_init()](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.assume_init)
 
 #### h) Integer
 
+$$ {true, false}$$
+
+Example API: [pointer.add()](https://doc.rust-lang.org/std/primitive.pointer.html#method.add)
+
 #### i) String
 
+Example API: [String::from_utf8_unchecked()](https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_unchecked), [CStr::from_ptr()](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
+
 #### j) Unwrap
+
+$$enum(T)\in {Ok, Err, Some, None}\$$
+
+Example API: [Option::unwrap_unchecked()](https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_unchecked), [Result::unwrap_unchecked()](https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_unchecked), [Result::unwrap_err_unchecked()](https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_err_unchecked)
 
 ### Alias-related Primitives
 
 #### k) Onwership
 
+Example API: [Box::from_raw()](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_raw), [ptr::read()](https://doc.rust-lang.org/std/ptr/fn.read.html), [ptr::read_volatile()](https://doc.rust-lang.org/std/ptr/fn.read_volatile.html)
+
 #### l) Lifetime
 
+Example API: [CStr::from_ptr()](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
+
 #### m) Alias
+
+Example API: [pointer.as_mut()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut)
 
 ### Advanced Primitives
 
 #### n) Trait
 
+Example API: [ptr::read()](https://doc.rust-lang.org/std/ptr/fn.read.html), [ptr::read_volatile()](https://doc.rust-lang.org/std/ptr/fn.read_volatile.html)
+
 #### o) Thread-Safe
+
+Example API: Auto trait [Send](https://doc.rust-lang.org/std/marker/trait.Send.html), [Sync](https://doc.rust-lang.org/std/marker/trait.Sync.html)
 
 #### p) Pin
 
+Example API: [Pin::new_unchecked()](https://doc.rust-lang.org/std/pin/struct.Pin.html#method.new_unchecked)
+
 #### q) I/O
+
+Example API: [trait.FromRawFd::from_raw_fd()](https://doc.rust-lang.org/std/os/fd/trait.FromRawFd.html#tymethod.from_raw_fd), [UdpSocket::from_raw_socket()](https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.from_raw_socket)
 
