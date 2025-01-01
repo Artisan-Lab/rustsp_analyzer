@@ -107,7 +107,7 @@ Example API: [ptr::copy_nonoverlapping()](https://doc.rust-lang.org/std/ptr/fn.c
 ### Content-related Primitives
 
 #### g) Initialization
-A memory of type T pointed by a pointer is either initialized or not. This is a binary primitive.
+A memory of type T pointed by a pointer is either initialized or not. This is a binary primitive property.
 
 $$init(*p)\in \lbrace true, false \rbrace $$
 
@@ -115,35 +115,52 @@ Example API: [MaybeUninit.assume_init()](https://doc.rust-lang.org/std/mem/union
 
 #### h) Integer
 
-$$ isize:MAX \leq isize(binop (a, b)) \geq isize:MIN $$
+$$ isize:MAX \leq isize(binop (x_1, x_2)) \geq isize:MIN $$
 
-$$ usize:MAX \leq usize(binop (a, b)) \geq usize:MIN $$
+$$ usize:MAX \leq usize(binop (x_1, x_2)) \geq usize:MIN $$
 
 Example API: [isize.add()](https://doc.rust-lang.org/std/primitive.isize.html#method.unchecked_add), [usize.add()](https://doc.rust-lang.org/std/primitive.usize.html#method.unchecked_add), [pointer.add(usize.add())](https://doc.rust-lang.org/std/primitive.pointer.html#method.add)
 
 #### i) String
-
+The content must be a valid string. There are two types of string in Rust, [String](https://doc.rust-lang.org/std/string/struct.String.htm) which requires valid utf-8 format, and [CStr](https://doc.rust-lang.org/std/ffi/struct.CStr.html) for interacting with foreign functions.
 Example API: [String::from_utf8_unchecked()](https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_unchecked), [CStr::from_ptr()](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
 
 #### j) Unwrap
 
-$$enum(T)\in {Ok, Err, Some, None}\$$
+$$enum(T)\in \lbrace Ok, Err, Some, None \rbrace $$
 
 Example API: [Option::unwrap_unchecked()](https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_unchecked), [Result::unwrap_unchecked()](https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_unchecked), [Result::unwrap_err_unchecked()](https://doc.rust-lang.org/core/result/enum.Result.html#method.unwrap_err_unchecked)
 
 ### Alias-related Primitives
+This category relates to the core mechanism of Rust which aims to avoid shared mutable aliases and achieve automated memory deallocation. 
 
 #### k) Onwership
+Let one value has two owners at the same program point is vulnerable to double free. Refer to the traidional vulnerbility of [mem::forget()](https://doc.rust-lang.org/std/mem/fn.forget.html) compared to [ManuallyDrop](https://doc.rust-lang.org/std/mem/struct.ManuallyDrop.html). The property generally relates to convert a raw pointer to an ownership, and it can be represented as:
+
+$$owner(*p) = \lbrace true, false \rbrace $$
 
 Example API: [Box::from_raw()](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.from_raw), [ptr::read()](https://doc.rust-lang.org/std/ptr/fn.read.html), [ptr::read_volatile()](https://doc.rust-lang.org/std/ptr/fn.read_volatile.html)
 
+#### m) Alias
+There are six types of alias:
+
+$$pointto(V) = \bigcup p | p\in \lbrace owner, owner_mut, ref, ref_mut, ptr, ptr_mut \rbrace $$
+
+The exclusive mutability principle of Rust requires that if a value has a mutable alias at one program point, it must not have other aliases at that program point. Otherwise, it may incur unsafe status. We need to track the particular unsafe status and avoid unsafe behaviors. For example, the follow status are vulnerable:
+
+$$ pointto(V) = owner_mut \bigcup ptr \bigcup ref $$
+
+$$ pointto(V) = owner_mut \bigcup ptr_mut \bigcup ref_mut $$
+
+Example API: [pointer.as_mut()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut), [pointer.as_ref()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref-1), [pointer.as_ref_unchecked()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_ref_unchecked-1)
+
 #### l) Lifetime
 
-Example API: [CStr::from_ptr()](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
+The property generally requires the lifetime of a raw pointer must be valid for both reads and writes for the whole lifetime 'a.
 
-#### m) Alias
+$$life(*p)>\'a$$
 
-Example API: [pointer.as_mut()](https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut)
+Example API: [AtomicPtr::from_ptr()](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicPtr.html#method.from_ptr), [AtomicBool::from_ptr()](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicBool.html#method.from_ptr), [CStr::from_ptr()](https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr)
 
 ### Advanced Primitives
 
@@ -152,6 +169,8 @@ Example API: [pointer.as_mut()](https://doc.rust-lang.org/std/primitive.pointer.
 Example API: [ptr::read()](https://doc.rust-lang.org/std/ptr/fn.read.html), [ptr::read_volatile()](https://doc.rust-lang.org/std/ptr/fn.read_volatile.html)
 
 #### o) Thread-Safe
+
+Atomic
 
 Example API: Auto trait [Send](https://doc.rust-lang.org/std/marker/trait.Send.html), [Sync](https://doc.rust-lang.org/std/marker/trait.Sync.html)
 
